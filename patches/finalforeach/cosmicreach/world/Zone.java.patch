@@ -1,0 +1,28 @@
+--- a/finalforeach/cosmicreach/world/Zone.java
++++ b/finalforeach/cosmicreach/world/Zone.java
+@@ -27,6 +_,8 @@
+ import finalforeach.cosmicreach.util.ArrayUtils;
+ import finalforeach.cosmicreach.util.Point3DMap;
+ import finalforeach.cosmicreach.worldgen.ZoneGenerator;
++import org.slf4j.LoggerFactory;
++
+ import java.io.File;
+ import java.io.FileOutputStream;
+ import java.io.IOException;
+@@ -58,6 +_,7 @@
+    int totalSpawnAttempts;
+    private LightPropagator lightPropagator = new LightPropagator();
+ 
++   private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Zone");
+    private Zone() {
+    }
+ 
+@@ -512,7 +_,7 @@
+    public boolean calculateSpawn() {
+       Vector2 vector2 = new Vector2();
+       this.zoneGenerator.getSpawnPoint(vector2, this.totalSpawnAttempts++);
+-      Logger.info("Calculating at spawn at " + vector2);
++      LOGGER.info("Calculating at spawn at " + vector2);
+       this.spawnPoint = new Vector3(vector2.x, 100.0F, vector2.y);
+       return true;
+    }

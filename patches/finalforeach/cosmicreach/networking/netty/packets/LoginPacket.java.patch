@@ -1,0 +1,42 @@
+--- a/finalforeach/cosmicreach/networking/netty/packets/LoginPacket.java
++++ b/finalforeach/cosmicreach/networking/netty/packets/LoginPacket.java
+@@ -1,19 +_,24 @@
+ package finalforeach.cosmicreach.networking.netty.packets;
+ 
++import com.github.puzzle.paradox.game.event.OnPlayerJoin;
+ import finalforeach.cosmicreach.accounts.Account;
+ import finalforeach.cosmicreach.accounts.AccountItch;
+ import finalforeach.cosmicreach.accounts.AccountOffline;
+-import finalforeach.cosmicreach.logging.Logger;
+ import finalforeach.cosmicreach.networking.common.NetworkIdentity;
+ import finalforeach.cosmicreach.networking.common.NetworkSide;
+ import finalforeach.cosmicreach.networking.netty.GamePacket;
+ import finalforeach.cosmicreach.networking.server.ServerSingletons;
+ import io.netty.buffer.ByteBuf;
+ import io.netty.channel.ChannelHandlerContext;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++
++import java.net.InetSocketAddress;
+ 
+ public class LoginPacket extends GamePacket {
+    public Account account;
+ 
++   private static final Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Login Packet");
+    public LoginPacket() {
+    }
+ 
+@@ -42,9 +_,11 @@
+    @Override
+    protected void handle(NetworkIdentity identity, ChannelHandlerContext ctx) {
+       if (identity.getSide() == NetworkSide.SERVER) {
+-         Logger.debug("Received login packet from " + this.account.getUsername());
++         LOGGER.debug("Received login packet from " + this.account.getUsername());
+          ServerSingletons.addAccount(identity, this.account);
+-         Logger.info("Is it really " + this.account.getUsername() + "? I have no choice to believe so!");
++         var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
++         LOGGER.info( "Player uid '{}' joined | {}:{}",this.account.getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
++         OnPlayerJoin.EVENT.invoker().onPlayerJoin(account,identity,ctx);
+       }
+    }
+ }

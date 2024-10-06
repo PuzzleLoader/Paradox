@@ -1,0 +1,46 @@
+--- a/finalforeach/cosmicreach/server/ServerLauncher.java
++++ b/finalforeach/cosmicreach/server/ServerLauncher.java
+@@ -10,27 +_,40 @@
+ import finalforeach.cosmicreach.networking.server.ServerSingletons;
+ import finalforeach.cosmicreach.world.World;
+ import finalforeach.cosmicreach.worldgen.ZoneGenerator;
++import org.slf4j.LoggerFactory;
+ 
+ public class ServerLauncher {
++   private static boolean isRunning = false;
++
++   private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach");
++
+    public static void main(String[] args) throws Exception {
+       if (Gdx.files == null) {
+          Gdx.files = new HeadlessFiles();
+       }
+-
++      
+       ServerSingletons.create();
+       String s = "server-world-1";
+       GameSingletons.world = ChunkLoader.loadWorld(s);
+       if (GameSingletons.world == null) {
+-         Logger.info("Creating new world.");
++         LOGGER.info("Creating new world.");
+          String s1 = "base:earth";
+          GameSingletons.world = World.createNew(s, null, s1, ZoneGenerator.getZoneGenerator(s1));
+       } else {
+-         Logger.info("Loaded world.");
++         LOGGER.info("Loaded world.");
+          WorldLoaders.INSTANCE.addZoneLoader(GameSingletons.world.getDefaultZone());
+       }
+ 
+       NettyServer nettyserver = new NettyServer();
+       ServerSingletons.server = nettyserver;
++      isRunning = true;
++      ServerSingletons.puzzle.initConsoleListener();
++      ServerSingletons.puzzle.init();
+       nettyserver.run();
++      isRunning = false;
++   }
++
++   public static boolean isRunning() {
++      return isRunning;
+    }
+ }

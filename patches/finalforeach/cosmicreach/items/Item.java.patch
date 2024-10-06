@@ -1,0 +1,19 @@
+--- a/finalforeach/cosmicreach/items/Item.java
++++ b/finalforeach/cosmicreach/items/Item.java
+@@ -4,6 +_,7 @@
+ import finalforeach.cosmicreach.blocks.BlockState;
+ import finalforeach.cosmicreach.entities.player.Player;
+ import finalforeach.cosmicreach.util.exceptions.DuplicateIDException;
++import org.slf4j.LoggerFactory;
+ 
+ public interface Item {
+    ObjectMap<String, Item> allItems = new ObjectMap<>();
+@@ -26,7 +_,7 @@
+          throw new DuplicateIDException("Duplicate item for id: " + item.getID());
+       } else {
+          allItems.put(s, item);
+-         System.out.println("Registered item id: " + item.getID());
++         LoggerFactory.getLogger("Cosmic Reach | Items").info("Registered item id: " + item.getID());
+       }
+    }
+ 

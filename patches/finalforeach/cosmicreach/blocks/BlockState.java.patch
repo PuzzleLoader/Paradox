@@ -1,0 +1,30 @@
+--- a/finalforeach/cosmicreach/blocks/BlockState.java
++++ b/finalforeach/cosmicreach/blocks/BlockState.java
+@@ -19,6 +_,9 @@
+ import finalforeach.cosmicreach.savelib.blocks.IBlockState;
+ import finalforeach.cosmicreach.util.ArrayUtils;
+ import finalforeach.cosmicreach.util.JsonPredicateParser;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++
+ import java.util.HashSet;
+ import java.util.Map;
+ import java.util.function.Predicate;
+@@ -375,7 +_,7 @@
+    public boolean hasTag(String tagName) {
+       return this.tags == null ? false : ArrayUtils.contains(this.tags, tagName, false);
+    }
+-
++   private static final Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Block states");
+    public void initialize(Block block) {
+       this.block = block;
+       this.blockId = block.getStringId();
+@@ -395,7 +_,7 @@
+       if (this.stateGenerators != null) {
+          for (String s : this.stateGenerators) {
+             BlockStateGenerator blockstategenerator = BlockStateGenerator.getInstance(s);
+-            System.out.println("Applying generator " + s + " for blockstate: " + this.getSaveKey());
++            LOGGER.info("Applying generator " + s + " for blockstate: " + this.getSaveKey());
+             blockstategenerator.generate(this);
+          }
+       }

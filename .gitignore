@@ -46,6 +46,6 @@ bin/
 
 lib/Cosmic-Reach.jar
 cosmicReach/src/main/java/finalforeach
-cosmicReach/build
+cosmicReach/src/main/resources
 temp
 sourcetemp

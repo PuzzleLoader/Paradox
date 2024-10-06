@@ -1,0 +1,28 @@
+--- a/finalforeach/cosmicreach/networking/netty/GamePacket.java
++++ b/finalforeach/cosmicreach/networking/netty/GamePacket.java
+@@ -24,6 +_,8 @@
+ import finalforeach.cosmicreach.util.ArrayUtils;
+ import io.netty.buffer.ByteBuf;
+ import io.netty.channel.ChannelHandlerContext;
++import org.slf4j.LoggerFactory;
++
+ import java.lang.reflect.Constructor;
+ import java.lang.reflect.InvocationTargetException;
+ import java.nio.charset.StandardCharsets;
+@@ -38,6 +_,7 @@
+    protected static ObjectIntMap<String> packetNamesToIntIds = new ObjectIntMap<>();
+    protected static ObjectMap<String, Class<? extends GamePacket>> packetNamesToClasses = new ObjectMap<>();
+ 
++   private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Game packet");
+    public static void registerPackets() {
+       registerPacket(ProtocolSyncPacket.class);
+       registerPacket(TransactionPacket.class);
+@@ -89,7 +_,7 @@
+          packetsToIntIds.put(packetClass, numId);
+          packetNamesToIntIds.put(strId, numId);
+          packetNamesToClasses.put(strId, packetClass);
+-         Logger.info("Registered packet ( id = " + numId + " ):" + strId);
++         LOGGER.info("Registered packet ( id = " + numId + " ):" + strId);
+       } catch (Exception exception) {
+          throw new RuntimeException(exception);
+       }

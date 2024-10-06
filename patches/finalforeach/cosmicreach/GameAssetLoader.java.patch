@@ -1,0 +1,51 @@
+--- a/finalforeach/cosmicreach/GameAssetLoader.java
++++ b/finalforeach/cosmicreach/GameAssetLoader.java
+@@ -9,6 +_,9 @@
+ import finalforeach.cosmicreach.io.SaveLocation;
+ import finalforeach.cosmicreach.util.AnsiColours;
+ import finalforeach.cosmicreach.util.Identifier;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++
+ import java.util.HashMap;
+ import java.util.HashSet;
+ import java.util.function.BiConsumer;
+@@ -17,6 +_,9 @@
+ import java.util.regex.Pattern;
+ 
+ public class GameAssetLoader {
++
++   private static final Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | AssetLoader");
++
+    private static final HashMap<FileHandle, SoundBuffer> ALL_SOUNDS = new HashMap<>();
+    private static final HashMap<FileHandle, Texture> ALL_TEXTURES = new HashMap<>();
+    static JsonReader jsonReader = new JsonReader();
+@@ -91,13 +_,12 @@
+    public static FileHandle loadAsset(Identifier location) {
+       FileHandle filehandle = Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/" + location.toPath());
+       if (filehandle.exists()) {
+-         System.out.println("Loading " + AnsiColours.CYAN + "\"" + location.getName() + "\"" + AnsiColours.RESET + " from Mods Folder");
++         LOGGER.error("Loading " + AnsiColours.CYAN + "\"" + location.getName() + "\"" + AnsiColours.RESET + " from Mods Folder");
+          return filehandle;
+       } else {
+          FileHandle filehandle1 = Gdx.files.classpath("assets/%s/%s".formatted(location.getNamespace(), location.getName()));
+          if (filehandle1.exists()) {
+-            System.out
+-               .println(
++            LOGGER.error(
+                   "Loading "
+                      + AnsiColours.PURPLE
+                      + "\""
+@@ -115,10 +_,10 @@
+          } else {
+             FileHandle filehandle2 = Gdx.files.internal(location.toPath());
+             if (filehandle2.exists()) {
+-               System.out.println("Loading " + AnsiColours.YELLOW + "\"" + location.getName() + "\"" + AnsiColours.RESET + " from Cosmic Reach");
++               LOGGER.info("Loading " + AnsiColours.YELLOW + "\"{}\""+AnsiColours.WHITE+" from Cosmic Reach", location.getName());
+                return filehandle2;
+             } else {
+-               System.out.println("Cannot find the resource " + location + " (Expected path: " + location.toPath() + ")");
++               LOGGER.error("Cannot find the resource " + location + " (Expected path: " + location.toPath() + ")");
+                return null;
+             }
+          }

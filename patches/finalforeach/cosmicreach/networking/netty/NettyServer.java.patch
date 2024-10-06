@@ -1,0 +1,53 @@
+--- a/finalforeach/cosmicreach/networking/netty/NettyServer.java
++++ b/finalforeach/cosmicreach/networking/netty/NettyServer.java
+@@ -2,6 +_,7 @@
+ 
+ import com.badlogic.gdx.utils.Array;
+ import com.badlogic.gdx.utils.ObjectMap;
++import finalforeach.cosmicreach.accounts.Account;
+ import finalforeach.cosmicreach.networking.common.NetworkIdentity;
+ import finalforeach.cosmicreach.networking.server.ServerIdentity;
+ import io.netty.bootstrap.ServerBootstrap;
+@@ -13,12 +_,21 @@
+ import io.netty.channel.nio.NioEventLoopGroup;
+ import io.netty.channel.socket.SocketChannel;
+ import io.netty.channel.socket.nio.NioServerSocketChannel;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++
++import java.net.InetSocketAddress;
++import java.util.WeakHashMap;
++
++import static finalforeach.cosmicreach.networking.server.ServerSingletons.getAccount;
+ 
+ public class NettyServer {
+    private int port;
++
+    Array<ServerIdentity> connections = new Array<>();
+    ObjectMap<ChannelHandlerContext, ServerIdentity> contextToIdentity = new ObjectMap<>();
+ 
++   private final Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Server");
+    public NettyServer(int port) {
+       this.port = port;
+    }
+@@ -61,6 +_,14 @@
+    }
+ 
+    public void removeContext(ChannelHandlerContext ctx) {
++      var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
++      LOGGER.info( "Player uid '{}' left | {}:{}", getAccount(this.contextToIdentity.get(ctx)).getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
++      this.connections.removeValue(this.contextToIdentity.get(ctx), true);
++      this.contextToIdentity.remove(ctx);
++   }
++   public void removeContextByKick(ChannelHandlerContext ctx) {
++      var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
++      LOGGER.info( "Player uid '{}' was kicked | {}:{}", getAccount(this.contextToIdentity.get(ctx)).getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
+       this.connections.removeValue(this.contextToIdentity.get(ctx), true);
+       this.contextToIdentity.remove(ctx);
+    }
+@@ -68,4 +_,5 @@
+    public int getPort() {
+       return this.port;
+    }
++
+ }

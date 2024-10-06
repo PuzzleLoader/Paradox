@@ -1,0 +1,48 @@
+--- a/finalforeach/cosmicreach/io/ChunkSaver.java
++++ b/finalforeach/cosmicreach/io/ChunkSaver.java
+@@ -5,7 +_,6 @@
+ import com.badlogic.gdx.utils.Json;
+ import com.badlogic.gdx.utils.JsonWriter.OutputType;
+ import finalforeach.cosmicreach.blockentities.BlockEntity;
+-import finalforeach.cosmicreach.logging.Logger;
+ import finalforeach.cosmicreach.savelib.IChunkByteWriter;
+ import finalforeach.cosmicreach.savelib.ISaveFileConstant;
+ import finalforeach.cosmicreach.savelib.ISavedChunk;
+@@ -16,6 +_,9 @@
+ import finalforeach.cosmicreach.world.Region;
+ import finalforeach.cosmicreach.world.World;
+ import finalforeach.cosmicreach.world.Zone;
++import org.slf4j.Logger;
++import org.slf4j.LoggerFactory;
++
+ import java.io.File;
+ import java.io.FileOutputStream;
+ import java.io.IOException;
+@@ -23,6 +_,9 @@
+ import java.nio.charset.StandardCharsets;
+ 
+ public class ChunkSaver {
++
++   private static final Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Chunk Saver");
++
+    public static boolean isSaving;
+ 
+    public static void writeFloat(ByteArray byteArr, float f) {
+@@ -72,7 +_,7 @@
+    public static void saveWorld(World world) {
+       try {
+          isSaving = true;
+-         Logger.info("Started saving world");
++         LOGGER.info("Started saving world");
+          saveWorldInfo(world, false);
+          PlayerSaver.savePlayers(world);
+ 
+@@ -80,7 +_,7 @@
+             saveZone(zone);
+          }
+ 
+-         Logger.info("Finished saving");
++         LOGGER.info("Finished saving");
+       } finally {
+          isSaving = false;
+       }

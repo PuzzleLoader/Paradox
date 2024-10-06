@@ -1,0 +1,36 @@
+--- a/finalforeach/cosmicreach/networking/server/ServerSingletons.java
++++ b/finalforeach/cosmicreach/networking/server/ServerSingletons.java
+@@ -2,6 +_,7 @@
+ 
+ import com.badlogic.gdx.math.Vector3;
+ import com.badlogic.gdx.utils.ObjectMap;
++import com.github.puzzle.paradox.core.PuzzlePL;
+ import finalforeach.cosmicreach.GameSingletons;
+ import finalforeach.cosmicreach.Threads;
+ import finalforeach.cosmicreach.accounts.Account;
+@@ -22,6 +_,7 @@
+ 
+ public class ServerSingletons {
+    public static NettyServer server;
++   public static PuzzlePL puzzle;
+    private static WeakHashMap<NetworkIdentity, Account> netIdsToAccounts = new WeakHashMap<>();
+    private static WeakHashMap<Account, NetworkIdentity> accountsToNetIds = new WeakHashMap<>();
+    private static ObjectMap<String, Account> uniqueIdsToAccounts = new ObjectMap<>();
+@@ -60,6 +_,7 @@
+    }
+ 
+    public static void create() {
++      puzzle = new PuzzlePL();
+       GameSingletons.create();
+       Threads.mainThreadRunner = task -> task.run();
+       GameSingletons.isClient = false;
+@@ -83,6 +_,9 @@
+ 
+    public static Player getPlayer(NetworkIdentity identity) {
+       return GameSingletons.getPlayerFromUniqueId(getAccount(identity).getUniqueId());
++   }
++   public static ServerIdentity getIdentityByAccount(Account account) {
++      return (ServerIdentity)accountsToNetIds.get(account);
+    }
+ 
+    public static ServerIdentity getConnection(Player player) {
