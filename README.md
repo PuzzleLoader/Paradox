@@ -1,4 +1,4 @@
-![Paradox Logo](github/Logo.svg)
+![Paradox Logo](github/Logo.png)
 
 # Paradox
 A server plugin loader for Cosmic Reach
