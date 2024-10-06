@@ -1,5 +1,4 @@
-![Paradox Logo](github/Logo.png | width=250)
-
+<img src="github/Logo.png" data-canonical-src="https://gyazo.com/eb5c5741b6a9a16c692170a41a49c858.png" width="250" height="250" /> <br>
 # Paradox
 A server plugin loader for Cosmic Reach
 
