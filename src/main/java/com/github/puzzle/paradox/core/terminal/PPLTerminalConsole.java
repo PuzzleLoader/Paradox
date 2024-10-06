@@ -47,10 +47,10 @@ public class PPLTerminalConsole  extends SimpleTerminalConsole {
             }
             CommandManager.dispatcher.execute(command, new PuzzleConsoleCommandSource( Chat.MAIN_CHAT, world));
         } catch (CommandSyntaxException e) {
-            TerminalConsoleAppender.print(e.getRawMessage().getString()+": "+ AnsiColours.RED + command);
+            TerminalConsoleAppender.print(e.getRawMessage().getString()+": "+ AnsiColours.RED + command + AnsiColours.RESET + "\n");
 //            e.printStackTrace();
         } catch (IllegalArgumentException e) {
-            TerminalConsoleAppender.print(e.getMessage());
+            TerminalConsoleAppender.print(e.getMessage() + "\n");
 //            e.printStackTrace();
         }
     }
