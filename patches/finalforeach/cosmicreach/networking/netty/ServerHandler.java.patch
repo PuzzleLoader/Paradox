@@ -10,26 +10,26 @@
 +
 +   private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Server handler");
 +
-    NettyServer nettyServer;
+ 	NettyServer nettyServer;
  
-    public ServerHandler(NettyServer nettyServer) {
+ 	public ServerHandler(NettyServer nettyServer) {
 @@ -14,16 +_,17 @@
  
-    @Override
-    public void handlerAdded(ChannelHandlerContext ctx) {
--      Logger.info("Handler added");
+ 	@Override
+ 	public void handlerAdded(ChannelHandlerContext ctx) {
+-		Logger.info("Handler added");
 +      LOGGER.info("Handler added");
-       this.nettyServer.addContext(ctx);
-       new ProtocolSyncPacket().setupAndSend(ctx);
-    }
+ 		this.nettyServer.addContext(ctx);
+ 		new ProtocolSyncPacket().setupAndSend(ctx);
+ 	}
  
-    @Override
-    public void handlerRemoved(ChannelHandlerContext ctx) {
--      Logger.info("Handler removed");
+ 	@Override
+ 	public void handlerRemoved(ChannelHandlerContext ctx) {
+-		Logger.info("Handler removed");
 +      LOGGER.info("Handler removed");
-       this.nettyServer.removeContext(ctx);
-    }
+ 		this.nettyServer.removeContext(ctx);
+ 	}
 +
  
-    @Override
-    public NetworkIdentity getIdentity(ChannelHandlerContext ctx) {
+ 	@Override
+ 	public NetworkIdentity getIdentity(ChannelHandlerContext ctx) {

@@ -11,26 +11,26 @@
 @@ -22,6 +_,7 @@
  
  public class ServerSingletons {
-    public static NettyServer server;
+ 	public static NettyServer server;
 +   public static PuzzlePL puzzle;
-    private static WeakHashMap<NetworkIdentity, Account> netIdsToAccounts = new WeakHashMap<>();
-    private static WeakHashMap<Account, NetworkIdentity> accountsToNetIds = new WeakHashMap<>();
-    private static ObjectMap<String, Account> uniqueIdsToAccounts = new ObjectMap<>();
+ 	private static WeakHashMap<NetworkIdentity, Account> netIdsToAccounts = new WeakHashMap<>();
+ 	private static WeakHashMap<Account, NetworkIdentity> accountsToNetIds = new WeakHashMap<>();
+ 	private static ObjectMap<String, Account> uniqueIdsToAccounts = new ObjectMap<>();
 @@ -60,6 +_,7 @@
-    }
+ 	}
  
-    public static void create() {
+ 	public static void create() {
 +      puzzle = new PuzzlePL();
-       GameSingletons.create();
-       Threads.mainThreadRunner = task -> task.run();
-       GameSingletons.isClient = false;
+ 		GameSingletons.create();
+ 		Threads.mainThreadRunner = task -> task.run();
+ 		GameSingletons.isClient = false;
 @@ -83,6 +_,9 @@
  
-    public static Player getPlayer(NetworkIdentity identity) {
-       return GameSingletons.getPlayerFromUniqueId(getAccount(identity).getUniqueId());
+ 	public static Player getPlayer(NetworkIdentity identity) {
+ 		return GameSingletons.getPlayerFromUniqueId(getAccount(identity).getUniqueId());
 +   }
 +   public static ServerIdentity getIdentityByAccount(Account account) {
 +      return (ServerIdentity)accountsToNetIds.get(account);
-    }
+ 	}
  
-    public static ServerIdentity getConnection(Player player) {
+ 	public static ServerIdentity getConnection(Player player) {

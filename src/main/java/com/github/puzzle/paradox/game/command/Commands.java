@@ -15,7 +15,7 @@ public class Commands {
              String id = StringArgumentType.getString(context, "id");
              var acc = ServerSingletons.getAccountByUniqueId(id);
              if(acc==null){
-                 TerminalConsoleAppender.print("Can't find player by id: " + id);
+                 TerminalConsoleAppender.print("Can't find player by id: " + id + "\n");
                  return 0;
              }
              ServerSingletons.server.removeContextByKick(ServerSingletons.getIdentityByAccount(acc).ctx);

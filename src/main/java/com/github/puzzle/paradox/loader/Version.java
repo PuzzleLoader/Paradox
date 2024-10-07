@@ -29,7 +29,7 @@ public record Version(int Major, int Minor, int Patch, VersionType Type) {
             return parseVersionWithThrow(ver);
         }
         catch (NumberFormatException e){
-            LoggerFactory.getLogger("Puzzle | Version parsing").error("Can't parse version");
+            LoggerFactory.getLogger("Paradox | Version parsing").error("Can't parse version");
             return new Version(0,0,0);
         }
     }

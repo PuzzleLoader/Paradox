@@ -20,15 +20,15 @@ import java.util.zip.ZipFile;
 
 @SuppressWarnings("UrlHashCode")
 public class PluginLocator {
-    public static Logger LOGGER = LogManager.getLogger("Puzzle | PluginLocator");
+    public static Logger LOGGER = LogManager.getLogger("Paradox | PluginLocator");
 
     public static Map<String, PluginContainer> locatedPlugins = new HashMap<>();
-    public static final String INFO_FILE_NAME = "puzzle.plugin.json";
+    public static final String INFO_FILE_NAME = "paradox.plugin.json";
 
 
     @SuppressWarnings("unused")
-    public static boolean isModLoaded(String modId) {
-        return locatedPlugins.get(modId) != null;
+    public static boolean isPluginLoaded(String pluginId) {
+        return locatedPlugins.get(pluginId) != null;
     }
 
     public static @NotNull Collection<URL> getUrlsOnClasspath() {
@@ -93,9 +93,9 @@ public class PluginLocator {
                         if (modJson != null) {
                             String strInfo = new String(jar.getInputStream(modJson).readAllBytes());
                             PluginJsonInfo info = PluginJsonInfo.fromString(strInfo);
-                            LOGGER.info("Discovered Mod \"{}\" with ID \"{}\"", info.name(), info.id());
+                            LOGGER.info("Discovered plugin \"{}\" with ID \"{}\"", info.name(), info.id());
                             if(locatedPlugins.containsKey(info.id()))
-                                throw new RuntimeException("mod id \""+info.id()+"\" already used");
+                                throw new RuntimeException("plugin id \""+info.id()+"\" already used");
                             else
                                 locatedPlugins.put(info.id(), new PluginContainer(PluginInfo.fromModJsonInfo(info), jar));
                         }

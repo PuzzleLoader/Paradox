@@ -10,10 +10,10 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 
 public class PuzzlePL {
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("Puzzle PL");
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("Puzzle Paradox");
     public static final Version VERSION = new Version(1,0,0, Version.VersionType.ALPHA);
     public PuzzlePL(){
-        Logger.info("Loading Paradox");
+        LOGGER.info("Loading Paradox");
     }
     public void init(){
         Commands.register();

@@ -29,10 +29,7 @@ public class PluginJsonInfo {
             Map<String, JsonValue> meta,
             String[] mixins,
             Map<String, String> dependencies,
-            Map<String, String> optional,
-            String accessManipulator,
-            String accessTransformer,
-            String accessWidener
+            Map<String, String> optional
     ) {
         this.id = id;
         this.version = version;

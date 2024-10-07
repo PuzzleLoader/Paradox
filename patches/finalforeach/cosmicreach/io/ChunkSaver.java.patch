@@ -22,24 +22,24 @@
 +
 +   private static final Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Chunk Saver");
 +
-    public static boolean isSaving;
+ 	public static boolean isSaving;
  
-    public static void writeFloat(ByteArray byteArr, float f) {
+ 	public static void writeFloat(ByteArray byteArr, float f) {
 @@ -72,7 +_,7 @@
-    public static void saveWorld(World world) {
-       try {
-          isSaving = true;
--         Logger.info("Started saving world");
+ 	public static void saveWorld(World world) {
+ 		try {
+ 			isSaving = true;
+-			Logger.info("Started saving world");
 +         LOGGER.info("Started saving world");
-          saveWorldInfo(world, false);
-          PlayerSaver.savePlayers(world);
+ 			saveWorldInfo(world, false);
+ 			PlayerSaver.savePlayers(world);
  
 @@ -80,7 +_,7 @@
-             saveZone(zone);
-          }
+ 				saveZone(zone);
+ 			}
  
--         Logger.info("Finished saving");
+-			Logger.info("Finished saving");
 +         LOGGER.info("Finished saving");
-       } finally {
-          isSaving = false;
-       }
+ 		} finally {
+ 			isSaving = false;
+ 		}

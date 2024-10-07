@@ -7,13 +7,13 @@
 +import org.slf4j.LoggerFactory;
  
  public interface Item {
-    ObjectMap<String, Item> allItems = new ObjectMap<>();
+ 	ObjectMap<String, Item> allItems = new ObjectMap<>();
 @@ -26,7 +_,7 @@
-          throw new DuplicateIDException("Duplicate item for id: " + item.getID());
-       } else {
-          allItems.put(s, item);
--         System.out.println("Registered item id: " + item.getID());
+ 			throw new DuplicateIDException("Duplicate item for id: " + item.getID());
+ 		} else {
+ 			allItems.put(s, item);
+-			System.out.println("Registered item id: " + item.getID());
 +         LoggerFactory.getLogger("Cosmic Reach | Items").info("Registered item id: " + item.getID());
-       }
-    }
+ 		}
+ 	}
  

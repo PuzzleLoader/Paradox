@@ -1,18 +1,18 @@
 --- a/finalforeach/cosmicreach/io/CRBinSerializer.java
 +++ b/finalforeach/cosmicreach/io/CRBinSerializer.java
 @@ -220,12 +_,13 @@
-       ByteArrayUtils.writeInt(this.bytes, i);
-    }
+ 		ByteArrayUtils.writeInt(this.bytes, i);
+ 	}
  
--   public <T> void writeObj(Class<T> elementType, String name, Object item) {
+-	public <T> void writeObj(Class<T> elementType, String name, Object item) {
 +   public <T extends ICRBinSerializable> void writeObj(Class<T> elementType, String name, Object item) {
-       TriConsumer<CRBinSerializer, String, T> triconsumer = (TriConsumer<CRBinSerializer, String, T>)this.classSerializers.get(elementType);
+ 		TriConsumer<CRBinSerializer, String, T> triconsumer = (TriConsumer<CRBinSerializer, String, T>)this.classSerializers.get(elementType);
 +      var cItem = (T)item;
-       if (triconsumer != null) {
-          triconsumer.accept(this, name, (T)item);
-       } else if (ICRBinSerializable.class.isAssignableFrom(elementType)) {
--         this.writeObj(name, (T)((ICRBinSerializable)item));
+ 		if (triconsumer != null) {
+ 			triconsumer.accept(this, name, (T)item);
+ 		} else if (ICRBinSerializable.class.isAssignableFrom(elementType)) {
+-			this.writeObj(name, (T)((ICRBinSerializable)item));
 +         this.writeObj(name, cItem);
-       } else {
-          throw new RuntimeException(
-             elementType.getSimpleName() + " neither has an associated class serializer, nor is derived from ICosmicReachBinarySerializable!"
+ 		} else {
+ 			throw new RuntimeException(elementType.getSimpleName() + " neither has an associated class serializer, nor is derived from ICosmicReachBinarySerializable!");
+ 		}

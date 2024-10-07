@@ -11,20 +11,20 @@
  import java.util.Map;
  import java.util.function.Predicate;
 @@ -375,7 +_,7 @@
-    public boolean hasTag(String tagName) {
-       return this.tags == null ? false : ArrayUtils.contains(this.tags, tagName, false);
-    }
+ 	public boolean hasTag(String tagName) {
+ 		return this.tags == null ? false : ArrayUtils.contains(this.tags, tagName, false);
+ 	}
 -
 +   private static final Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Block states");
-    public void initialize(Block block) {
-       this.block = block;
-       this.blockId = block.getStringId();
+ 	public void initialize(Block block) {
+ 		this.block = block;
+ 		this.blockId = block.getStringId();
 @@ -395,7 +_,7 @@
-       if (this.stateGenerators != null) {
-          for (String s : this.stateGenerators) {
-             BlockStateGenerator blockstategenerator = BlockStateGenerator.getInstance(s);
--            System.out.println("Applying generator " + s + " for blockstate: " + this.getSaveKey());
+ 		if (this.stateGenerators != null) {
+ 			for (String s : this.stateGenerators) {
+ 				BlockStateGenerator blockstategenerator = BlockStateGenerator.getInstance(s);
+-				System.out.println("Applying generator " + s + " for blockstate: " + this.getSaveKey());
 +            LOGGER.info("Applying generator " + s + " for blockstate: " + this.getSaveKey());
-             blockstategenerator.generate(this);
-          }
-       }
+ 				blockstategenerator.generate(this);
+ 			}
+ 		}

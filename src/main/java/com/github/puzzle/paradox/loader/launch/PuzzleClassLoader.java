@@ -25,7 +25,7 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 public class PuzzleClassLoader extends URLClassLoader {
-    public static Logger LOGGER = LogManager.getLogger("Puzzle | Classloader");
+    public static Logger LOGGER = LogManager.getLogger("Paradox | Classloader");
 
     public static final int BUFFER_SIZE = 1 << 12;
     private final List<URL> sources;

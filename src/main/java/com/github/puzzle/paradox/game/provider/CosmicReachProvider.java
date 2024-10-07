@@ -101,9 +101,9 @@ public class CosmicReachProvider implements IGameProvider {
                     "Mr_Zombii", "Repletsin5", "SinfullySoul"
             });
             puzzleLoaderInfo.setVersion(PuzzlePL.VERSION);
-            puzzleLoaderInfo.addEntrypoint("preInit", PuzzlePL.class.getName());
-            puzzleLoaderInfo.addEntrypoint("init", PuzzlePL.class.getName());
-            puzzleLoaderInfo.addEntrypoint("postInit", PuzzlePL.class.getName());
+//            puzzleLoaderInfo.addEntrypoint("preInit", PuzzlePL.class.getName());
+//            puzzleLoaderInfo.addEntrypoint("init", PuzzlePL.class.getName());
+//            puzzleLoaderInfo.addEntrypoint("postInit", PuzzlePL.class.getName());
 
             PluginLocator.locatedPlugins.put("puzzle-plugin-loader", puzzleLoaderInfo.build().getOrCreateModContainer());
         }

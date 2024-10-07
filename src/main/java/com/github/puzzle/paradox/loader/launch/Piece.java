@@ -2,6 +2,7 @@ package com.github.puzzle.paradox.loader.launch;
 
 import com.github.puzzle.paradox.core.util.Reflection;
 import com.github.puzzle.paradox.game.provider.CosmicReachProvider;
+import com.github.puzzle.paradox.loader.entrypoint.interfaces.PrePluginInitializer;
 import com.github.puzzle.paradox.loader.providers.api.IGameProvider;
 import com.github.puzzle.paradox.util.MethodUtil;
 import com.github.puzzle.paradox.loader.plugin.PluginLocator;
@@ -67,7 +68,9 @@ public class Piece {
 
             provider.registerTransformers(classLoader);
             provider.inject(classLoader);
-
+            Piece.provider.addBuiltinMods();
+//            PrePluginInitializer.invokeEntrypoint();
+//            if (PluginLocator.locatedPlugins == null) PluginLocator.getPlugins();
             Class<?> clazz = Class.forName(provider.getEntrypoint(), false, classLoader);
             Method main = Reflection.getMethod(clazz,"main", String[].class);
             LOGGER.info("Launching {} version {}", provider.getName(), provider.getRawVersion());

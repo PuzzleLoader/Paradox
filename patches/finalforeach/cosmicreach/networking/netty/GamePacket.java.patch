@@ -10,19 +10,19 @@
  import java.lang.reflect.InvocationTargetException;
  import java.nio.charset.StandardCharsets;
 @@ -43,6 +_,7 @@
-    protected static ObjectIntMap<String> packetNamesToIntIds = new ObjectIntMap<>();
-    protected static ObjectMap<String, Class<? extends GamePacket>> packetNamesToClasses = new ObjectMap<>();
+ 	protected static ObjectIntMap<String> packetNamesToIntIds = new ObjectIntMap<>();
+ 	protected static ObjectMap<String, Class<? extends GamePacket>> packetNamesToClasses = new ObjectMap<>();
  
 +   private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Game packet");
-    public static void registerPackets() {
-       registerPacket(ProtocolSyncPacket.class);
-       registerPacket(TransactionPacket.class);
+ 	public static void registerPackets() {
+ 		registerPacket(ProtocolSyncPacket.class);
+ 		registerPacket(TransactionPacket.class);
 @@ -97,7 +_,7 @@
-          packetsToIntIds.put(packetClass, numId);
-          packetNamesToIntIds.put(strId, numId);
-          packetNamesToClasses.put(strId, packetClass);
--         Logger.info("Registered packet ( id = " + numId + " ):" + strId);
+ 			packetsToIntIds.put(packetClass, numId);
+ 			packetNamesToIntIds.put(strId, numId);
+ 			packetNamesToClasses.put(strId, packetClass);
+-			Logger.info("Registered packet ( id = " + numId + " ):" + strId);
 +         LOGGER.info("Registered packet ( id = " + numId + " ):" + strId);
-       } catch (Exception exception) {
-          throw new RuntimeException(exception);
-       }
+ 		} catch (Exception exception) {
+ 			throw new RuntimeException(exception);
+ 		}

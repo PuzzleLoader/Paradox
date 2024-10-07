@@ -1,52 +1,104 @@
 --- a/finalforeach/cosmicreach/server/ServerLauncher.java
 +++ b/finalforeach/cosmicreach/server/ServerLauncher.java
-@@ -12,9 +_,13 @@
+@@ -2,6 +_,9 @@
+ 
+ import com.badlogic.gdx.Gdx;
+ import com.badlogic.gdx.backends.headless.HeadlessFiles;
++import com.github.puzzle.paradox.loader.entrypoint.interfaces.PluginInitializer;
++import com.github.puzzle.paradox.loader.plugin.PluginContainer;
++import com.github.puzzle.paradox.loader.plugin.PluginLocator;
+ import finalforeach.cosmicreach.GameSingletons;
+ import finalforeach.cosmicreach.WorldLoaders;
+ import finalforeach.cosmicreach.io.ChunkLoader;
+@@ -12,40 +_,58 @@
  import finalforeach.cosmicreach.world.World;
  import finalforeach.cosmicreach.worldgen.ZoneGenerator;
  import java.io.File;
 +import org.slf4j.LoggerFactory;
  
  public class ServerLauncher {
--   public static void main(String[] args) throws Exception {
+-	public static void main(String[] args) throws Exception {
+-		if (!StartupHelper.startNewJvmIfRequired()) {
+-			if (Gdx.files == null) {
+-				Gdx.files = new HeadlessFiles();
+-			}
+-
+-			String s = new File(ServerLauncher.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+-			SaveLocation.saveLocationOverride = s;
+-
+-			for (int i = 0; i < args.length; i++) {
+-				String s1 = args[i];
+-				if (s1.equals("-s") || s1.equals("--save-location")) {
+-					SaveLocation.saveLocationOverride = args[i + 1];
+-					new File(SaveLocation.saveLocationOverride).mkdirs();
+-				}
+-			}
+-
+-			ServerSingletons.create();
+-			String s2 = "server-world-1";
+-			GameSingletons.world = ChunkLoader.loadWorld(s2);
+-			if (GameSingletons.world == null) {
+-				Logger.info("Creating new world.");
+-				String s3 = "base:earth";
+-				GameSingletons.world = World.createNew(s2, null, s3, ZoneGenerator.getZoneGenerator(s3));
+-			} else {
+-				Logger.info("Loaded world.");
+-				WorldLoaders.INSTANCE.addZoneLoader(GameSingletons.world.getDefaultZone());
+-			}
+-
+-			NettyServer nettyserver = new NettyServer();
+-			ServerSingletons.server = nettyserver;
+-			nettyserver.run();
+-		}
 +    private static boolean isRunning = false;
 +    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach");
 +
 +    public static void main(String[] args) throws Exception {
-       if (!StartupHelper.startNewJvmIfRequired()) {
-          if (Gdx.files == null) {
-             Gdx.files = new HeadlessFiles();
-@@ -30,22 +_,31 @@
-                new File(SaveLocation.saveLocationOverride).mkdirs();
-             }
-          }
--
++        if (!StartupHelper.startNewJvmIfRequired()) {
++            if (Gdx.files == null) {
++                Gdx.files = new HeadlessFiles();
++            }
++            String s = new File("./saves").getPath();
++            SaveLocation.saveLocationOverride = s;
++            for (int i = 0; i < args.length; i++) {
++                String s1 = args[i];
++                if (s1.equals("-s") || s1.equals("--save-location")) {
++                    SaveLocation.saveLocationOverride = args[i + 1];
++                    new File(SaveLocation.saveLocationOverride).mkdirs();
++                }
++            }
 +      
-          ServerSingletons.create();
-          String s2 = "server-world-1";
-          GameSingletons.world = ChunkLoader.loadWorld(s2);
-          if (GameSingletons.world == null) {
--            Logger.info("Creating new world.");
-+         LOGGER.info("Creating new world.");
-             String s3 = "base:earth";
-             GameSingletons.world = World.createNew(s2, null, s3, ZoneGenerator.getZoneGenerator(s3));
-          } else {
--            Logger.info("Loaded world.");
-+         LOGGER.info("Loaded world.");
-             WorldLoaders.INSTANCE.addZoneLoader(GameSingletons.world.getDefaultZone());
-          }
- 
-          NettyServer nettyserver = new NettyServer();
-          ServerSingletons.server = nettyserver;
-+         isRunning = true;
-+         ServerSingletons.puzzle.initConsoleListener();
-+         ServerSingletons.puzzle.init();
-          nettyserver.run();
-+         isRunning = false;
++            ServerSingletons.create();
++            String s2 = "server-world-1";
++            GameSingletons.world = ChunkLoader.loadWorld(s2);
++            if (GameSingletons.world == null) {
++            LOGGER.info("Creating new world.");
++                String s3 = "base:earth";
++                GameSingletons.world = World.createNew(s2, null, s3, ZoneGenerator.getZoneGenerator(s3));
++            } else {
++                 LOGGER.info("Loaded world.");
++                 WorldLoaders.INSTANCE.addZoneLoader(GameSingletons.world.getDefaultZone());
++            }
++            NettyServer nettyserver = new NettyServer();
++            ServerSingletons.server = nettyserver;
++            ServerSingletons.puzzle.init();
++            PluginLocator.locatedPlugins.keySet().forEach(containerID -> {
++                PluginContainer container = PluginLocator.locatedPlugins.get(containerID);
++                try {
++                    container.invokeEntrypoint(PluginInitializer.ENTRYPOINT_KEY, PluginInitializer.class, PluginInitializer::onInit);
++                } catch (Exception e) {
++                    throw new RuntimeException(e);
++                }
++            });
++            isRunning = true;
++            ServerSingletons.puzzle.initConsoleListener();
++            nettyserver.run();
++            isRunning = false;
 +
-       }
-+   }
++        }
++    }
 +
 +   public static boolean isRunning() {
 +      return isRunning;
-    }
+ 	}
  }

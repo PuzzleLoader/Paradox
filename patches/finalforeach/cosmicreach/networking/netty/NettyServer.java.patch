@@ -21,19 +21,19 @@
 +import static finalforeach.cosmicreach.networking.server.ServerSingletons.getAccount;
  
  public class NettyServer {
-    private int port;
+ 	private int port;
 +
-    Array<ServerIdentity> connections = new Array<>();
-    ObjectMap<ChannelHandlerContext, ServerIdentity> contextToIdentity = new ObjectMap<>();
+ 	Array<ServerIdentity> connections = new Array<>();
+ 	ObjectMap<ChannelHandlerContext, ServerIdentity> contextToIdentity = new ObjectMap<>();
  
 +   private final Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Server");
-    public NettyServer(int port) {
-       this.port = port;
-    }
+ 	public NettyServer(int port) {
+ 		this.port = port;
+ 	}
 @@ -61,6 +_,14 @@
-    }
+ 	}
  
-    public void removeContext(ChannelHandlerContext ctx) {
+ 	public void removeContext(ChannelHandlerContext ctx) {
 +      var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
 +      LOGGER.info( "Player uid '{}' left | {}:{}", getAccount(this.contextToIdentity.get(ctx)).getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
 +      this.connections.removeValue(this.contextToIdentity.get(ctx), true);
@@ -42,12 +42,12 @@
 +   public void removeContextByKick(ChannelHandlerContext ctx) {
 +      var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
 +      LOGGER.info( "Player uid '{}' was kicked | {}:{}", getAccount(this.contextToIdentity.get(ctx)).getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
-       this.connections.removeValue(this.contextToIdentity.get(ctx), true);
-       this.contextToIdentity.remove(ctx);
-    }
+ 		this.connections.removeValue(this.contextToIdentity.get(ctx), true);
+ 		this.contextToIdentity.remove(ctx);
+ 	}
 @@ -68,4 +_,5 @@
-    public int getPort() {
-       return this.port;
-    }
+ 	public int getPort() {
+ 		return this.port;
+ 	}
 +
  }

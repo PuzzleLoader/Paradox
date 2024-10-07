@@ -5,6 +5,7 @@ import com.github.puzzle.paradox.game.command.CommandSource;
 import com.github.puzzle.paradox.game.command.PuzzleConsoleCommandSource;
 import com.github.puzzle.paradox.util.AnsiColours;
 import com.mojang.brigadier.ParseResults;
+import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.networking.netty.NettyServer;
@@ -45,9 +46,9 @@ public class PPLTerminalConsole  extends SimpleTerminalConsole {
                     e = results.getContext().getRange().isEmpty() ? CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownCommand().createWithContext(results.getReader()) : CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownArgument().createWithContext(results.getReader());
                 throw e;
             }
-            CommandManager.dispatcher.execute(command, new PuzzleConsoleCommandSource( Chat.MAIN_CHAT, world));
+            CommandManager.dispatcher.execute(new StringReader(command), new PuzzleConsoleCommandSource(Chat.MAIN_CHAT, world));
         } catch (CommandSyntaxException e) {
-            TerminalConsoleAppender.print(e.getRawMessage().getString()+": "+ AnsiColours.RED + command + AnsiColours.RESET + "\n");
+            TerminalConsoleAppender.print(e.getRawMessage().getString() + ": "+ AnsiColours.RED + command + AnsiColours.RESET + "\n");
 //            e.printStackTrace();
         } catch (IllegalArgumentException e) {
             TerminalConsoleAppender.print(e.getMessage() + "\n");

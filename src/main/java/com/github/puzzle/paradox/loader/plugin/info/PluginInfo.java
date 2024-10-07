@@ -17,7 +17,6 @@ import java.util.jar.JarFile;
 public class PluginInfo {
     public final String DisplayName;
     public final String ID;
-
     public final Version PlVersion;
     public final String Description;
     public final ImmutableCollection<String> Authors;
@@ -97,9 +96,6 @@ public class PluginInfo {
         private List<String> mixins = new ArrayList<>();
         private Map<String, Version> dependencies = new HashMap<>();
         private Map<String, Version> optional = new HashMap<>();
-        private String accessManipulator = null;
-        private String accessTransformer = null;
-        private String accessWidener = null;
 
         private Builder() {}
 
@@ -238,10 +234,7 @@ public class PluginInfo {
                     meta,
                     mixins.toArray(new String[0]),
                     TransformDepencenciesMap(dependencies),
-                    TransformDepencenciesMap(optional),
-                    accessManipulator,
-                    accessTransformer,
-                    accessWidener
+                    TransformDepencenciesMap(optional)
             ));
         }
 

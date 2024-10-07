@@ -1,26 +1,26 @@
 --- a/finalforeach/cosmicreach/io/CRBinDeserializer.java
 +++ b/finalforeach/cosmicreach/io/CRBinDeserializer.java
 @@ -260,12 +_,13 @@
-       return i == -1 ? null : this.strings.get(i);
-    }
+ 		return i == -1 ? null : this.strings.get(i);
+ 	}
  
--   private <T extends ICRBinSerializable> T readObj(Class<T> elementType, CRBinDeserializer d) {
+-	private <T extends ICRBinSerializable> T readObj(Class<T> elementType, CRBinDeserializer d) {
 +   public  <T extends ICRBinSerializable> T readObj(Class<T> elementType, CRBinDeserializer d) {
-       T t = (T)this.newInstance(elementType);
-       t.read(d);
-       return t;
-    }
+ 		T t = (T)this.newInstance(elementType);
+ 		t.read(d);
+ 		return t;
+ 	}
  
 +   @SuppressWarnings("unchecked")
-    public <T> T readObj(String name, Class<T> elementType) {
-       BiFunction<String, CRBinDeserializer, ?> bifunction = this.classDeserializers.get(elementType);
-       if (bifunction != null) {
+ 	public <T> T readObj(String name, Class<T> elementType) {
+ 		BiFunction<String, CRBinDeserializer, ?> bifunction = this.classDeserializers.get(elementType);
+ 		if (bifunction != null) {
 @@ -275,7 +_,7 @@
-          if (crbindeserializer == null) {
-             return null;
-          } else if (ICRBinSerializable.class.isAssignableFrom(elementType)) {
--            return this.readObj(elementType, crbindeserializer);
+ 			if (crbindeserializer == null) {
+ 				return null;
+ 			} else if (ICRBinSerializable.class.isAssignableFrom(elementType)) {
+-				return this.readObj(elementType, crbindeserializer);
 +            return (T)this.readObj((Class<? extends ICRBinSerializable>) elementType,crbindeserializer);
-          } else {
-             throw new RuntimeException(
-                elementType.getSimpleName() + " neither has an associated class deserializer, nor is derived from ICosmicReachBinarySerializable!"
+ 			} else {
+ 				throw new RuntimeException(
+ 					elementType.getSimpleName() + " neither has an associated class deserializer, nor is derived from ICosmicReachBinarySerializable!"

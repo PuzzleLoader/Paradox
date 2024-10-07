@@ -1,11 +1,11 @@
 --- a/finalforeach/cosmicreach/entities/player/PlayerEntity.java
 +++ b/finalforeach/cosmicreach/entities/player/PlayerEntity.java
 @@ -11,7 +_,7 @@
-    public static IEntityModel playerModel;
+ 	public static IEntityModel playerModel;
  
-    protected PlayerEntity() {
--      super("base:entity_player");
+ 	protected PlayerEntity() {
+-		super("base:entity_player");
 +      super(ENTITY_TYPE_ID);
-       this.maxHitpoints = this.hitpoints = 3.0F;
-       Threads.runOnMainThread(
-          () -> {
+ 		this.maxHitpoints = this.hitpoints = 3.0F;
+ 		Threads.runOnMainThread(
+ 			() -> {
