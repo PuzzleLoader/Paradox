@@ -1,14 +1,11 @@
 --- a/finalforeach/cosmicreach/io/ChunkSaver.java
 +++ b/finalforeach/cosmicreach/io/ChunkSaver.java
-@@ -5,7 +_,6 @@
- import com.badlogic.gdx.utils.Json;
- import com.badlogic.gdx.utils.JsonWriter.OutputType;
- import finalforeach.cosmicreach.blockentities.BlockEntity;
--import finalforeach.cosmicreach.logging.Logger;
- import finalforeach.cosmicreach.savelib.IChunkByteWriter;
- import finalforeach.cosmicreach.savelib.ISaveFileConstant;
- import finalforeach.cosmicreach.savelib.ISavedChunk;
-@@ -16,6 +_,9 @@
+@@ -11,11 +_,13 @@
+ import finalforeach.cosmicreach.savelib.blockdata.IBlockData;
+ import finalforeach.cosmicreach.savelib.lightdata.blocklight.IBlockLightData;
+ import finalforeach.cosmicreach.savelib.lightdata.skylight.ISkylightData;
+-import finalforeach.cosmicreach.util.logging.Logger;
+ import finalforeach.cosmicreach.world.Chunk;
  import finalforeach.cosmicreach.world.Region;
  import finalforeach.cosmicreach.world.World;
  import finalforeach.cosmicreach.world.Zone;

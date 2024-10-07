@@ -1,8 +1,8 @@
 --- a/finalforeach/cosmicreach/networking/netty/ServerHandler.java
 +++ b/finalforeach/cosmicreach/networking/netty/ServerHandler.java
 @@ -4,8 +_,12 @@
- import finalforeach.cosmicreach.networking.common.NetworkIdentity;
  import finalforeach.cosmicreach.networking.netty.packets.ProtocolSyncPacket;
+ import finalforeach.cosmicreach.util.logging.Logger;
  import io.netty.channel.ChannelHandlerContext;
 +import org.slf4j.LoggerFactory;
  
@@ -13,7 +13,7 @@
     NettyServer nettyServer;
  
     public ServerHandler(NettyServer nettyServer) {
-@@ -14,14 +_,14 @@
+@@ -14,16 +_,17 @@
  
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) {
@@ -29,4 +29,7 @@
 +      LOGGER.info("Handler removed");
        this.nettyServer.removeContext(ctx);
     }
++
  
+    @Override
+    public NetworkIdentity getIdentity(ChannelHandlerContext ctx) {

@@ -1,7 +1,7 @@
 --- a/finalforeach/cosmicreach/WorldLoaders.java
 +++ b/finalforeach/cosmicreach/WorldLoaders.java
 @@ -6,9 +_,11 @@
- import finalforeach.cosmicreach.logging.Logger;
+ import finalforeach.cosmicreach.util.logging.Logger;
  import finalforeach.cosmicreach.world.IZoneLoader;
  import finalforeach.cosmicreach.world.Zone;
 +import org.slf4j.LoggerFactory;

@@ -3,8 +3,8 @@ package com.github.puzzle.paradox.core;
 import com.github.puzzle.paradox.core.terminal.PPLTerminalConsole;
 import com.github.puzzle.paradox.loader.Version;
 import com.github.puzzle.paradox.game.command.Commands;
-import finalforeach.cosmicreach.logging.Logger;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
+import finalforeach.cosmicreach.util.logging.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
