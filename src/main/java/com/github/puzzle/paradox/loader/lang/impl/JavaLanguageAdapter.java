@@ -31,14 +31,14 @@ public class JavaLanguageAdapter implements LanguageAdapter {
         }
 
         if (split.length == 1) {
-            if (type.isAssignableFrom(clazz)) {
+//            if (type.isAssignableFrom(clazz)) {
                 try {
                     return (T) clazz.getDeclaredConstructor().newInstance();
                 } catch (Exception e) {
                     throw new LanguageAdapterException(e);
                 }
-            }
-            throw new LanguageAdapterException("Class " + clazz.getSimpleName() + " is not able to be cast to " + type.getName() + "!");
+//            }
+//            throw new LanguageAdapterException("class: " + clazz.getName() + " is not able to be cast to: " + type.getName() + "!");
         }
 
         String name = split[1];

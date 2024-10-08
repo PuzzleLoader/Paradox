@@ -1,6 +1,8 @@
 package com.github.puzzle.paradox.loader.plugin;
 
 import com.github.puzzle.paradox.loader.VersionParser;
+import com.github.puzzle.paradox.loader.launch.Piece;
+import com.github.puzzle.paradox.loader.launch.PuzzleClassLoader;
 import com.github.puzzle.paradox.loader.plugin.info.PluginInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,8 +43,8 @@ public class PluginLocator {
         // 'urls' may contain URL objects
         // i hope it does
 
-        if (PluginLocator.class.getClassLoader() instanceof URLClassLoader loader) {
-            Collections.addAll(urls, loader.getURLs());
+        if (Piece.classLoader != null) {
+            Collections.addAll(urls, Piece.classLoader.getURLs());
         } else {
             for (String url : System.getProperty("java.class.path").split(File.pathSeparator)) {
                 try {

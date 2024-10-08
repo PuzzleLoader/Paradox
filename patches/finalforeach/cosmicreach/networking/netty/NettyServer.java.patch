@@ -1,14 +1,14 @@
 --- a/finalforeach/cosmicreach/networking/netty/NettyServer.java
 +++ b/finalforeach/cosmicreach/networking/netty/NettyServer.java
-@@ -2,6 +_,7 @@
- 
- import com.badlogic.gdx.utils.Array;
+@@ -4,6 +_,7 @@
  import com.badlogic.gdx.utils.ObjectMap;
+ import finalforeach.cosmicreach.accounts.Account;
+ import finalforeach.cosmicreach.entities.player.Player;
 +import finalforeach.cosmicreach.accounts.Account;
  import finalforeach.cosmicreach.networking.common.NetworkIdentity;
  import finalforeach.cosmicreach.networking.server.ServerIdentity;
- import io.netty.bootstrap.ServerBootstrap;
-@@ -13,12 +_,21 @@
+ import finalforeach.cosmicreach.networking.server.ServerSingletons;
+@@ -16,12 +_,21 @@
  import io.netty.channel.nio.NioEventLoopGroup;
  import io.netty.channel.socket.SocketChannel;
  import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -30,24 +30,45 @@
  	public NettyServer(int port) {
  		this.port = port;
  	}
-@@ -61,6 +_,14 @@
+@@ -57,14 +_,30 @@
+ 		packet.setupAndSendToAllExcept(this.connections, identity);
+ 	}
+ 
++
+ 	public void addContext(ChannelHandlerContext ctx) {
+-		ServerIdentity serveridentity = new ServerIdentity(this, ctx);
+-		this.connections.add(serveridentity);
+-		this.contextToIdentity.put(ctx, serveridentity);
++		ServerIdentity id = new ServerIdentity(this, ctx);
++		this.connections.add(id);
++		this.contextToIdentity.put(ctx, id);
++	}
++
++   public void removeContextByKick(ChannelHandlerContext ctx) {
++	   ServerIdentity serveridentity = this.contextToIdentity.get(ctx);
++	   var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
++	   LOGGER.info( "Player uid '{}' was kicked | {}:{}", getAccount(ctx).getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
++	   this.connections.removeValue(this.contextToIdentity.get(ctx), true);
++	   this.contextToIdentity.remove(ctx);
++	   Player player = ServerSingletons.getPlayer(serveridentity);
++	   if (player != null) {
++		   ServerSingletons.removeAccount(serveridentity);
++	   }
++
  	}
  
  	public void removeContext(ChannelHandlerContext ctx) {
-+      var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
-+      LOGGER.info( "Player uid '{}' left | {}:{}", getAccount(this.contextToIdentity.get(ctx)).getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
-+      this.connections.removeValue(this.contextToIdentity.get(ctx), true);
-+      this.contextToIdentity.remove(ctx);
-+   }
-+   public void removeContextByKick(ChannelHandlerContext ctx) {
-+      var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
-+      LOGGER.info( "Player uid '{}' was kicked | {}:{}", getAccount(this.contextToIdentity.get(ctx)).getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
- 		this.connections.removeValue(this.contextToIdentity.get(ctx), true);
+ 		ServerIdentity serveridentity = this.contextToIdentity.get(ctx);
++		var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
++		LOGGER.info( "Player uid '{}' left | {}:{}", getAccount(ctx).getUniqueId(), addy.getAddress().getHostAddress() ,addy.getPort());
+ 		this.connections.removeValue(serveridentity, true);
  		this.contextToIdentity.remove(ctx);
- 	}
-@@ -68,4 +_,5 @@
+ 		Player player = ServerSingletons.getPlayer(serveridentity);
+@@ -76,6 +_,7 @@
  	public int getPort() {
  		return this.port;
  	}
 +
- }
+ 
+ 	public Account getAccount(ChannelHandlerContext ctx) {
+ 		ServerIdentity serveridentity = this.contextToIdentity.get(ctx);

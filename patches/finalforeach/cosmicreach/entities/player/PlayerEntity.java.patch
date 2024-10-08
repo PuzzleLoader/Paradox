@@ -5,7 +5,7 @@
  
  	protected PlayerEntity() {
 -		super("base:entity_player");
-+      super(ENTITY_TYPE_ID);
++      	super(ENTITY_TYPE_ID);
  		this.maxHitpoints = this.hitpoints = 3.0F;
  		Threads.runOnMainThread(
  			() -> {

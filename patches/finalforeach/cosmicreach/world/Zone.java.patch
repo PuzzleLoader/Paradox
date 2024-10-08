@@ -22,7 +22,23 @@
  		Vector2 vector2 = new Vector2();
  		this.zoneGenerator.getSpawnPoint(vector2, this.totalSpawnAttempts++);
 -		Logger.info("Calculating at spawn at " + vector2);
-+      LOGGER.info("Calculating at spawn at " + vector2);
++      	LOGGER.info("Calculating at spawn at " + vector2);
  		this.spawnPoint = new Vector3(vector2.x, 100.0F, vector2.y);
  		return true;
  	}
+@@ -528,13 +_,13 @@
+ 			if (--i < -150 || blockstate == Block.WATER.getDefaultBlockState()) {
+ 				int b0 = 100;
+ 				this.spawnPoint = new Vector3((float)j, (float)b0, (float)k);
+-				Logger.info("Spawnpoint at " + this.spawnPoint + " was not valid");
++				LOGGER.info("Spawnpoint at " + this.spawnPoint + " was not valid");
+ 				return false;
+ 			}
+ 		}
+ 
+ 		this.spawnPoint = new Vector3((float)j, (float)(i + 1), (float)k);
+-		Logger.info("Spawnpoint at " + this.spawnPoint + " was valid!");
++		LOGGER.info("Spawnpoint at " + this.spawnPoint + " was valid!");
+ 		return blockstate != null && !blockstate.walkThrough;
+ 	}
+ 

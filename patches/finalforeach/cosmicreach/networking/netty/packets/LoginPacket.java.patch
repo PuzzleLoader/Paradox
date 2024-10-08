@@ -31,12 +31,13 @@
  	protected void handle(NetworkIdentity identity, ChannelHandlerContext ctx) {
  		if (identity.getSide() == NetworkSide.SERVER) {
 -			Logger.debug("Received login packet from " + this.account.getUsername());
-+         LOGGER.debug("Received login packet from " + this.account.getUsername());
- 			ServerSingletons.addAccount(identity, this.account);
+-			ServerSingletons.addAccount(identity, this.account);
 -			Logger.info("Is it really " + this.account.getUsername() + "? I have no choice to believe so!");
-+         var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
-+         LOGGER.info( "Player uid '{}' joined | {}:{}",this.account.getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
-+         OnPlayerJoin.EVENT.invoker().onPlayerJoin(account,identity,ctx);
++         	 LOGGER.debug("Received login packet from " + this.account.getUsername());
++			 ServerSingletons.addAccount(identity, this.account);
++			 var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
++			 LOGGER.info( "Player uid '{}' joined | {}:{}",this.account.getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
++			 OnPlayerJoin.EVENT.invoker().onPlayerJoin(account,identity,ctx);
  		}
  	}
  }

@@ -62,7 +62,7 @@ public class PuzzleClassLoader extends URLClassLoader {
         addClassLoaderExclusion("sun.");
         addClassLoaderExclusion("org.lwjgl.");
         addClassLoaderExclusion("org.apache.logging.");
-        addClassLoaderExclusion("com.github.puzzle.loader.launch.");
+        addClassLoaderExclusion("com.github.puzzle.paradox.loader.launch.");
         addClassLoaderExclusion("org.slf4j");
         addClassLoaderExclusion("com.google.");
         addClassLoaderExclusion("org.hjson");
@@ -74,7 +74,7 @@ public class PuzzleClassLoader extends URLClassLoader {
 //        addTransformerExclusion("com.google.common.");
         addTransformerExclusion("org.bouncycastle.");
         addTransformerExclusion("org.bouncycastle.");
-//        addClassLoaderExclusion("com.github.puzzle.loader.launch.internal.transformers.");
+        addClassLoaderExclusion("com.github.puzzle.loader.launch.internal.transformers.");
 //        addClassLoaderExclusion("com.github.puzzle.access_manipulator.");
     }
 

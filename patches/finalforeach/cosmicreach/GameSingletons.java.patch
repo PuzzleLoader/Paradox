@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/GameSingletons.java
 +++ b/finalforeach/cosmicreach/GameSingletons.java
-@@ -29,6 +_,8 @@
+@@ -30,6 +_,8 @@
  import finalforeach.cosmicreach.world.IZoneLoader;
  import finalforeach.cosmicreach.world.World;
  import finalforeach.cosmicreach.world.Zone;

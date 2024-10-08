@@ -5,7 +5,7 @@
  	public String entityTypeId;
  	@CRBSerialized
 -	float sightRange = 64.0F;
-+   public float sightRange = 64.0F;
++    public float sightRange = 64.0F;
  	@CRBSerialized
  	public float gravityModifier = 1.0F;
  	@CRBSerialized
@@ -14,7 +14,7 @@
  					}
  
 -					serial.writeObj(oclass1, s, field1.get(object));
-+               serial.writeObj((Class<? extends ICRBinSerializable>) oclass1, s, field1.get(object));
++               		serial.writeObj((Class<? extends ICRBinSerializable>) oclass1, s, field1.get(object));
  				}
  			} catch (IllegalAccessException | IllegalArgumentException illegalargumentexception) {
  				System.err.println("Write error for " + this.getClass().getSimpleName());

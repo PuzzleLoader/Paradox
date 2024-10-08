@@ -2,6 +2,7 @@ package com.github.puzzle.paradox.game.command;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import net.minecrell.terminalconsole.TerminalConsoleAppender;
 
@@ -18,6 +19,7 @@ public class Commands {
                  TerminalConsoleAppender.print("Can't find player by id: " + id + "\n");
                  return 0;
              }
+             GameSingletons.unregisterPlayer(ServerSingletons.getPlayer(ServerSingletons.getIdentityByAccount(acc)));
              ServerSingletons.server.removeContextByKick(ServerSingletons.getIdentityByAccount(acc).ctx);
             return 0;
         }));

@@ -60,7 +60,7 @@ public class PuzzleEntityUtil {
     }
 
     public static Entity getClosestPlayerToEntity(@NotNull Zone zone, @NotNull Entity sourceEntity) {
-        Array<Player> players = zone.players;
+        Array<Player> players = zone.getPlayers();
         Entity closest = null;
         float closestDst = Float.MAX_VALUE;
         float range = sourceEntity.sightRange;

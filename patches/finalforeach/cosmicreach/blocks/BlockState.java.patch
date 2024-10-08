@@ -24,7 +24,7 @@
  			for (String s : this.stateGenerators) {
  				BlockStateGenerator blockstategenerator = BlockStateGenerator.getInstance(s);
 -				System.out.println("Applying generator " + s + " for blockstate: " + this.getSaveKey());
-+            LOGGER.info("Applying generator " + s + " for blockstate: " + this.getSaveKey());
++            	LOGGER.info("Applying generator " + s + " for blockstate: " + this.getSaveKey());
  				blockstategenerator.generate(this);
  			}
  		}

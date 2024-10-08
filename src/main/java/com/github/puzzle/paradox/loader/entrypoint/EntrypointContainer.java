@@ -29,21 +29,6 @@ public class EntrypointContainer {
 
     public EntrypointContainer(PluginContainer container, @NotNull ImmutableMap<String, ImmutableCollection<AdapterPathPair>> entrypoints) {
         this.container = container;
-//        ImmutableMap.Builder<String, ImmutableCollection<Class<?>>> entrypointClasses0 = ImmutableMap.builder();
-//        entrypoints.keySet().forEach(key -> {
-//            Collection<Class<?>> classes = new ArrayList<>();
-//            for (AdapterPathPair pair : Objects.requireNonNull(entrypoints.get(key))) {
-//                String clazzName = pair.getValue();
-//                try {
-//                    Class<?> clazz = Class.forName(clazzName, false, Piece.classLoader);
-//                    classes.add(clazz);
-//                } catch (ClassNotFoundException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//            entrypointClasses0.put(key, ImmutableList.copyOf(classes));
-//        });
-//        entrypointClasses = entrypointClasses0.build();
         entrypointClasses = entrypoints;
     }
 

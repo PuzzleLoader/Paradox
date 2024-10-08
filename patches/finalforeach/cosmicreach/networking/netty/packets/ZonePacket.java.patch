@@ -1,0 +1,23 @@
+--- a/finalforeach/cosmicreach/networking/netty/packets/ZonePacket.java
++++ b/finalforeach/cosmicreach/networking/netty/packets/ZonePacket.java
+@@ -8,9 +_,11 @@
+ import finalforeach.cosmicreach.world.Zone;
+ import io.netty.buffer.ByteBuf;
+ import io.netty.channel.ChannelHandlerContext;
++import org.slf4j.LoggerFactory;
+ 
+ public class ZonePacket extends GamePacket {
+ 	public Zone zone;
++	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Zone Packet");
+ 
+ 	public ZonePacket() {
+ 	}
+@@ -33,7 +_,7 @@
+ 	@Override
+ 	protected void handle(NetworkIdentity identity, ChannelHandlerContext ctx) {
+ 		if (identity.getSide() == NetworkSide.CLIENT) {
+-			Logger.info("ZonePacket: Got zone for " + this.zone.zoneId);
++			LOGGER.info("ZonePacket: Got zone for " + this.zone.zoneId);
+ 			this.zone.setWorld(GameSingletons.world);
+ 			GameSingletons.world.addZone(this.zone);
+ 		}

@@ -6,6 +6,7 @@ import com.github.puzzle.paradox.loader.entrypoint.interfaces.PrePluginInitializ
 import com.github.puzzle.paradox.loader.providers.api.IGameProvider;
 import com.github.puzzle.paradox.util.MethodUtil;
 import com.github.puzzle.paradox.loader.plugin.PluginLocator;
+import finalforeach.cosmicreach.server.ServerLauncher;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
@@ -34,13 +35,14 @@ public class Piece {
     }
 
     private Piece() {
-        List<URL> classPath = new ArrayList<>();
 
+        List<URL> classPath = new ArrayList<>();
         classPath.addAll(PluginLocator.getUrlsOnClasspath());
         PluginLocator.crawlPluginFolder(classPath);
 
         classLoader = new PuzzleClassLoader(classPath);
         blackboard = new HashMap<>();
+
         Thread.currentThread().setContextClassLoader(classLoader);
     }
 
@@ -54,10 +56,11 @@ public class Piece {
             OptionSpec<String> modFolder_option = parser.accepts("pluginFolder").withOptionalArg().ofType(String.class);
 
             classLoader.addClassLoaderExclusion(DEFAULT_PROVIDER.substring(0, DEFAULT_PROVIDER.lastIndexOf('.')));
-            classLoader.addClassLoaderExclusion("com.github.puzzle.loader.launch");
-            classLoader.addClassLoaderExclusion("com.github.puzzle.loader.plugin");
-            classLoader.addClassLoaderExclusion("com.github.puzzle.loader.providers");
-            classLoader.addClassLoaderExclusion("com.github.puzzle.utils");
+            classLoader.addClassLoaderExclusion("com.github.puzzle.paradox.loader.launch");
+            classLoader.addClassLoaderExclusion("com.github.puzzle.paradox.loader.entrypoint");
+            classLoader.addClassLoaderExclusion("com.github.puzzle.paradox.loader.plugin");
+            classLoader.addClassLoaderExclusion("com.github.puzzle.paradox.loader.providers");
+            classLoader.addClassLoaderExclusion("com.github.puzzle.paradox.utils");
 
             if (options.has(provider_option))
                 provider = (IGameProvider) Class.forName(provider_option.value(options), true, classLoader).newInstance();
@@ -68,12 +71,13 @@ public class Piece {
 
             provider.registerTransformers(classLoader);
             provider.inject(classLoader);
-            Piece.provider.addBuiltinMods();
+//            Piece.provider.addBuiltinMods();
 //            PrePluginInitializer.invokeEntrypoint();
-//            if (PluginLocator.locatedPlugins == null) PluginLocator.getPlugins();
+            if (PluginLocator.locatedPlugins == null) PluginLocator.getPlugins();
             Class<?> clazz = Class.forName(provider.getEntrypoint(), false, classLoader);
             Method main = Reflection.getMethod(clazz,"main", String[].class);
             LOGGER.info("Launching {} version {}", provider.getName(), provider.getRawVersion());
+//            ServerLauncher.main(args);
             MethodUtil.runStaticMethod(main, (Object) args);
         } catch (Exception e) {
             LOGGER.error("Unable To Launch", e);

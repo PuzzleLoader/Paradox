@@ -23,24 +23,24 @@
 -				Gdx.files = new HeadlessFiles();
 -			}
 -
--			String s = new File(ServerLauncher.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
--			SaveLocation.saveLocationOverride = s;
+-			File file1 = new File(ServerLauncher.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile();
+-			SaveLocation.saveLocationOverride = file1.getPath();
 -
 -			for (int i = 0; i < args.length; i++) {
--				String s1 = args[i];
--				if (s1.equals("-s") || s1.equals("--save-location")) {
+-				String s = args[i];
+-				if (s.equals("-s") || s.equals("--save-location")) {
 -					SaveLocation.saveLocationOverride = args[i + 1];
 -					new File(SaveLocation.saveLocationOverride).mkdirs();
 -				}
 -			}
 -
 -			ServerSingletons.create();
--			String s2 = "server-world-1";
--			GameSingletons.world = ChunkLoader.loadWorld(s2);
+-			String s1 = "server-world-1";
+-			GameSingletons.world = ChunkLoader.loadWorld(s1);
 -			if (GameSingletons.world == null) {
 -				Logger.info("Creating new world.");
--				String s3 = "base:earth";
--				GameSingletons.world = World.createNew(s2, null, s3, ZoneGenerator.getZoneGenerator(s3));
+-				String s2 = "base:earth";
+-				GameSingletons.world = World.createNew(s1, null, s2, ZoneGenerator.getZoneGenerator(s2));
 -			} else {
 -				Logger.info("Loaded world.");
 -				WorldLoaders.INSTANCE.addZoneLoader(GameSingletons.world.getDefaultZone());
@@ -72,7 +72,7 @@
 +            String s2 = "server-world-1";
 +            GameSingletons.world = ChunkLoader.loadWorld(s2);
 +            if (GameSingletons.world == null) {
-+            LOGGER.info("Creating new world.");
++                LOGGER.info("Creating new world.");
 +                String s3 = "base:earth";
 +                GameSingletons.world = World.createNew(s2, null, s3, ZoneGenerator.getZoneGenerator(s3));
 +            } else {
