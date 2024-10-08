@@ -1,23 +1,17 @@
 --- a/finalforeach/cosmicreach/networking/netty/packets/MessagePacket.java
 +++ b/finalforeach/cosmicreach/networking/netty/packets/MessagePacket.java
-@@ -1,5 +_,11 @@
+@@ -1,5 +_,6 @@
  package finalforeach.cosmicreach.networking.netty.packets;
  
-+import com.github.puzzle.paradox.game.command.CommandManager;
 +import com.github.puzzle.paradox.game.command.CommandParsing;
-+import com.github.puzzle.paradox.game.command.CommandSource;
-+import com.github.puzzle.paradox.game.command.ParadoxClientCommandSource;
-+import com.mojang.brigadier.ParseResults;
-+import com.mojang.brigadier.exceptions.CommandSyntaxException;
  import finalforeach.cosmicreach.GameSingletons;
  import finalforeach.cosmicreach.accounts.Account;
  import finalforeach.cosmicreach.chat.Chat;
-@@ -11,6 +_,9 @@
+@@ -11,6 +_,8 @@
  import io.netty.buffer.ByteBuf;
  import io.netty.channel.ChannelHandlerContext;
  
 +import static com.github.puzzle.paradox.core.PuzzlePL.SERVER_ACCOUNT;
-+import static finalforeach.cosmicreach.GameSingletons.world;
 +
  public class MessagePacket extends GamePacket {
  	public static final int MAX_MESSAGE_LENGTH = 256;
