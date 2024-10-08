@@ -13,5 +13,6 @@ public abstract class Event<T> {
         return invoker;
     }
 
-    public abstract void register(T listener);
+    public abstract void subscribe(T listener);
+    public abstract void unsubscribe(T listener);
 }

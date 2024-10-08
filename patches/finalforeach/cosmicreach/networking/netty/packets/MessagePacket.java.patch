@@ -35,7 +35,7 @@
 +				Account account1 = ServerSingletons.getAccount(identity);
 +				Logger.info("Chat from " + account1.getUniqueId() + " | " + account1.getDisplayName() + ": " + this.message);
 +				this.playerUniqueId = account1.getUniqueId();
-+				var pack = new MessagePacket(account1.getDisplayName()+">" + this.message);
++				var pack = new MessagePacket(account1.getDisplayName()+"> " + this.message);
 +				pack.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
 +				ServerSingletons.server.broadcastAsServerExcept(pack, identity);
 +			}else {

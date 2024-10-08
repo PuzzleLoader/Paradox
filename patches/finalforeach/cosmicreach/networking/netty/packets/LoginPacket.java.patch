@@ -3,7 +3,7 @@
 @@ -1,5 +_,6 @@
  package finalforeach.cosmicreach.networking.netty.packets;
  
-+import com.github.puzzle.paradox.game.event.OnPlayerJoin;
++import com.github.puzzle.paradox.game.event.PacketEvents;
  import finalforeach.cosmicreach.accounts.Account;
  import finalforeach.cosmicreach.accounts.AccountItch;
  import finalforeach.cosmicreach.accounts.AccountOffline;
@@ -37,7 +37,7 @@
 +			 ServerSingletons.addAccount(identity, this.account);
 +			 var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
 +			 LOGGER.info( "Player uid '{}' joined | {}:{}",this.account.getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
-+			 OnPlayerJoin.EVENT.invoker().onPlayerJoin(account,identity,ctx);
++			 PacketEvents.ON_PLAYER_JOIN_EVENT.invoker().onPlayerJoin(account,identity,ctx);
  		}
  	}
  }

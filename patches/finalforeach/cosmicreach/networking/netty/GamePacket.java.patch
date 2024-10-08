@@ -9,7 +9,15 @@
  import java.lang.reflect.Constructor;
  import java.lang.reflect.InvocationTargetException;
  import java.nio.charset.StandardCharsets;
-@@ -44,6 +_,7 @@
+@@ -38,12 +_,15 @@
+ public abstract class GamePacket {
+ 	public static Json json = new Json();
+ 	public short packetID;
++
++	public boolean shouldGameIgnore = false;
+ 	public ByteArray backingArray = new ByteArray();
+ 	protected static IntMap<Supplier<? extends GamePacket>> idsToPackets = new IntMap<>();
+ 	protected static ObjectIntMap<Class<? extends GamePacket>> packetsToIntIds = new ObjectIntMap<>();
  	protected static ObjectIntMap<String> packetNamesToIntIds = new ObjectIntMap<>();
  	protected static ObjectMap<String, Class<? extends GamePacket>> packetNamesToClasses = new ObjectMap<>();
  

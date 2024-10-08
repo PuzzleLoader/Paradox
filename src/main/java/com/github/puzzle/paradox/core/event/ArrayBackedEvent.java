@@ -28,12 +28,23 @@ public class ArrayBackedEvent<T> extends Event<T> {
     }
 
     @Override
-    public void register(T listener) {
+    public void subscribe(T listener) {
         Objects.requireNonNull(listener, "Tried to register a null listener!");
 
         synchronized (lock) {
             data.addListener(listener);
-            handlers = data.listeners;
+            data.listeners.toArray(handlers);
+            update();
+        }
+    }
+
+    @Override
+    public void unsubscribe(T listener) {
+        Objects.requireNonNull(listener, "Tried to unregister a null listener!");
+
+        synchronized (lock) {
+            data.addListener(listener);
+            data.listeners.toArray(handlers);
             update();
         }
     }

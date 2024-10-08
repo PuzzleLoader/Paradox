@@ -1,7 +1,9 @@
 package com.github.puzzle.paradox.core.event;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /*
  * CODE FROM FABRIC MODIFIED, ORIGINAL LICENSE:
@@ -10,16 +12,18 @@ import java.util.Arrays;
  * Modified by repletsin5
  */
 class EventData<T>  {
-    T[] listeners;
+    ArrayList<T> listeners;
 
     @SuppressWarnings("unchecked")
     EventData( Class<?> listenerClass) {
-        this.listeners = (T[]) Array.newInstance(listenerClass, 0);
+        this.listeners = new ArrayList<>(List.of((T[]) Array.newInstance(listenerClass, 0)));
+
     }
 
     void addListener(T listener) {
-        int oldLength = listeners.length;
-        listeners = Arrays.copyOf(listeners, oldLength + 1);
-        listeners[oldLength] = listener;
+        listeners.add(listener);
+    }
+    void removeListener(T listener) {
+        listeners.remove(listener);
     }
 }

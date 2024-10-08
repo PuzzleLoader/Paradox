@@ -1,0 +1,30 @@
+--- a/finalforeach/cosmicreach/networking/netty/NettyPacketHandler.java
++++ b/finalforeach/cosmicreach/networking/netty/NettyPacketHandler.java
+@@ -1,6 +_,7 @@
+ package finalforeach.cosmicreach.networking.netty;
+ 
+ import com.badlogic.gdx.utils.Array;
++import com.github.puzzle.paradox.game.event.PacketEvents;
+ import finalforeach.cosmicreach.GameSingletons;
+ import finalforeach.cosmicreach.networking.common.NetworkIdentity;
+ import finalforeach.cosmicreach.networking.netty.packets.TransactionPacket;
+@@ -24,12 +_,17 @@
+ 			if (TransactionPacket.keepBundling && !(gamepacket instanceof TransactionPacket)) {
+ 				this.bundledPackets.add(gamepacket);
+ 			} else {
+-				gamepacket.handle(networkidentity, ctx);
++				PacketEvents.ON_PACKET_HANDLE_EVENT.invoker().onPacketHandle(gamepacket,networkidentity,ctx);
++				if(!gamepacket.shouldGameIgnore)
++					gamepacket.handle(networkidentity, ctx);
+ 			}
+ 
+ 			if (!this.bundledPackets.isEmpty() && !TransactionPacket.keepBundling) {
++				PacketEvents.ON_BUNDLE_PACKET_HANDLE_EVENT.invoker().onPacketBundleHandle(bundledPackets,networkidentity,ctx);
++
+ 				for (GamePacket gamepacket1 : this.bundledPackets) {
+-					gamepacket1.handle(networkidentity, ctx);
++					if(!gamepacket1.shouldGameIgnore)
++						gamepacket1.handle(networkidentity, ctx);
+ 				}
+ 
+ 				this.bundledPackets.clear();

@@ -16,10 +16,18 @@ public class RunnableArrayListEvent extends Event<Runnable> {
     }
 
     @Override
-    public void register(Runnable listener) {
+    public void subscribe(Runnable listener) {
         Objects.requireNonNull(listener, "Tried to register a null listener!");
         synchronized (lock) {
             runners.add(listener);
+        }
+    }
+
+    @Override
+    public void unsubscribe(Runnable listener) {
+        Objects.requireNonNull(listener, "Tried to unregister a null listener!");
+        synchronized (lock) {
+            runners.remove(listener);
         }
     }
 

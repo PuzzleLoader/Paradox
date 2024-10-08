@@ -28,3 +28,12 @@
  				blockstategenerator.generate(this);
  			}
  		}
+@@ -486,7 +_,7 @@
+ 		this.rotXZ = jsonData.getInt("rotXZ", 0);
+ 		this.hardness = jsonData.getFloat("hardness", 1.5F);
+ 		this.blastResistance = jsonData.getFloat("blastResistance", 100.0F);
+-		json.readField(this, "stateGenerators", jsonData);
++		json.readField(this,  "stateGenerators", jsonData);
+ 		json.readField(this, "tags", jsonData);
+ 		json.readField(this, "dropParams", jsonData);
+ 		json.readField(this, "intProperties", jsonData);
