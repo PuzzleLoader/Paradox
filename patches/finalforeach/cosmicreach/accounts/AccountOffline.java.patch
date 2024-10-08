@@ -1,0 +1,19 @@
+--- a/finalforeach/cosmicreach/accounts/AccountOffline.java
++++ b/finalforeach/cosmicreach/accounts/AccountOffline.java
+@@ -4,7 +_,7 @@
+ 
+ public class AccountOffline extends Account {
+ 	public AccountOffline() {
+-		this.setUsername("localPlayer");
++		this.setUsername("Player");
+ 		this.setUniqueId(Long.valueOf(MathUtils.random(Long.MAX_VALUE)));
+ 	}
+ 
+@@ -15,6 +_,6 @@
+ 
+ 	@Override
+ 	public String getDisplayName() {
+-		return "Player";
++		return this.displayname;
+ 	}
+ }

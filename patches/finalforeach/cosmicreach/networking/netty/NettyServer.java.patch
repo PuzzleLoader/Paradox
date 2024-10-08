@@ -33,11 +33,18 @@
  	public NettyServer(int port) {
  		this.port = port;
  	}
-@@ -57,14 +_,18 @@
+@@ -52,19 +_,24 @@
+ 	public void broadcast(GamePacket packet) {
+ 		packet.setupAndSendToAll(this.connections);
+ 	}
+-
+ 	public void broadcastAsServerExcept(GamePacket packet, NetworkIdentity identity) {
  		packet.setupAndSendToAllExcept(this.connections, identity);
  	}
++	public void send(GamePacket packet, ChannelHandlerContext ctx) {
++		packet.setupAndSend(ctx);
++	}
  
-+
  	public void addContext(ChannelHandlerContext ctx) {
 -		ServerIdentity serveridentity = new ServerIdentity(this, ctx);
 -		this.connections.add(serveridentity);

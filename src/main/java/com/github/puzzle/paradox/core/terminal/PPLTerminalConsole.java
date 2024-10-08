@@ -46,7 +46,7 @@ public class PPLTerminalConsole  extends SimpleTerminalConsole {
                     e = results.getContext().getRange().isEmpty() ? CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownCommand().createWithContext(results.getReader()) : CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownArgument().createWithContext(results.getReader());
                 throw e;
             }
-            CommandManager.dispatcher.execute(new StringReader(command), new PuzzleConsoleCommandSource(Chat.MAIN_CHAT, world));
+            CommandManager.consoledispatcher.execute(new StringReader(command), new PuzzleConsoleCommandSource(Chat.MAIN_CHAT, world));
         } catch (CommandSyntaxException e) {
             TerminalConsoleAppender.print(e.getRawMessage().getString() + ": "+ AnsiColours.RED + command + AnsiColours.RESET + "\n");
 //            e.printStackTrace();

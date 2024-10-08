@@ -1,0 +1,25 @@
+--- a/finalforeach/cosmicreach/accounts/Account.java
++++ b/finalforeach/cosmicreach/accounts/Account.java
+@@ -6,6 +_,7 @@
+ 
+ public abstract class Account implements Serializable {
+ 	private String username;
++	public String displayname;
+ 	private String uniqueId;
+ 
+ 	public final String getUsername() {
+@@ -16,11 +_,12 @@
+ 		return this.uniqueId;
+ 	}
+ 
+-	protected final void setUsername(String username) {
++	public final void setUsername(String username) {
++		this.displayname = username;
+ 		this.username = this.getPrefix() + ":" + username;
+ 	}
+ 
+-	protected final void setUniqueId(Object uniqueId) {
++	public final void setUniqueId(Object uniqueId) {
+ 		this.uniqueId = this.getPrefix() + ":" + uniqueId.toString();
+ 	}
+ 
