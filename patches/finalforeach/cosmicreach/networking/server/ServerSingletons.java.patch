@@ -12,7 +12,7 @@
  
  public class ServerSingletons {
  	public static NettyServer server;
-+   public static PuzzlePL puzzle;
++  	public static PuzzlePL puzzle;
  	private static ObjectMap<NetworkIdentity, Account> netIdsToAccounts = new ObjectMap<>();
  	private static ObjectMap<Account, NetworkIdentity> accountsToNetIds = new ObjectMap<>();
  	private static ObjectMap<String, Account> uniqueIdsToAccounts = new ObjectMap<>();

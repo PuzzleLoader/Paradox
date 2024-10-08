@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/networking/netty/packets/DisconnectPacket.java
 +++ b/finalforeach/cosmicreach/networking/netty/packets/DisconnectPacket.java
-@@ -7,11 +_,14 @@
+@@ -7,11 +_,13 @@
  import finalforeach.cosmicreach.networking.common.NetworkIdentity;
  import finalforeach.cosmicreach.networking.common.NetworkSide;
  import finalforeach.cosmicreach.networking.netty.GamePacket;
@@ -12,15 +12,13 @@
  
  public class DisconnectPacket extends GamePacket {
 +	private static final Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Disconnect Packet");
-+
  	public String accountId;
  
  	public DisconnectPacket() {
-@@ -40,8 +_,7 @@
- 				GameSingletons.unregisterPlayer(player);
+@@ -41,7 +_,7 @@
  				Chat.MAIN_CHAT.addMessage(null, null, null, account.getDisplayName() + " has left the game.");
  			}
--
+ 
 -			Logger.info(this.accountId + " disconnected.");
 +			LOGGER.info(this.accountId + " disconnected.");
  		}

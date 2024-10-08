@@ -1,0 +1,11 @@
+--- a/finalforeach/cosmicreach/networking/server/ServerIdentity.java
++++ b/finalforeach/cosmicreach/networking/server/ServerIdentity.java
+@@ -9,7 +_,7 @@
+ public class ServerIdentity extends NetworkIdentity {
+ 	public final NettyServer server;
+ 	public final ChannelHandlerContext ctx;
+-
++	public boolean waskicked = false;
+ 	public ServerIdentity(NettyServer nettyServer, ChannelHandlerContext ctx) {
+ 		super(NetworkSide.SERVER);
+ 		this.server = nettyServer;
