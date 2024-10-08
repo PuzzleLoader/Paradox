@@ -48,6 +48,15 @@ public class Commands {
                 }));
 
         CommandManager.consoledispatcher.register(say);
+
+        LiteralArgumentBuilder<CommandSource> save = CommandManager.literal("save");
+        save.executes(context -> {
+            TerminalConsoleAppender.print("save"+ "\n");
+            Moderation.save = true;
+            return 0;
+        });
+
+        CommandManager.consoledispatcher.register(save);
     }
     public static void registerClientCommands(){
         LiteralArgumentBuilder<CommandSource> setname = CommandManager.literal("setname");
