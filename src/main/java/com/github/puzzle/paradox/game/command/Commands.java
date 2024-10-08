@@ -10,6 +10,7 @@ import finalforeach.cosmicreach.networking.netty.packets.MessagePacket;
 import finalforeach.cosmicreach.networking.server.ServerIdentity;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import net.minecrell.terminalconsole.TerminalConsoleAppender;
+import org.slf4j.LoggerFactory;
 
 import static com.github.puzzle.paradox.core.PuzzlePL.SERVER_ACCOUNT;
 
@@ -29,8 +30,24 @@ public class Commands {
              Moderation.kick(ServerSingletons.getIdentityByAccount(acc).ctx);
              return 0;
         }));
-
         CommandManager.consoledispatcher.register(kick);
+
+        LiteralArgumentBuilder<CommandSource> say = CommandManager.literal("say");
+        say.then(CommandManager.argument("txt", StringArgumentType.greedyString())
+                .executes(context -> {
+                    String message = StringArgumentType.getString(context, "txt");
+                    if(message.length() > MessagePacket.MAX_MESSAGE_LENGTH)
+                    {
+                        System.out.println("Message is grater than 256 chars");
+                        return 0;
+                    }
+                    var pack = new MessagePacket("[Server] "+ message);
+                    pack.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
+                    ServerSingletons.server.broadcast(pack);
+                    return 0;
+                }));
+
+        CommandManager.consoledispatcher.register(say);
     }
     public static void registerClientCommands(){
         LiteralArgumentBuilder<CommandSource> setname = CommandManager.literal("setname");

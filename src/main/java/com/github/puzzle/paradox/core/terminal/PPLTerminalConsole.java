@@ -37,7 +37,7 @@ public class PPLTerminalConsole  extends SimpleTerminalConsole {
     @Override
     protected void runCommand(String command) {
         try {
-            ParseResults<CommandSource> results = CommandManager.dispatcher.parse(command,new PuzzleConsoleCommandSource(Chat.MAIN_CHAT,world));
+            ParseResults<CommandSource> results = CommandManager.consoledispatcher.parse(command,new PuzzleConsoleCommandSource(Chat.MAIN_CHAT,world));
             CommandSyntaxException e;
             if(results.getReader().canRead()) {
                 if(results.getExceptions().size() == 1)
