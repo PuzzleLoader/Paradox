@@ -1,11 +1,15 @@
 --- a/finalforeach/cosmicreach/accounts/AccountOffline.java
 +++ b/finalforeach/cosmicreach/accounts/AccountOffline.java
-@@ -4,7 +_,7 @@
+@@ -3,8 +_,11 @@
+ import com.badlogic.gdx.math.MathUtils;
  
  public class AccountOffline extends Account {
++
++	static int accountIndex = 0;
  	public AccountOffline() {
 -		this.setUsername("localPlayer");
-+		this.setUsername("Player");
++		this.setUsername("Player_" + accountIndex );
++		accountIndex++;
  		this.setUniqueId(Long.valueOf(MathUtils.random(Long.MAX_VALUE)));
  	}
  

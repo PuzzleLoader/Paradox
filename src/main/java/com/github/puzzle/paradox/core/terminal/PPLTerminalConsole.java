@@ -27,7 +27,7 @@ public class PPLTerminalConsole  extends SimpleTerminalConsole {
 
     @Override
     protected LineReader buildReader(LineReaderBuilder builder){
-        return super.buildReader(builder.appName("Puzzle Plugin Loader"));//.completer());
+        return super.buildReader(builder.appName("Puzzle Plugin Loader"));
     }
     @Override
     protected boolean isRunning() {

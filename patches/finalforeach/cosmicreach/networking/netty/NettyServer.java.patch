@@ -24,11 +24,13 @@
  
  public class NettyServer {
  	private int port;
-+
- 	Array<ServerIdentity> connections = new Array<>();
+-	Array<ServerIdentity> connections = new Array<>();
 -	ObjectMap<ChannelHandlerContext, ServerIdentity> contextToIdentity = new ObjectMap<>();
+-
++
++	public Array<ServerIdentity> connections = new Array<>();
 +	public ObjectMap<ChannelHandlerContext, ServerIdentity> contextToIdentity = new ObjectMap<>();
- 
++
 +    private final Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Server");
  	public NettyServer(int port) {
  		this.port = port;
