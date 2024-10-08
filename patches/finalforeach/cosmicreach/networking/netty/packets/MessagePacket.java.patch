@@ -25,7 +25,7 @@
 -			Logger.info("Chat from " + account1.getUniqueId() + " | " + account1.getDisplayName() + ": " + this.message);
 -			this.playerUniqueId = account1.getUniqueId();
 -			ServerSingletons.server.broadcastAsServerExcept(this, identity);
-+			if(message.charAt(0)!='\\') {
++			if(message.charAt(0)!='\\' || message.charAt(0)!='.') {
 +				Account account1 = ServerSingletons.getAccount(identity);
 +				Logger.info("Chat from " + account1.getUniqueId() + " | " + account1.getDisplayName() + ": " + this.message);
 +				this.playerUniqueId = account1.getUniqueId();
