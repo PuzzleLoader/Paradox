@@ -44,4 +44,17 @@ public class PacketEvents {
     public interface OnPacketBundleHandleTrigger {
         void onPacketBundleHandle(Array<GamePacket> packets, NetworkIdentity identity, ChannelHandlerContext ctx);
     }
+
+    public static final Event<OnRegisterPackets> ON_REGISTER_PACKETS = EventFactory.createArrayBacked(OnRegisterPackets.class, callbacks -> () -> {
+        for (OnRegisterPackets callback : callbacks) {
+            if (callback != null)
+                callback.onRegisterPackets();
+        }
+    });
+
+
+    @FunctionalInterface
+    public interface OnRegisterPackets {
+        void onRegisterPackets();
+    }
 }

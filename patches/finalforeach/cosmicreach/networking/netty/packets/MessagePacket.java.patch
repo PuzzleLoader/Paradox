@@ -29,7 +29,7 @@
 +				CommandParsing.parse(this,message,identity,ctx);
 +			}else {
 +				Account account1 = ServerSingletons.getAccount(identity);
-+				Logger.info("Chat from " + account1.getUniqueId() + " | " + account1.getDisplayName() + ": " + this.message);
++				Logger.info("Chat from " + account1.getUniqueId() +" | "+ ServerSingletons.server.contextToIdentity.get(ctx).clientName+ " | " + account1.getDisplayName() + ": " + this.message);
 +				this.playerUniqueId = account1.getUniqueId();
 +				var pack = new MessagePacket(account1.getDisplayName()+"> " + this.message);
 +				pack.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
