@@ -5,7 +5,7 @@
  
  public class AccountOffline extends Account {
 +
-+	static int accountIndex = 0;
++	public static int accountIndex = 0;
  	public AccountOffline() {
 -		this.setUsername("localPlayer");
 +		this.setUsername("Player_" + accountIndex );

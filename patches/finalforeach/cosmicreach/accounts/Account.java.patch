@@ -1,12 +1,6 @@
 --- a/finalforeach/cosmicreach/accounts/Account.java
 +++ b/finalforeach/cosmicreach/accounts/Account.java
-@@ -3,9 +_,13 @@
- import com.badlogic.gdx.utils.Json;
- import com.badlogic.gdx.utils.JsonValue;
- import com.badlogic.gdx.utils.Json.Serializable;
-+import finalforeach.cosmicreach.entities.player.Player;
-+import finalforeach.cosmicreach.networking.server.ServerIdentity;
-+import finalforeach.cosmicreach.networking.server.ServerSingletons;
+@@ -6,6 +_,7 @@
  
  public abstract class Account implements Serializable {
  	private String username;
@@ -29,27 +23,3 @@
  		this.uniqueId = this.getPrefix() + ":" + uniqueId.toString();
  	}
  
-@@ -38,5 +_,23 @@
- 	public void read(Json json, JsonValue jsonData) {
- 		json.readField(this, "username", jsonData);
- 		json.readField(this, "uniqueId", jsonData);
-+	}
-+
-+	public boolean tpRequst = false;
-+	private Player tprPlayer;
-+	private Player tprToPlayer;
-+
-+	public void addTpr(ServerIdentity id, Player playerToTp){
-+		this.tpRequst = true;
-+		this.tprPlayer = ServerSingletons.getPlayer(id);
-+		this.tprToPlayer = playerToTp;
-+	}
-+
-+	public Player getTprPlayer() {
-+		return tprPlayer;
-+	}
-+
-+	public Player getTprToPlayer() {
-+		return tprToPlayer;
- 	}
- }
