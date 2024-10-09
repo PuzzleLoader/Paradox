@@ -1,28 +1,25 @@
 package com.github.puzzle.paradox.game.command;
 
-import com.badlogic.gdx.math.Vector3;
 import com.github.puzzle.paradox.game.command.chat.Msg;
 import com.github.puzzle.paradox.game.command.chat.SetName;
 import com.github.puzzle.paradox.game.command.chat.Teleport;
 import com.github.puzzle.paradox.game.command.console.Kick;
 import com.github.puzzle.paradox.game.command.console.Op;
 import com.github.puzzle.paradox.game.command.console.Say;
+import com.github.puzzle.paradox.game.command.console.Spawn;
 import com.github.puzzle.paradox.game.server.Moderation;
 import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
+import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.CommandNode;
-import finalforeach.cosmicreach.GameSingletons;
-import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.networking.netty.packets.MessagePacket;
-import finalforeach.cosmicreach.networking.netty.packets.PlayerPositionPacket;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import net.minecrell.terminalconsole.TerminalConsoleAppender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
-import java.util.Objects;
 
 import static com.github.puzzle.paradox.core.PuzzlePL.SERVER_ACCOUNT;
 
@@ -79,6 +76,19 @@ public class Commands {
 
             return 0;
         }));
+
+        LiteralArgumentBuilder<CommandSource> setSpawn = CommandManager.literal("setspawn");
+        setSpawn.then(CommandManager.argument("x", FloatArgumentType.floatArg())
+                .then(CommandManager.argument("y", FloatArgumentType.floatArg())
+                        .then(CommandManager.argument("z", FloatArgumentType.floatArg())
+                                .executes(new Spawn.SetSpawn()))));
+
+        CommandManager.consoledispatcher.register(setSpawn);
+
+        LiteralArgumentBuilder<CommandSource> getspawn = CommandManager.literal("getspawn");
+        getspawn.executes(new Spawn.GetSpawn());
+
+        CommandManager.consoledispatcher.register(getspawn);
     }
     public static void registerClientCommands(){
         LiteralArgumentBuilder<CommandSource> setname = CommandManager.literal("setname");
@@ -86,13 +96,14 @@ public class Commands {
                 //TODO parse some special chars e.g invis
                 .executes(new SetName()));
         CommandManager.dispatcher.register(setname);
+
         LiteralArgumentBuilder<CommandSource> msg = CommandManager.literal("msg");
         msg.then(CommandManager.argument("name", StringArgumentType.word())
                         .then(CommandManager.argument("msg",StringArgumentType.greedyString())
                         .executes(new Msg())));
         CommandManager.dispatcher.register(msg);
-        LiteralArgumentBuilder<CommandSource> playerlist = CommandManager.literal("playerlist");
 
+        LiteralArgumentBuilder<CommandSource> playerlist = CommandManager.literal("playerlist");
         playerlist.executes(context -> {
             StringBuilder builder = new StringBuilder();
             builder.append("There are " + ServerSingletons.server.connections.size + " player(s) online\n");
