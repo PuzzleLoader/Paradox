@@ -9,6 +9,8 @@ import finalforeach.cosmicreach.networking.netty.packets.MessagePacket;
 import finalforeach.cosmicreach.networking.server.ServerIdentity;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import io.netty.channel.ChannelHandlerContext;
+import net.minecrell.terminalconsole.TerminalConsoleAppender;
+import org.jline.terminal.Terminal;
 
 import static com.github.puzzle.paradox.core.PuzzlePL.SERVER_ACCOUNT;
 import static finalforeach.cosmicreach.GameSingletons.world;
@@ -30,16 +32,19 @@ public class CommandParsing {
         } catch (CommandSyntaxException e) {
             if(ServerSingletons.server.contextToIdentity.get(ctx).isOP){
                 parseOperatorCommand(packet,message,identity,ctx);
-                return;
+
+            }else {
+                var pack = new MessagePacket("[Server] " + e.getRawMessage().getString() + ": " + message.substring(1));
+                pack.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
+                pack.setupAndSend(ServerSingletons.server.contextToIdentity.get(ctx));
             }
-            var pack = new MessagePacket("[Server] "+ e.getRawMessage().getString() + ": " + message.substring(1));
-            pack.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
-            pack.setupAndSend(ServerSingletons.server.contextToIdentity.get(ctx));
         } catch (IllegalArgumentException e) {
             var pack = new MessagePacket("[Server] "+ e.getMessage());
             pack.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
             pack.setupAndSend(ServerSingletons.server.contextToIdentity.get(ctx));
         }
+
+        System.out.println("Player: " + ServerSingletons.getAccount(identity).displayname  + " tried to execute command: " + message.split(" ",1)[0]);
     }
     public static void parseOperatorCommand(GamePacket packet, String message, NetworkIdentity identity, ChannelHandlerContext ctx){
         try {
@@ -55,8 +60,7 @@ public class CommandParsing {
             }
             CommandManager.consoledispatcher.execute(message.substring(1), new ParadoxClientCommandSource(ServerSingletons.getAccount(identity), null, world, null));
         } catch (CommandSyntaxException e) {
-//            packet
-//            ServerSingletons.server.broadcastAsServerExcept(packet,identity);
+            ServerSingletons.server.broadcastAsServerExcept(packet,identity);
             var pack = new MessagePacket("[Server] "+ e.getRawMessage().getString() + ": " + message.substring(1));
             pack.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
             pack.setupAndSend(ServerSingletons.server.contextToIdentity.get(ctx));
@@ -65,6 +69,8 @@ public class CommandParsing {
             pack.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
             pack.setupAndSend(ServerSingletons.server.contextToIdentity.get(ctx));
         }
+        System.out.println("Player: " + ServerSingletons.getAccount(identity).displayname  + "tried to execute command: " + message.split(" ",1)[0]);
+
     }
 
 }
