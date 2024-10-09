@@ -19,8 +19,9 @@ public class Op implements Command<CommandSource> {
             TerminalConsoleAppender.print("Can't find player by id: " + id + "\n");
             return 0;
         }
-        ServerSingletons.getIdentityByAccount(acc).isOP = true;
-        TerminalConsoleAppender.print("Oped player");
+        var idt = ServerSingletons.getIdentityByAccount(acc);
+        idt.isOP = !idt.isOP;
+        TerminalConsoleAppender.print("Set op status to: " + idt.isOP + "\n");
         return 0;
     }
 }

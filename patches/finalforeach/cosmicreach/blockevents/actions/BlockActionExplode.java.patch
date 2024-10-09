@@ -1,0 +1,21 @@
+--- a/finalforeach/cosmicreach/blockevents/actions/BlockActionExplode.java
++++ b/finalforeach/cosmicreach/blockevents/actions/BlockActionExplode.java
+@@ -2,6 +_,8 @@
+ 
+ import com.badlogic.gdx.math.Vector3;
+ import com.badlogic.gdx.utils.Queue;
++import com.github.puzzle.paradox.core.PuzzlePL;
++import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
+ import finalforeach.cosmicreach.blockevents.BlockEventTrigger;
+ import finalforeach.cosmicreach.blocks.BlockPosition;
+ import finalforeach.cosmicreach.blocks.BlockState;
+@@ -22,7 +_,8 @@
+ 
+ 	@Override
+ 	public void act(BlockState srcBlockState, BlockEventTrigger blockEventTrigger, Zone zone, Map<String, Object> args) {
+-		this.act(srcBlockState, blockEventTrigger, zone, (BlockPosition)args.get("blockPos"));
++		if(ParadoxServerSettings.doesC4Explode)
++			this.act(srcBlockState, blockEventTrigger, zone, (BlockPosition)args.get("blockPos"));
+ 	}
+ 
+ 	public void act(BlockState srcBlockState, BlockEventTrigger blockEventTrigger, Zone zone, BlockPosition sourcePos) {

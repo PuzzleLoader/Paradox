@@ -1,16 +1,12 @@
 package com.github.puzzle.paradox.game.command;
 
-import com.badlogic.gdx.Game;
 import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import finalforeach.cosmicreach.networking.common.NetworkIdentity;
 import finalforeach.cosmicreach.networking.netty.GamePacket;
 import finalforeach.cosmicreach.networking.netty.packets.MessagePacket;
-import finalforeach.cosmicreach.networking.server.ServerIdentity;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import io.netty.channel.ChannelHandlerContext;
-import net.minecrell.terminalconsole.TerminalConsoleAppender;
-import org.jline.terminal.Terminal;
 
 import static com.github.puzzle.paradox.core.PuzzlePL.SERVER_ACCOUNT;
 import static finalforeach.cosmicreach.GameSingletons.world;
@@ -32,7 +28,7 @@ public class CommandParsing {
         } catch (CommandSyntaxException e) {
             if(ServerSingletons.server.contextToIdentity.get(ctx).isOP){
                 parseOperatorCommand(packet,message,identity,ctx);
-
+                return;
             }else {
                 var pack = new MessagePacket("[Server] " + e.getRawMessage().getString() + ": " + message.substring(1));
                 pack.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
@@ -44,7 +40,7 @@ public class CommandParsing {
             pack.setupAndSend(ServerSingletons.server.contextToIdentity.get(ctx));
         }
 
-        System.out.println("Player: " + ServerSingletons.getAccount(identity).displayname  + " tried to execute command: " + message.split(" ",1)[0]);
+        System.out.println("Player: " + ServerSingletons.getAccount(identity).displayname  + " tried to execute command: " + message.split(" ",2)[0]);
     }
     public static void parseOperatorCommand(GamePacket packet, String message, NetworkIdentity identity, ChannelHandlerContext ctx){
         try {
@@ -69,7 +65,7 @@ public class CommandParsing {
             pack.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
             pack.setupAndSend(ServerSingletons.server.contextToIdentity.get(ctx));
         }
-        System.out.println("Player: " + ServerSingletons.getAccount(identity).displayname  + "tried to execute command: " + message.split(" ",1)[0]);
+        System.out.println("Player: " + ServerSingletons.getAccount(identity).displayname  + " tried to execute command: " + message.split(" ",2)[0]);
 
     }
 

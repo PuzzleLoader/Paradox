@@ -8,6 +8,7 @@ import com.github.puzzle.paradox.game.command.console.Kick;
 import com.github.puzzle.paradox.game.command.console.Op;
 import com.github.puzzle.paradox.game.command.console.Say;
 import com.github.puzzle.paradox.game.server.Moderation;
+import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.CommandNode;
@@ -56,6 +57,28 @@ public class Commands {
         });
 
         CommandManager.consoledispatcher.register(save);
+
+        CommandManager.consoledispatcher.register(CommandManager.literal("c4grief").executes(context ->{
+            ParadoxServerSettings.doesC4Explode  = !ParadoxServerSettings.doesC4Explode;
+            System.out.println("Set doesC4Explode to: " + ParadoxServerSettings.doesC4Explode);
+            return 0;
+        }));
+
+        CommandManager.consoledispatcher.register(CommandManager.literal("help").executes(context ->{
+            if(context.getSource().getAccount() == null)
+            {
+                StringBuilder builder = new StringBuilder();
+                builder.append("Operator Commands:\n");
+                Map<CommandNode<CommandSource>, String> mapconsole = CommandManager.consoledispatcher.getSmartUsage(CommandManager.consoledispatcher.getRoot(), context.getSource());
+                for(String s : mapconsole.values()) {
+                    builder.append("\t" + s + "\n");
+                }
+                TerminalConsoleAppender.print(builder.toString());
+
+            }
+
+            return 0;
+        }));
     }
     public static void registerClientCommands(){
         LiteralArgumentBuilder<CommandSource> setname = CommandManager.literal("setname");
@@ -99,6 +122,16 @@ public class Commands {
             for(String s : map.values()) {
                 builder.append("\t" + s + "\n");
             }
+            if(ServerSingletons.getIdentityByAccount(context.getSource().getAccount()).isOP)
+            {
+                builder.append("Operator Commands:\n");
+                Map<CommandNode<CommandSource>, String> mapconsole = CommandManager.consoledispatcher.getSmartUsage(CommandManager.consoledispatcher.getRoot(), context.getSource());
+                for(String s : mapconsole.values()) {
+                    if(!s.startsWith("help"))
+                        builder.append("\t" + s + "\n");
+                }
+            }
+
             var packet = new MessagePacket(builder.toString());
             packet.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
             packet.setupAndSend(
@@ -106,6 +139,7 @@ public class Commands {
                             .getIdentityByAccount(context.getSource().getAccount()));
             return 0;
         }));
+
 
         LiteralArgumentBuilder<CommandSource> tpr = CommandManager.literal("tpr");
         tpr.then(CommandManager.argument("name", StringArgumentType.greedyString())
