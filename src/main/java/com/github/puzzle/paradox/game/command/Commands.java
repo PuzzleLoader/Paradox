@@ -1,18 +1,27 @@
 package com.github.puzzle.paradox.game.command;
 
+import com.badlogic.gdx.math.Vector3;
 import com.github.puzzle.paradox.game.server.Moderation;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.CommandNode;
+import finalforeach.cosmicreach.GameSingletons;
+import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.networking.netty.packets.MessagePacket;
+import finalforeach.cosmicreach.networking.netty.packets.PlayerPositionPacket;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import net.minecrell.terminalconsole.TerminalConsoleAppender;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+import java.util.Objects;
 
 import static com.github.puzzle.paradox.core.PuzzlePL.SERVER_ACCOUNT;
 
 public class Commands {
+
+    private static final Logger LOGGER  = LoggerFactory.getLogger("Paradox | command");
 
     public static void registerConsoleCommands(){
 
@@ -200,5 +209,56 @@ public class Commands {
                             .getIdentityByAccount(context.getSource().getAccount()));
             return 0;
         }));
+
+        LiteralArgumentBuilder<CommandSource> tpr = CommandManager.literal("tpr");
+        tpr.then(CommandManager.argument("name", StringArgumentType.greedyString())
+                .executes(context -> {
+                    String name = StringArgumentType.getString(context, "name");
+
+                    for(var id : ServerSingletons.server.connections){
+                        if (Objects.equals(ServerSingletons.getAccount(id).getDisplayName(), name)){
+                            Player playerToTp = context.getSource().getPlayer();
+
+                            ServerSingletons.getAccount(id).addTpr(id,playerToTp);
+
+                            var packet = new MessagePacket(context.getSource().getAccount().displayname + " request to tp");
+                            packet.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
+                            packet.setupAndSend(id);
+
+                            packet = new MessagePacket( "use command a to accept");
+                            packet.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
+                            packet.setupAndSend(id);
+
+                            packet = new MessagePacket("request tp to: " + name);
+                            packet.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
+                            packet.setupAndSend(
+                                    ServerSingletons
+                                            .getIdentityByAccount(context.getSource().getAccount()));
+                        }
+                    }
+                    return 0;
+                }));
+
+        CommandManager.dispatcher.register(tpr);
+
+        LiteralArgumentBuilder<CommandSource> a = CommandManager.literal("a");
+        a.executes(context -> {
+            context.getSource().getAccount();
+            if (context.getSource().getAccount().tpRequst){
+                Player player = context.getSource().getAccount().getTprPlayer();
+                Player playerToTp = context.getSource().getAccount().getTprToPlayer();
+
+                Vector3 vector3 = player.getPosition();
+
+                playerToTp.setPosition(vector3.x, vector3.y, vector3.z);
+                if (GameSingletons.isHost && ServerSingletons.server != null) {
+                    ServerSingletons.server.broadcast(new PlayerPositionPacket(playerToTp));
+                }
+            }
+
+            return 0;
+        });
+
+        CommandManager.dispatcher.register(a);
     }
 }

@@ -16,7 +16,7 @@ import static finalforeach.cosmicreach.GameSingletons.world;
 public class CommandParsing {
     public static void parse(GamePacket packet, String message, NetworkIdentity identity, ChannelHandlerContext ctx){
         try {
-            ParseResults<CommandSource> results = CommandManager.dispatcher.parse(message.substring(1),new ParadoxClientCommandSource(ServerSingletons.getAccount(identity),null,world,null));
+            ParseResults<CommandSource> results = CommandManager.dispatcher.parse(message.substring(1),new ParadoxClientCommandSource(ServerSingletons.getAccount(identity),null,world,ServerSingletons.getPlayer(identity)));
             CommandSyntaxException e;
             if(results.getReader().canRead()) {
                 if(results.getExceptions().size() == 1)
@@ -26,7 +26,7 @@ public class CommandParsing {
 
                 throw e;
             }
-            CommandManager.dispatcher.execute(message.substring(1), new ParadoxClientCommandSource(ServerSingletons.getAccount(identity), null, world, null));
+            CommandManager.dispatcher.execute(message.substring(1), new ParadoxClientCommandSource(ServerSingletons.getAccount(identity), null, world, ServerSingletons.getPlayer(identity)));
         } catch (CommandSyntaxException e) {
             if(ServerSingletons.server.contextToIdentity.get(ctx).isOP){
                 parseOperatorCommand(packet,message,identity,ctx);
