@@ -221,15 +221,15 @@ public class Commands {
 
                             ServerSingletons.getAccount(id).addTpr(id,playerToTp);
 
-                            var packet = new MessagePacket(context.getSource().getAccount().displayname + " request to tp");
+                            var packet = new MessagePacket(context.getSource().getAccount().displayname + " Request to tp");
                             packet.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
                             packet.setupAndSend(id);
 
-                            packet = new MessagePacket( "use command a to accept");
+                            packet = new MessagePacket( "Use command .tpa to accept");
                             packet.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
                             packet.setupAndSend(id);
 
-                            packet = new MessagePacket("request tp to: " + name);
+                            packet = new MessagePacket("Request tp to: " + name);
                             packet.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
                             packet.setupAndSend(
                                     ServerSingletons
@@ -241,7 +241,7 @@ public class Commands {
 
         CommandManager.dispatcher.register(tpr);
 
-        LiteralArgumentBuilder<CommandSource> a = CommandManager.literal("a");
+        LiteralArgumentBuilder<CommandSource> a = CommandManager.literal("tpa");
         a.executes(context -> {
             context.getSource().getAccount();
             if (context.getSource().getAccount().tpRequst){
