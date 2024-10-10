@@ -1,7 +1,6 @@
 package com.github.puzzle.paradox.game.command.console;
 
 import com.github.puzzle.paradox.game.command.CommandSource;
-import com.github.puzzle.paradox.game.server.Moderation;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -19,13 +18,14 @@ public class StopServer {
             for (var id : ServerSingletons.server.connections){
                 id.ctx.close();
             }
-            Save.save = true;
+            Save.shouldSave = true;
             try {
                 Thread.sleep(1000);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ignore) {
             }
             synchronized (ChunkSaver.class){
                 while (!ChunkSaver.isSaving){
+                    TerminalConsoleAppender.print("stopping"+ "\n");
                     System.exit(0);
                 }
             }
