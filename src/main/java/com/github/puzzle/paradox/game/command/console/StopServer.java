@@ -17,7 +17,7 @@ public class StopServer {
         @Override
         public int run(CommandContext<CommandSource> context) throws CommandSyntaxException {
             for (var id : ServerSingletons.server.connections){
-                Moderation.kick(id.ctx);
+                id.ctx.close();
             }
             Save.save = true;
             try {
