@@ -44,11 +44,7 @@ public class Commands {
         CommandManager.consoledispatcher.register(say);
 
         LiteralArgumentBuilder<CommandSource> save = CommandManager.literal("save");
-        save.executes(context -> {
-            TerminalConsoleAppender.print("save"+ "\n");
-            Moderation.save = true;
-            return 0;
-        });
+        save.executes(new Save.save());
 
         CommandManager.consoledispatcher.register(save);
 

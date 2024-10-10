@@ -18,14 +18,4 @@ public class Moderation {
         LOGGER.info( "Player uid '{}' was kicked | {}:{}", ServerSingletons.server.getAccount(ctx).getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
         ctx.close();
     }
-
-    public static boolean save;
-    public static boolean isSaveRequested() {
-        if (!GameSingletons.isHost) {
-            return false;
-        } else {
-            long i = System.currentTimeMillis();
-            return save;
-        }
-    }
 }
