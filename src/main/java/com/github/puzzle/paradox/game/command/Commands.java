@@ -3,10 +3,7 @@ package com.github.puzzle.paradox.game.command;
 import com.github.puzzle.paradox.game.command.chat.Msg;
 import com.github.puzzle.paradox.game.command.chat.SetName;
 import com.github.puzzle.paradox.game.command.chat.Teleport;
-import com.github.puzzle.paradox.game.command.console.Kick;
-import com.github.puzzle.paradox.game.command.console.Op;
-import com.github.puzzle.paradox.game.command.console.Say;
-import com.github.puzzle.paradox.game.command.console.Spawn;
+import com.github.puzzle.paradox.game.command.console.*;
 import com.github.puzzle.paradox.game.server.Moderation;
 import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
 import com.mojang.brigadier.arguments.FloatArgumentType;
@@ -89,6 +86,11 @@ public class Commands {
         getspawn.executes(new Spawn.GetSpawn());
 
         CommandManager.consoledispatcher.register(getspawn);
+
+        LiteralArgumentBuilder<CommandSource> stop = CommandManager.literal("stop");
+        stop.executes(new StopServer.stop());
+
+        CommandManager.consoledispatcher.register(stop);
     }
     public static void registerClientCommands(){
         LiteralArgumentBuilder<CommandSource> setname = CommandManager.literal("setname");
