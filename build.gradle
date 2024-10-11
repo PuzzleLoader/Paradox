@@ -33,8 +33,12 @@ dependencies {
 //    implementation "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
     ///////
 
-    implementation("com.google.guava:guava:$guavaVersion")
-    implementation("com.google.code.gson:gson:$gsonVersion")
+    implementation("com.google.guava:guava:$guavaVersion"){
+        exclude (group: "com.google.common" , module: "google-collect")
+    }
+    implementation("com.google.code.gson:gson:$gsonVersion"){
+        exclude (group: "com.google.common" , module: "google-collect")
+    }
 
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
@@ -46,6 +50,8 @@ dependencies {
     implementation "io.netty:netty-all:4.1.24.Final"
     implementation("org.reflections:reflections:$reflectionsVersion")
     implementation("com.mojang:brigadier:1.0.18")
+    implementation 'org.apache.commons:commons-configuration2:2.11.0'
+    implementation 'commons-beanutils:commons-beanutils:1.9.4'
 
 
     implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
@@ -56,11 +62,14 @@ dependencies {
     implementation 'org.fusesource.jansi:jansi:2.2.0'
 
     implementation("org.hjson:hjson:$hjsonVersion")
-    shadow(compileOnly('org.jetbrains:annotations:24.0.0'))
+    shadow(implementation('org.jetbrains:annotations:24.0.0'))
     implementation("net.sf.jopt-simple:jopt-simple:$joptSimpleVersion")
     implementation("com.mojang:brigadier:1.0.18")
 }
-
+task copyToLib(type: Copy) {
+    into "$buildDir/output/lib"
+    from configurations.runtimeClasspath
+}
 sourceSets {
     main {
         java {

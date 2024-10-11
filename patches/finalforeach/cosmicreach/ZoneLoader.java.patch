@@ -1,9 +1,10 @@
 --- a/finalforeach/cosmicreach/ZoneLoader.java
 +++ b/finalforeach/cosmicreach/ZoneLoader.java
-@@ -8,6 +_,7 @@
+@@ -8,6 +_,8 @@
  import com.badlogic.gdx.utils.ObjectMap;
  import com.badlogic.gdx.utils.ObjectSet;
  import com.badlogic.gdx.utils.ObjectMap.Entry;
++import com.github.puzzle.paradox.game.command.console.Save;
 +import com.github.puzzle.paradox.game.server.Moderation;
  import finalforeach.cosmicreach.entities.player.Player;
  import finalforeach.cosmicreach.io.ChunkLoader;
@@ -13,12 +14,12 @@
  
  		long k = System.currentTimeMillis();
 -		if (this.isSaveRequested()) {
-+		if (this.isSaveRequested() || Moderation.isSaveRequested()) {
++		if (this.isSaveRequested() || Save.isSaveRequested()) {
  			zone.forEachEntityRegion(r -> r.save(zone));
  			ChunkSaver.saveWorld(world);
  			this.lastSaveMillis = k;
  			this.requestSave = false;
-+			Moderation.save = false;
++			Save.shouldSave = false;
  		} else {
  			if (!this.spawnReady && GameSingletons.isHost) {
  				int l = Math.floorDiv((int)Math.floor((double)zone.spawnPoint.x), 16);

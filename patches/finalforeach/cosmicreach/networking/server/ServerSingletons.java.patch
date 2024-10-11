@@ -20,7 +20,7 @@
  
  	public static void create() {
  		GameSingletons.isClient = false;
-+      puzzle = new PuzzlePL();
++      	puzzle = new PuzzlePL();
  		GameSingletons.create();
  		Threads.mainThreadRunner = task -> task.run();
  		GameSingletons.zoneLoaderCreator = z -> new ServerZoneLoader(z);

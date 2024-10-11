@@ -1,9 +1,10 @@
 --- a/finalforeach/cosmicreach/server/ServerLauncher.java
 +++ b/finalforeach/cosmicreach/server/ServerLauncher.java
-@@ -2,6 +_,9 @@
+@@ -2,6 +_,10 @@
  
  import com.badlogic.gdx.Gdx;
  import com.badlogic.gdx.backends.headless.HeadlessFiles;
++import com.github.puzzle.paradox.core.PuzzlePL;
 +import com.github.puzzle.paradox.loader.entrypoint.interfaces.PluginInitializer;
 +import com.github.puzzle.paradox.loader.plugin.PluginContainer;
 +import com.github.puzzle.paradox.loader.plugin.PluginLocator;
@@ -79,7 +80,7 @@
 +                 LOGGER.info("Loaded world.");
 +                 WorldLoaders.INSTANCE.addZoneLoader(GameSingletons.world.getDefaultZone());
 +            }
-+            NettyServer nettyserver = new NettyServer();
++            NettyServer nettyserver = new NettyServer(ServerSingletons.puzzle.serverConfig.getInt("server.port"));
 +            ServerSingletons.server = nettyserver;
 +            ServerSingletons.puzzle.init();
 +            PluginLocator.locatedPlugins.keySet().forEach(containerID -> {
