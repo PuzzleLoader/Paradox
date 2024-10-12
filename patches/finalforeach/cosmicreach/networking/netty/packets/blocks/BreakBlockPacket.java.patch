@@ -1,0 +1,18 @@
+--- a/finalforeach/cosmicreach/networking/netty/packets/blocks/BreakBlockPacket.java
++++ b/finalforeach/cosmicreach/networking/netty/packets/blocks/BreakBlockPacket.java
+@@ -1,5 +_,6 @@
+ package finalforeach.cosmicreach.networking.netty.packets.blocks;
+ 
++import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
+ import finalforeach.cosmicreach.GameSingletons;
+ import finalforeach.cosmicreach.blockevents.BlockEventTrigger;
+ import finalforeach.cosmicreach.blocks.BlockPosition;
+@@ -43,7 +_,7 @@
+ 
+ 	@Override
+ 	protected void handle(NetworkIdentity identity, ChannelHandlerContext ctx) {
+-		if (identity.getSide() != NetworkSide.CLIENT) {
++		if (identity.getSide() != NetworkSide.CLIENT && ParadoxServerSettings.canBreakBlock) {
+ 			if (this.blockPos.getBlockState() == this.brokenBlockState) {
+ 				Map<String, Object> map = new HashMap<>();
+ 				map.put("blockPos", this.blockPos);

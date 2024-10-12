@@ -10,10 +10,11 @@
  import finalforeach.cosmicreach.networking.server.ServerIdentity;
  import finalforeach.cosmicreach.networking.server.ServerSingletons;
  import io.netty.bootstrap.ServerBootstrap;
-@@ -16,14 +_,21 @@
+@@ -16,14 +_,25 @@
  import io.netty.channel.nio.NioEventLoopGroup;
  import io.netty.channel.socket.SocketChannel;
  import io.netty.channel.socket.nio.NioServerSocketChannel;
++import org.apache.logging.log4j.core.jmx.Server;
 +import org.slf4j.Logger;
 +import org.slf4j.LoggerFactory;
 +
@@ -27,6 +28,9 @@
 +
 +	public Array<ServerIdentity> connections = new Array<>();
 +	public ObjectMap<ChannelHandlerContext, ServerIdentity> contextToIdentity = new ObjectMap<>();
++	public ChannelFuture channelfuture;
++	public	EventLoopGroup eventloopgroup;
++	public	EventLoopGroup eventloopgroup1;
 +
 +    private final Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Server");
  	public NettyServer(int port) {
@@ -35,6 +39,29 @@
  	}
  
  	public NettyServer() {
+@@ -31,8 +_,8 @@
+ 	}
+ 
+ 	public void run() throws Exception {
+-		EventLoopGroup eventloopgroup = new NioEventLoopGroup();
+-		EventLoopGroup eventloopgroup1 = new NioEventLoopGroup();
++		eventloopgroup = new NioEventLoopGroup();
++		eventloopgroup1 = new NioEventLoopGroup();
+ 
+ 		try {
+ 			ServerBootstrap serverbootstrap = new ServerBootstrap();
+@@ -41,9 +_,10 @@
+ 					ch.pipeline().addLast(new ByteArrayDataEncoder(), new ByteArrayDataDecoder(), new ServerHandler(NettyServer.this));
+ 				}
+ 			}).option(ChannelOption.SO_BACKLOG, Integer.valueOf(128)).childOption(ChannelOption.SO_KEEPALIVE, true);
+-			ChannelFuture channelfuture = serverbootstrap.bind(this.port).sync();
++			channelfuture = serverbootstrap.bind(this.port).sync();
+ 			channelfuture.channel().closeFuture().sync();
+ 		} finally {
++			ServerSingletons.puzzle.exit();
+ 			eventloopgroup1.shutdownGracefully();
+ 			eventloopgroup.shutdownGracefully();
+ 		}
 @@ -52,10 +_,12 @@
  	public void broadcast(GamePacket packet) {
  		packet.setupAndSendToAll(this.connections);

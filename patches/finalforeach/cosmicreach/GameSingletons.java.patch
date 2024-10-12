@@ -23,7 +23,7 @@
  
  	public static void create() {
 -		Logger.info("Starting Cosmic Reach " + (isClient ? "Client" : "Server") + " version " + RuntimeInfo.version);
-+		LoggerFactory.getLogger("Cosmic Reach").info("Starting Cosmic Reach " + (isClient ? "Client" : "Server") + " version " + RuntimeInfo.version + " | Paradox" + PuzzlePL.VERSION);
++		LoggerFactory.getLogger("Cosmic Reach").info("Starting Cosmic Reach " + (isClient ? "Client" : "Server") + " version " + RuntimeInfo.version + " | Paradox " + PuzzlePL.VERSION);
  		DynamicArrays.instantiator = new IDynamicArrayInstantiator() {
  			@Override
  			public <E> IDynamicArray<E> create(Class<E> clazz) {

@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/WorldLoaders.java
 +++ b/finalforeach/cosmicreach/WorldLoaders.java
-@@ -6,9 +_,11 @@
+@@ -6,10 +_,12 @@
  import finalforeach.cosmicreach.util.logging.Logger;
  import finalforeach.cosmicreach.world.IZoneLoader;
  import finalforeach.cosmicreach.world.Zone;
@@ -8,10 +8,12 @@
  
  public class WorldLoaders {
  	public static final WorldLoaders INSTANCE = new WorldLoaders();
-+   private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | World loaders");
- 	private PauseableThread worldGenThread;
+-	private PauseableThread worldGenThread;
++    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | World loaders");
++	public PauseableThread worldGenThread;
  	private ObjectMap<Zone, IZoneLoader> zoneLoaders = new ObjectMap<>();
  
+ 	public void continueWorldGenThread() {
 @@ -20,7 +_,7 @@
  		if (!this.zoneLoaders.containsKey(zone)) {
  			IZoneLoader izoneloader = GameSingletons.zoneLoaderCreator.apply(zone);

@@ -1,9 +1,10 @@
 --- a/finalforeach/cosmicreach/networking/netty/packets/MessagePacket.java
 +++ b/finalforeach/cosmicreach/networking/netty/packets/MessagePacket.java
-@@ -1,5 +_,6 @@
+@@ -1,5 +_,7 @@
  package finalforeach.cosmicreach.networking.netty.packets;
  
 +import com.github.puzzle.paradox.game.command.CommandParsing;
++import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
  import finalforeach.cosmicreach.GameSingletons;
  import finalforeach.cosmicreach.accounts.Account;
  import finalforeach.cosmicreach.chat.Chat;
@@ -16,7 +17,15 @@
  public class MessagePacket extends GamePacket {
  	public static final int MAX_MESSAGE_LENGTH = 256;
  	public String playerUniqueId;
-@@ -45,11 +_,16 @@
+@@ -41,15 +_,24 @@
+ 			Account account = GameSingletons.getAccountFromPlayer(GameSingletons.getPlayerFromUniqueId(this.playerUniqueId));
+ 			Chat.MAIN_CHAT.addMessage(null, null, account, this.message);
+ 		} else {
++			if(!ParadoxServerSettings.canChat){
++				ctx.disconnect();
++				return;
++			}
+ 			if (this.message.length() > 256) {
  				ctx.disconnect();
  				return;
  			}
@@ -25,7 +34,7 @@
 -			Logger.info("Chat from " + account1.getUniqueId() + " | " + account1.getDisplayName() + ": " + this.message);
 -			this.playerUniqueId = account1.getUniqueId();
 -			ServerSingletons.server.broadcastAsServerExcept(this, identity);
-+			if(message.charAt(0)=='\\' || message.charAt(0)=='.') {
++			if((message.charAt(0)=='\\' || message.charAt(0)=='.') && ParadoxServerSettings.executeChatCommands) {
 +				CommandParsing.parse(this,message,identity,ctx);
 +			}else {
 +				Account account1 = ServerSingletons.getAccount(identity);
