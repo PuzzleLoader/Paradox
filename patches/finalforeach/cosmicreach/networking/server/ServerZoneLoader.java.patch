@@ -1,0 +1,18 @@
+--- a/finalforeach/cosmicreach/networking/server/ServerZoneLoader.java
++++ b/finalforeach/cosmicreach/networking/server/ServerZoneLoader.java
+@@ -9,6 +_,7 @@
+ 
+ public class ServerZoneLoader implements IZoneLoader {
+ 	public int serverLoadDistance = 10;
++	public static ServerZoneLoader INSTANCE;
+ 	private ZoneLoader worldLoader = new ZoneLoader();
+ 	public final Zone zone;
+ 	boolean exit;
+@@ -29,6 +_,7 @@
+ 
+ 	public ServerZoneLoader(Zone zone) {
+ 		this.zone = zone;
++		INSTANCE = this;
+ 		this.worldLoader.lastRenderDist = this.serverLoadDistance;
+ 		this.worldLoader.lastSaveMillis = System.currentTimeMillis();
+ 	}

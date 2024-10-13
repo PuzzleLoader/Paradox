@@ -16,14 +16,14 @@
  	private static ObjectMap<NetworkIdentity, Account> netIdsToAccounts = new ObjectMap<>();
  	private static ObjectMap<Account, NetworkIdentity> accountsToNetIds = new ObjectMap<>();
  	private static ObjectMap<String, Account> uniqueIdsToAccounts = new ObjectMap<>();
-@@ -75,6 +_,7 @@
+@@ -88,6 +_,7 @@
+ 			public void createGeneratedModelInstance(BlockState blockState, BlockModel sourceModel, String parentModelName, String genModelName, int rotXZ) {
+ 			}
+ 		};
++		puzzle = new PuzzlePL();
+ 		GameSingletons.postCreate();
+ 	}
  
- 	public static void create() {
- 		GameSingletons.isClient = false;
-+      	puzzle = new PuzzlePL();
- 		GameSingletons.create();
- 		Threads.mainThreadRunner = task -> task.run();
- 		GameSingletons.zoneLoaderCreator = z -> new ServerZoneLoader(z);
 @@ -97,6 +_,9 @@
  
  	public static Player getPlayer(NetworkIdentity identity) {

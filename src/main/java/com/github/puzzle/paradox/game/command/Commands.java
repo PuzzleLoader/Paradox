@@ -7,12 +7,16 @@ import com.github.puzzle.paradox.game.command.console.*;
 import com.github.puzzle.paradox.game.server.Moderation;
 import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
 import com.mojang.brigadier.arguments.FloatArgumentType;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.CommandNode;
+import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.networking.netty.packets.MessagePacket;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
+import finalforeach.cosmicreach.networking.server.ServerZoneLoader;
 import net.minecrell.terminalconsole.TerminalConsoleAppender;
+import org.apache.logging.log4j.core.jmx.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +29,15 @@ public class Commands {
     private static final Logger LOGGER  = LoggerFactory.getLogger("Paradox | command");
 
     public static void registerConsoleCommands(){
+
+        CommandManager.consoledispatcher.register(CommandManager.literal("setrenderdistance").then(
+                CommandManager.argument("size", IntegerArgumentType.integer(3,32)).executes(
+                        context ->{
+                            ServerZoneLoader.INSTANCE.serverLoadDistance = IntegerArgumentType.getInteger(context, "size");
+                            return 0;
+                        }
+                )
+        ));
 
         CommandManager.consoledispatcher.register(CommandManager.literal("kick").
         then(CommandManager.argument("id", StringArgumentType.greedyString())

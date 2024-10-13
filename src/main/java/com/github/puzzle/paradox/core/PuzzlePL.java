@@ -26,7 +26,7 @@ import java.nio.file.Path;
 
 public class PuzzlePL {
     private static final Logger LOGGER = LoggerFactory.getLogger("Puzzle Paradox");
-    public static final Version VERSION = new Version(1,0,0, Version.VersionType.ALPHA);
+    public static final Version VERSION = new Version(1,1,1, Version.VersionType.ALPHA);
 
     public final PropertiesConfiguration serverConfig;
     public final FileBasedConfigurationBuilder<PropertiesConfiguration> configBuilder;
@@ -65,6 +65,7 @@ public class PuzzlePL {
     private void writeToNewConfig(){
         serverConfig.addProperty("server.port",47137);
         serverConfig.addProperty("commands.enabled",true);
+        serverConfig.addProperty("server.renderdistance", 10);
         serverConfig.addProperty("iteraction.canplaceblock",true);
         serverConfig.addProperty("iteraction.canbreakblock",true);
         serverConfig.addProperty("iteraction.shouldexplodec4",true);

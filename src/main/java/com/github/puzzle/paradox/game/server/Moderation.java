@@ -1,6 +1,5 @@
 package com.github.puzzle.paradox.game.server;
 
-import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
@@ -17,5 +16,8 @@ public class Moderation {
 
         LOGGER.info( "Player uid '{}' was kicked | {}:{}", ServerSingletons.server.getAccount(ctx).getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
         ctx.close();
+
+
+
     }
 }

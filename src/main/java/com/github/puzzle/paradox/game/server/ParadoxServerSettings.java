@@ -1,6 +1,8 @@
 package com.github.puzzle.paradox.game.server;
 
+import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
+import finalforeach.cosmicreach.networking.server.ServerZoneLoader;
 import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
@@ -18,13 +20,18 @@ public class ParadoxServerSettings {
     public static boolean getBool(String name){
       return ServerSingletons.puzzle.serverConfig.get(Boolean.class,name,true);
     }
+    public static int getInt(String name){
+        return ServerSingletons.puzzle.serverConfig.get(Integer.class,name,0);
+    }
     public static void writeSetting(){
         PropertiesConfiguration config = ServerSingletons.puzzle.serverConfig;
-        config.setProperty("iteraction.shouldexplodec4",doesC4Explode);
-        config.setProperty("iteraction.canbreakblock",canBreakBlock);
-        config.setProperty("iteraction.canplaceblock",canPlaceBlock);
-        config.setProperty("server.canchat",canChat);
-        config.setProperty("commands.enabled",executeChatCommands);
+        config.addProperty("iteraction.shouldexplodec4",doesC4Explode);
+        config.addProperty("iteraction.canbreakblock",canBreakBlock);
+        config.addProperty("iteraction.canplaceblock",canPlaceBlock);
+        config.addProperty("server.canchat",canChat);
+        config.addProperty("commands.enabled",executeChatCommands);
+        var rd = ServerZoneLoader.INSTANCE.serverLoadDistance;
+        config.addProperty("server.renderdistance",rd < 3 || rd > 32 ? 10 : rd);
         try {
             ServerSingletons.puzzle.configBuilder.save();
         } catch (ConfigurationException e) {
@@ -40,6 +47,9 @@ public class ParadoxServerSettings {
         canChat = getBool("server.canchat");
         executeChatCommands =  getBool("commands.enabled");
         joinMessage = Objects.requireNonNullElse(config.getString("server.joinmessage"),"");
+        var rd = getInt("server.renderdistance");
+        ServerZoneLoader.INSTANCE.serverLoadDistance = rd < 3 || rd > 32 ? 10 : rd;
+
     }
 
 }

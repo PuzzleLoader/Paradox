@@ -18,13 +18,13 @@ public class Spawn {
         @Override
         public int run(CommandContext<CommandSource> context) throws CommandSyntaxException {
             float x = FloatArgumentType.getFloat(context, "x");
-            float y = FloatArgumentType.getFloat(context, "x");
-            float z = FloatArgumentType.getFloat(context, "x");
+            float y = FloatArgumentType.getFloat(context, "y");
+            float z = FloatArgumentType.getFloat(context, "z");
 
             Vector3 spawnPoint = new Vector3();
             spawnPoint.set(x,y,z);
-            world.getDefaultZone().spawnPoint= spawnPoint;
-            TerminalConsoleAppender.print("set spawnPoint to " + spawnPoint + "\n");
+            world.getDefaultZone().spawnPoint = spawnPoint;
+            TerminalConsoleAppender.print("set spawn point to " + spawnPoint + "\n");
             return 0;
         }
     }
@@ -34,7 +34,7 @@ public class Spawn {
 
         @Override
         public int run(CommandContext<CommandSource> context) throws CommandSyntaxException {
-            TerminalConsoleAppender.print("spawnPoint: " + world.getDefaultZone().spawnPoint + "\n");
+            TerminalConsoleAppender.print("spawn point: " + world.getDefaultZone().spawnPoint + "\n");
             return 0;
         }
     }

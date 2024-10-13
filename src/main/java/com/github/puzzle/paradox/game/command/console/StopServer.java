@@ -35,9 +35,9 @@ public class StopServer {
 
 
                 }
+                ServerSingletons.puzzle.exit();
                 WorldLoaders.INSTANCE.worldGenThread.stopThread();
                 TerminalConsoleAppender.print("stopping"+ "\n");
-                ServerSingletons.puzzle.exit();
                 System.exit(0);
 
             }
