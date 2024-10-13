@@ -1,7 +1,7 @@
 package com.github.puzzle.paradox.loader.lang;
 
-import com.github.puzzle.paradox.loader.plugin.info.PluginInfo;
 import com.github.puzzle.paradox.loader.lang.impl.JavaLanguageAdapter;
+import com.github.puzzle.paradox.loader.plugin.info.PluginInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

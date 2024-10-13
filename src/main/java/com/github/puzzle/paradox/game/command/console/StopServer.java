@@ -5,14 +5,10 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import finalforeach.cosmicreach.GameSingletons;
-import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.WorldLoaders;
 import finalforeach.cosmicreach.io.ChunkSaver;
-import finalforeach.cosmicreach.networking.netty.NettyServer;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import net.minecrell.terminalconsole.TerminalConsoleAppender;
-
-import java.util.concurrent.TimeUnit;
 
 public class StopServer {
 

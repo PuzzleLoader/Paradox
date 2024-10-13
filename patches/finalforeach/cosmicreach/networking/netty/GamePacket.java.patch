@@ -1,15 +1,35 @@
 --- a/finalforeach/cosmicreach/networking/netty/GamePacket.java
 +++ b/finalforeach/cosmicreach/networking/netty/GamePacket.java
-@@ -8,6 +_,8 @@
- import com.badlogic.gdx.utils.ObjectIntMap;
- import com.badlogic.gdx.utils.ObjectMap;
+@@ -1,35 +_,25 @@
+ package finalforeach.cosmicreach.networking.netty;
+ 
+ import com.badlogic.gdx.math.Vector3;
+-import com.badlogic.gdx.utils.Array;
+-import com.badlogic.gdx.utils.ByteArray;
+-import com.badlogic.gdx.utils.IntMap;
+-import com.badlogic.gdx.utils.Json;
+-import com.badlogic.gdx.utils.ObjectIntMap;
+-import com.badlogic.gdx.utils.ObjectMap;
++import com.badlogic.gdx.utils.*;
  import com.badlogic.gdx.utils.Json.Serializable;
 +import com.github.puzzle.paradox.game.event.PacketEvents;
 +import com.github.puzzle.paradox.game.server.packets.ModIdentificationPacket;
  import finalforeach.cosmicreach.blocks.BlockPosition;
  import finalforeach.cosmicreach.io.ByteArrayUtils;
  import finalforeach.cosmicreach.networking.common.NetworkIdentity;
-@@ -26,10 +_,11 @@
+-import finalforeach.cosmicreach.networking.netty.packets.ChunkColumnPacket;
+-import finalforeach.cosmicreach.networking.netty.packets.DisconnectPacket;
+-import finalforeach.cosmicreach.networking.netty.packets.LoginPacket;
+-import finalforeach.cosmicreach.networking.netty.packets.MessagePacket;
+-import finalforeach.cosmicreach.networking.netty.packets.PlayerPacket;
+-import finalforeach.cosmicreach.networking.netty.packets.PlayerPositionPacket;
+-import finalforeach.cosmicreach.networking.netty.packets.ProtocolSyncPacket;
+-import finalforeach.cosmicreach.networking.netty.packets.TransactionPacket;
+-import finalforeach.cosmicreach.networking.netty.packets.ZonePacket;
++import finalforeach.cosmicreach.networking.netty.packets.*;
+ import finalforeach.cosmicreach.networking.netty.packets.blocks.BlockReplacePacket;
+ import finalforeach.cosmicreach.networking.netty.packets.blocks.BreakBlockPacket;
+ import finalforeach.cosmicreach.networking.netty.packets.blocks.InteractBlockPacket;
  import finalforeach.cosmicreach.networking.netty.packets.blocks.PlaceBlockPacket;
  import finalforeach.cosmicreach.networking.server.ServerIdentity;
  import finalforeach.cosmicreach.util.ArrayUtils;

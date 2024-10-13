@@ -26,11 +26,7 @@ package net.minecrell.terminalconsole;
 
 import org.apache.logging.log4j.LogManager;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.jline.reader.Completer;
-import org.jline.reader.EndOfFileException;
-import org.jline.reader.LineReader;
-import org.jline.reader.LineReaderBuilder;
-import org.jline.reader.UserInterruptException;
+import org.jline.reader.*;
 import org.jline.terminal.Terminal;
 
 import java.io.BufferedReader;

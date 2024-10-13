@@ -1,6 +1,5 @@
 package com.github.puzzle.paradox.game.server;
 
-import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import finalforeach.cosmicreach.networking.server.ServerZoneLoader;
 import org.apache.commons.configuration2.PropertiesConfiguration;

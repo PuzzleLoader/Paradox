@@ -2,7 +2,6 @@ package com.github.puzzle.paradox.loader.plugin;
 
 import com.github.puzzle.paradox.loader.VersionParser;
 import com.github.puzzle.paradox.loader.launch.Piece;
-import com.github.puzzle.paradox.loader.launch.PuzzleClassLoader;
 import com.github.puzzle.paradox.loader.plugin.info.PluginInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +12,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.*;

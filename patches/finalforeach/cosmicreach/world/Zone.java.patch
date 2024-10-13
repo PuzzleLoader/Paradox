@@ -1,8 +1,20 @@
 --- a/finalforeach/cosmicreach/world/Zone.java
 +++ b/finalforeach/cosmicreach/world/Zone.java
-@@ -27,6 +_,8 @@
+@@ -7,8 +_,8 @@
+ import com.badlogic.gdx.utils.Array;
+ import com.badlogic.gdx.utils.Disposable;
+ import com.badlogic.gdx.utils.Json;
+-import com.badlogic.gdx.utils.JsonValue;
+ import com.badlogic.gdx.utils.Json.Serializable;
++import com.badlogic.gdx.utils.JsonValue;
+ import com.badlogic.gdx.utils.JsonWriter.OutputType;
+ import finalforeach.cosmicreach.GameSingletons;
+ import finalforeach.cosmicreach.MobSpawner;
+@@ -25,8 +_,9 @@
+ import finalforeach.cosmicreach.settings.DifficultySettings;
+ import finalforeach.cosmicreach.util.ArrayUtils;
  import finalforeach.cosmicreach.util.Point3DMap;
- import finalforeach.cosmicreach.util.logging.Logger;
+-import finalforeach.cosmicreach.util.logging.Logger;
  import finalforeach.cosmicreach.worldgen.ZoneGenerator;
 +import org.slf4j.LoggerFactory;
 +

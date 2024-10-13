@@ -1,20 +1,18 @@
 --- a/finalforeach/cosmicreach/networking/netty/NettyServer.java
 +++ b/finalforeach/cosmicreach/networking/netty/NettyServer.java
-@@ -4,7 +_,9 @@
- import com.badlogic.gdx.utils.ObjectMap;
- import finalforeach.cosmicreach.accounts.Account;
- import finalforeach.cosmicreach.entities.player.Player;
-+import finalforeach.cosmicreach.accounts.Account;
- import finalforeach.cosmicreach.networking.common.NetworkIdentity;
-+import finalforeach.cosmicreach.networking.netty.packets.DisconnectPacket;
+@@ -8,22 +_,28 @@
  import finalforeach.cosmicreach.networking.server.ServerIdentity;
  import finalforeach.cosmicreach.networking.server.ServerSingletons;
  import io.netty.bootstrap.ServerBootstrap;
-@@ -16,14 +_,25 @@
+-import io.netty.channel.ChannelFuture;
+-import io.netty.channel.ChannelHandlerContext;
+-import io.netty.channel.ChannelInitializer;
+-import io.netty.channel.ChannelOption;
+-import io.netty.channel.EventLoopGroup;
++import io.netty.channel.*;
  import io.netty.channel.nio.NioEventLoopGroup;
  import io.netty.channel.socket.SocketChannel;
  import io.netty.channel.socket.nio.NioServerSocketChannel;
-+import org.apache.logging.log4j.core.jmx.Server;
 +import org.slf4j.Logger;
 +import org.slf4j.LoggerFactory;
 +

@@ -1,21 +1,24 @@
 --- a/finalforeach/cosmicreach/server/ServerLauncher.java
 +++ b/finalforeach/cosmicreach/server/ServerLauncher.java
-@@ -2,6 +_,10 @@
+@@ -2,50 +_,71 @@
  
  import com.badlogic.gdx.Gdx;
  import com.badlogic.gdx.backends.headless.HeadlessFiles;
-+import com.github.puzzle.paradox.core.PuzzlePL;
 +import com.github.puzzle.paradox.loader.entrypoint.interfaces.PluginInitializer;
 +import com.github.puzzle.paradox.loader.plugin.PluginContainer;
 +import com.github.puzzle.paradox.loader.plugin.PluginLocator;
  import finalforeach.cosmicreach.GameSingletons;
  import finalforeach.cosmicreach.WorldLoaders;
  import finalforeach.cosmicreach.io.ChunkLoader;
-@@ -12,40 +_,58 @@
+ import finalforeach.cosmicreach.io.SaveLocation;
+ import finalforeach.cosmicreach.networking.netty.NettyServer;
+ import finalforeach.cosmicreach.networking.server.ServerSingletons;
+-import finalforeach.cosmicreach.util.logging.Logger;
  import finalforeach.cosmicreach.world.World;
  import finalforeach.cosmicreach.worldgen.ZoneGenerator;
- import java.io.File;
 +import org.slf4j.LoggerFactory;
++
+ import java.io.File;
  
  public class ServerLauncher {
 -	public static void main(String[] args) throws Exception {

@@ -1,7 +1,13 @@
 --- a/finalforeach/cosmicreach/WorldLoaders.java
 +++ b/finalforeach/cosmicreach/WorldLoaders.java
-@@ -6,10 +_,12 @@
- import finalforeach.cosmicreach.util.logging.Logger;
+@@ -1,15 +_,16 @@
+ package finalforeach.cosmicreach;
+ 
+ import com.badlogic.gdx.utils.ObjectMap;
+-import com.badlogic.gdx.utils.PauseableThread;
+ import com.badlogic.gdx.utils.ObjectMap.Entry;
+-import finalforeach.cosmicreach.util.logging.Logger;
++import com.badlogic.gdx.utils.PauseableThread;
  import finalforeach.cosmicreach.world.IZoneLoader;
  import finalforeach.cosmicreach.world.Zone;
 +import org.slf4j.LoggerFactory;

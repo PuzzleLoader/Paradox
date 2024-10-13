@@ -1,26 +1,21 @@
 package com.github.puzzle.paradox.core;
 
 import com.github.puzzle.paradox.core.terminal.PPLTerminalConsole;
+import com.github.puzzle.paradox.game.command.Commands;
 import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
 import com.github.puzzle.paradox.loader.Version;
-import com.github.puzzle.paradox.game.command.Commands;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.accounts.AccountOffline;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
-import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
-import org.apache.commons.configuration2.builder.combined.CombinedConfigurationBuilder;
-import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.convert.DefaultListDelimiterHandler;
 import org.apache.commons.configuration2.ex.ConfigurationException;
-import org.apache.logging.log4j.core.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.net.InetSocketAddress;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 

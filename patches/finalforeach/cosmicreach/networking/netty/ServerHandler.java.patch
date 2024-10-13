@@ -1,8 +1,10 @@
 --- a/finalforeach/cosmicreach/networking/netty/ServerHandler.java
 +++ b/finalforeach/cosmicreach/networking/netty/ServerHandler.java
-@@ -5,8 +_,12 @@
+@@ -3,10 +_,13 @@
+ import finalforeach.cosmicreach.networking.common.NetworkIdentity;
+ import finalforeach.cosmicreach.networking.netty.packets.DisconnectPacket;
  import finalforeach.cosmicreach.networking.netty.packets.ProtocolSyncPacket;
- import finalforeach.cosmicreach.util.logging.Logger;
+-import finalforeach.cosmicreach.util.logging.Logger;
  import io.netty.channel.ChannelHandlerContext;
 +import org.slf4j.LoggerFactory;
  

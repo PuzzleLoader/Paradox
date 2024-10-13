@@ -2,8 +2,8 @@ package com.github.puzzle.paradox.loader.lang.impl;
 
 
 import com.github.puzzle.paradox.loader.lang.LanguageAdapter;
-import com.github.puzzle.paradox.loader.plugin.info.PluginInfo;
 import com.github.puzzle.paradox.loader.lang.LanguageAdapterException;
+import com.github.puzzle.paradox.loader.plugin.info.PluginInfo;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

@@ -29,12 +29,7 @@ import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.plugins.Plugin;
 import org.apache.logging.log4j.core.layout.PatternLayout;
-import org.apache.logging.log4j.core.pattern.ConverterKeys;
-import org.apache.logging.log4j.core.pattern.HighlightConverter;
-import org.apache.logging.log4j.core.pattern.LogEventPatternConverter;
-import org.apache.logging.log4j.core.pattern.PatternConverter;
-import org.apache.logging.log4j.core.pattern.PatternFormatter;
-import org.apache.logging.log4j.core.pattern.PatternParser;
+import org.apache.logging.log4j.core.pattern.*;
 import org.apache.logging.log4j.util.PerformanceSensitive;
 import org.checkerframework.checker.nullness.qual.Nullable;
 

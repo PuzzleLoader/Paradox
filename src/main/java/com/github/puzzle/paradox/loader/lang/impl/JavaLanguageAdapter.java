@@ -2,9 +2,9 @@ package com.github.puzzle.paradox.loader.lang.impl;
 
 
 import com.github.puzzle.paradox.loader.lang.LanguageAdapter;
+import com.github.puzzle.paradox.loader.lang.LanguageAdapterException;
 import com.github.puzzle.paradox.loader.launch.Piece;
 import com.github.puzzle.paradox.loader.plugin.info.PluginInfo;
-import com.github.puzzle.paradox.loader.lang.LanguageAdapterException;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandleProxies;

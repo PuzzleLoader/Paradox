@@ -3,11 +3,9 @@ package com.github.puzzle.paradox.game.server.packets;
 import finalforeach.cosmicreach.networking.common.NetworkIdentity;
 import finalforeach.cosmicreach.networking.common.NetworkSide;
 import finalforeach.cosmicreach.networking.netty.GamePacket;
-import finalforeach.cosmicreach.networking.server.ServerIdentity;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
-import org.slf4j.LoggerFactory;
 
 public class ModIdentificationPacket extends GamePacket {
     public ModIdentificationPacket(){}
