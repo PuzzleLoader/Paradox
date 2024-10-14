@@ -54,7 +54,7 @@
 -			ServerSingletons.server = nettyserver;
 -			nettyserver.run();
 -		}
-+    private static boolean isRunning = false;
++    public static boolean isRunning = false;
 +    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach");
 +
 +    public static void main(String[] args) throws Exception {
