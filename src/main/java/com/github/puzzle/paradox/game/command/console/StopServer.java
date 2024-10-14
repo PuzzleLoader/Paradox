@@ -8,6 +8,7 @@ import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.WorldLoaders;
 import finalforeach.cosmicreach.io.ChunkSaver;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
+import finalforeach.cosmicreach.server.ServerLauncher;
 import net.minecrell.terminalconsole.TerminalConsoleAppender;
 
 public class StopServer {
@@ -22,10 +23,6 @@ public class StopServer {
             }
             Save.shouldSave = true;
             GameSingletons.unregisterAllPlayers();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ignore) {
-            }
             synchronized (ChunkSaver.class){
                 while (ChunkSaver.isSaving){
 
@@ -34,8 +31,14 @@ public class StopServer {
                 ServerSingletons.puzzle.exit();
                 WorldLoaders.INSTANCE.worldGenThread.stopThread();
                 TerminalConsoleAppender.print("stopping"+ "\n");
-                System.exit(0);
-
+                ServerLauncher.isRunning = false;
+                ServerSingletons.server.eventloopgroup.shutdownGracefully();
+                ServerSingletons.server.eventloopgroup1.shutdownGracefully();
+                try {
+                    ServerSingletons.server.channelfuture.channel().closeFuture().sync();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
             return 0;
         }
