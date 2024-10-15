@@ -8,8 +8,8 @@
  import finalforeach.cosmicreach.accounts.Account;
  import finalforeach.cosmicreach.blockentities.BlockEntity;
  import finalforeach.cosmicreach.blockentities.BlockEntityCreator;
-@@ -26,10 +_,11 @@
- import finalforeach.cosmicreach.savelib.utils.TriConsumer;
+@@ -25,10 +_,11 @@
+ import finalforeach.cosmicreach.savelib.utils.IDynamicArrayInstantiator;
  import finalforeach.cosmicreach.util.DynamicArray;
  import finalforeach.cosmicreach.util.FloatConsumer;
 -import finalforeach.cosmicreach.util.logging.Logger;
@@ -20,7 +20,7 @@
 +
  import java.util.HashMap;
  import java.util.WeakHashMap;
- import java.util.function.Function;
+ import java.util.function.Consumer;
 @@ -54,7 +_,7 @@
  	public static IClientSingletons clientSingletons;
  

@@ -27,9 +27,9 @@
  
 +   private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Zone");
  	private Zone() {
+ 		this.randomTicks = new RandomTicks(this);
  	}
- 
-@@ -512,7 +_,7 @@
+@@ -515,7 +_,7 @@
  	public boolean calculateSpawn() {
  		Vector2 vector2 = new Vector2();
  		this.zoneGenerator.getSpawnPoint(vector2, this.totalSpawnAttempts++);
@@ -38,7 +38,7 @@
  		this.spawnPoint = new Vector3(vector2.x, 100.0F, vector2.y);
  		return true;
  	}
-@@ -528,13 +_,13 @@
+@@ -531,13 +_,13 @@
  			if (--i < -150 || blockstate == Block.WATER.getDefaultBlockState()) {
  				int b0 = 100;
  				this.spawnPoint = new Vector3((float)j, (float)b0, (float)k);

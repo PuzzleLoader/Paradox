@@ -1,16 +1,17 @@
---- a/finalforeach/cosmicreach/networking/netty/packets/LoginPacket.java
-+++ b/finalforeach/cosmicreach/networking/netty/packets/LoginPacket.java
-@@ -1,5 +_,7 @@
- package finalforeach.cosmicreach.networking.netty.packets;
+--- a/finalforeach/cosmicreach/networking/netty/packets/meta/LoginPacket.java
++++ b/finalforeach/cosmicreach/networking/netty/packets/meta/LoginPacket.java
+@@ -1,19 +_,27 @@
+ package finalforeach.cosmicreach.networking.netty.packets.meta;
  
 +import com.github.puzzle.paradox.game.event.PacketEvents;
 +import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
  import finalforeach.cosmicreach.accounts.Account;
  import finalforeach.cosmicreach.accounts.AccountItch;
  import finalforeach.cosmicreach.accounts.AccountOffline;
-@@ -7,13 +_,19 @@
+ import finalforeach.cosmicreach.networking.common.NetworkIdentity;
  import finalforeach.cosmicreach.networking.common.NetworkSide;
  import finalforeach.cosmicreach.networking.netty.GamePacket;
++import finalforeach.cosmicreach.networking.netty.packets.MessagePacket;
  import finalforeach.cosmicreach.networking.server.ServerSingletons;
 -import finalforeach.cosmicreach.util.logging.Logger;
  import io.netty.buffer.ByteBuf;
@@ -24,8 +25,8 @@
  
  public class LoginPacket extends GamePacket {
  	public Account account;
- 
-+   private static final Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Login Packet");
+-
++	private static final Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Login Packet");
  	public LoginPacket() {
  	}
  
@@ -34,18 +35,17 @@
  	protected void handle(NetworkIdentity identity, ChannelHandlerContext ctx) {
  		if (identity.getSide() == NetworkSide.SERVER) {
 -			Logger.debug("Received login packet from " + this.account.getUsername());
--			ServerSingletons.addAccount(identity, this.account);
++			LOGGER.debug("Received login packet from " + this.account.getUsername());
+ 			ServerSingletons.addAccount(identity, this.account);
 -			Logger.info("Is it really " + this.account.getUsername() + "? I have no choice to believe so!");
-+         	 LOGGER.debug("Received login packet from " + this.account.getUsername());
-+			 ServerSingletons.addAccount(identity, this.account);
-+			 var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
-+			 LOGGER.info( "Player uid '{}' joined | {}:{}",this.account.getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
-+			 if(!ParadoxServerSettings.joinMessage.isEmpty()|| !ParadoxServerSettings.joinMessage.isBlank()){
-+				 var pack = new MessagePacket(ParadoxServerSettings.joinMessage);
-+				 pack.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
-+				 ServerSingletons.server.send(pack, ctx);
-+			 }
-+			 PacketEvents.ON_PLAYER_JOIN_EVENT.invoker().onPlayerJoin(account,identity,ctx);
++			var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
++			LOGGER.info( "Player uid '{}' joined | {}:{}",this.account.getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
++			if(!ParadoxServerSettings.joinMessage.isEmpty()|| !ParadoxServerSettings.joinMessage.isBlank()){
++				var pack = new MessagePacket(ParadoxServerSettings.joinMessage);
++				pack.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
++				ServerSingletons.server.send(pack, ctx);
++			}
++			PacketEvents.ON_PLAYER_JOIN_EVENT.invoker().onPlayerJoin(account,identity,ctx);
  		}
  	}
  }

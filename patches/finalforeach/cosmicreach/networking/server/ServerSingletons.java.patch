@@ -1,30 +1,22 @@
 --- a/finalforeach/cosmicreach/networking/server/ServerSingletons.java
 +++ b/finalforeach/cosmicreach/networking/server/ServerSingletons.java
-@@ -2,6 +_,7 @@
- 
- import com.badlogic.gdx.math.Vector3;
- import com.badlogic.gdx.utils.ObjectMap;
-+import com.github.puzzle.paradox.core.PuzzlePL;
- import finalforeach.cosmicreach.GameSingletons;
- import finalforeach.cosmicreach.Threads;
- import finalforeach.cosmicreach.accounts.Account;
-@@ -21,6 +_,7 @@
+@@ -26,6 +_,7 @@
  
  public class ServerSingletons {
  	public static NettyServer server;
-+  	public static PuzzlePL puzzle;
++  	public static com.github.puzzle.paradox.core.PuzzlePL puzzle;
  	private static ObjectMap<NetworkIdentity, Account> netIdsToAccounts = new ObjectMap<>();
  	private static ObjectMap<Account, NetworkIdentity> accountsToNetIds = new ObjectMap<>();
  	private static ObjectMap<String, Account> uniqueIdsToAccounts = new ObjectMap<>();
-@@ -88,6 +_,7 @@
- 			public void createGeneratedModelInstance(BlockState blockState, BlockModel sourceModel, String parentModelName, String genModelName, int rotXZ) {
- 			}
- 		};
-+		puzzle = new PuzzlePL();
+@@ -107,6 +_,7 @@
+ 
+ 			world.currentWorldTick++;
+ 		});
++		puzzle = new com.github.puzzle.paradox.core.PuzzlePL();
+ 		registerBlockEntityOpeners();
  		GameSingletons.postCreate();
  	}
- 
-@@ -97,6 +_,9 @@
+@@ -132,6 +_,9 @@
  
  	public static Player getPlayer(NetworkIdentity identity) {
  		return GameSingletons.getPlayerFromUniqueId(getAccount(identity).getUniqueId());

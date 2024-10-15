@@ -10,42 +10,44 @@
 +
  import java.util.HashMap;
  import java.util.HashSet;
- import java.util.function.BiConsumer;
-@@ -18,6 +_,9 @@
- import java.util.regex.Pattern;
+ import java.util.WeakHashMap;
+@@ -20,6 +_,9 @@
  
  public class GameAssetLoader {
+ 	private static WeakHashMap<Identifier, FileHandle> locationCache = new WeakHashMap<>();
 +
 +   private static final Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | AssetLoader");
 +
  	private static final HashMap<FileHandle, SoundBuffer> ALL_SOUNDS = new HashMap<>();
  	private static final HashMap<FileHandle, Texture> ALL_TEXTURES = new HashMap<>();
  	static JsonReader jsonReader = new JsonReader();
-@@ -92,12 +_,12 @@
- 	public static FileHandle loadAsset(Identifier location) {
- 		FileHandle filehandle = Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/" + location.toPath());
- 		if (filehandle.exists()) {
--			Logger.info("Loading " + AnsiColours.CYAN + "\"" + location.getName() + "\"" + AnsiColours.RESET + " from Mods Folder");
-+         	LOGGER.error("Loading " + AnsiColours.CYAN + "\"" + location.getName() + "\"" + AnsiColours.RESET + " from Mods Folder");
- 			return filehandle;
+@@ -102,13 +_,13 @@
  		} else {
- 			FileHandle filehandle1 = Gdx.files.classpath("assets/%s/%s".formatted(location.getNamespace(), location.getName()));
+ 			FileHandle filehandle1 = Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/" + location.toPath());
  			if (filehandle1.exists()) {
--				Logger.info(
-+            	LOGGER.error(
- 					"Loading "
- 						+ AnsiColours.PURPLE
- 						+ "\""
-@@ -115,10 +_,10 @@
+-				Logger.info("Loading " + AnsiColours.CYAN + "\"" + location.getName() + "\"" + AnsiColours.RESET + " from Mods Folder");
+ 				locationCache.put(location, filehandle1);
++         	LOGGER.error("Loading " + AnsiColours.CYAN + "\"" + location.getName() + "\"" + AnsiColours.RESET + " from Mods Folder");
+ 				return filehandle1;
  			} else {
- 				FileHandle filehandle2 = Gdx.files.internal(location.toPath());
+ 				FileHandle filehandle2 = Gdx.files.classpath("assets/%s/%s".formatted(location.getNamespace(), location.getName()));
  				if (filehandle2.exists()) {
--					Logger.info("Loading " + AnsiColours.YELLOW + "\"" + location.getName() + "\"" + AnsiColours.RESET + " from Cosmic Reach");
-+               		LOGGER.info("Loading " + AnsiColours.YELLOW + "\"{}\""+AnsiColours.WHITE+" from Cosmic Reach", location.getName());
- 					return filehandle2;
+-					Logger.info(
++            	LOGGER.error(
+ 						"Loading "
+ 							+ AnsiColours.PURPLE
+ 							+ "\""
+@@ -127,11 +_,11 @@
  				} else {
--					Logger.warn("Cannot find the resource " + location + " (Expected path: " + location.toPath() + ")");
+ 					FileHandle filehandle3 = Gdx.files.internal(location.toPath());
+ 					if (filehandle3.exists()) {
+-						Logger.info("Loading " + AnsiColours.YELLOW + "\"" + location.getName() + "\"" + AnsiColours.RESET + " from Cosmic Reach");
+ 						locationCache.put(location, filehandle3);
++               		LOGGER.info("Loading " + AnsiColours.YELLOW + "\"{}\""+AnsiColours.WHITE+" from Cosmic Reach", location.getName());
+ 						return filehandle3;
+ 					} else {
+-						Logger.warn("Cannot find the resource " + location + " (Expected path: " + location.toPath() + ")");
 +					LOGGER.error("Cannot find the resource " + location + " (Expected path: " + location.toPath() + ")");
- 					return null;
+ 						return null;
+ 					}
  				}
- 			}

@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/networking/netty/GamePacket.java
 +++ b/finalforeach/cosmicreach/networking/netty/GamePacket.java
-@@ -1,35 +_,25 @@
+@@ -1,39 +_,25 @@
  package finalforeach.cosmicreach.networking.netty;
  
  import com.badlogic.gdx.math.Vector3;
@@ -18,31 +18,36 @@
  import finalforeach.cosmicreach.io.ByteArrayUtils;
  import finalforeach.cosmicreach.networking.common.NetworkIdentity;
 -import finalforeach.cosmicreach.networking.netty.packets.ChunkColumnPacket;
--import finalforeach.cosmicreach.networking.netty.packets.DisconnectPacket;
--import finalforeach.cosmicreach.networking.netty.packets.LoginPacket;
+-import finalforeach.cosmicreach.networking.netty.packets.ContainerSyncPacket;
 -import finalforeach.cosmicreach.networking.netty.packets.MessagePacket;
 -import finalforeach.cosmicreach.networking.netty.packets.PlayerPacket;
 -import finalforeach.cosmicreach.networking.netty.packets.PlayerPositionPacket;
--import finalforeach.cosmicreach.networking.netty.packets.ProtocolSyncPacket;
--import finalforeach.cosmicreach.networking.netty.packets.TransactionPacket;
+-import finalforeach.cosmicreach.networking.netty.packets.SlotInteractPacket;
 -import finalforeach.cosmicreach.networking.netty.packets.ZonePacket;
+-import finalforeach.cosmicreach.networking.netty.packets.blocks.BlockEntityContainerSyncPacket;
+-import finalforeach.cosmicreach.networking.netty.packets.blocks.BlockEntityDataPacket;
+-import finalforeach.cosmicreach.networking.netty.packets.blocks.BlockEntityScreenPacket;
+-import finalforeach.cosmicreach.networking.netty.packets.blocks.BlockReplacePacket;
+-import finalforeach.cosmicreach.networking.netty.packets.blocks.BreakBlockPacket;
+-import finalforeach.cosmicreach.networking.netty.packets.blocks.InteractBlockPacket;
+-import finalforeach.cosmicreach.networking.netty.packets.blocks.PlaceBlockPacket;
 +import finalforeach.cosmicreach.networking.netty.packets.*;
- import finalforeach.cosmicreach.networking.netty.packets.blocks.BlockReplacePacket;
- import finalforeach.cosmicreach.networking.netty.packets.blocks.BreakBlockPacket;
- import finalforeach.cosmicreach.networking.netty.packets.blocks.InteractBlockPacket;
- import finalforeach.cosmicreach.networking.netty.packets.blocks.PlaceBlockPacket;
++import finalforeach.cosmicreach.networking.netty.packets.blocks.*;
+ import finalforeach.cosmicreach.networking.netty.packets.meta.DisconnectPacket;
+ import finalforeach.cosmicreach.networking.netty.packets.meta.LoginPacket;
+ import finalforeach.cosmicreach.networking.netty.packets.meta.ProtocolSyncPacket;
+ import finalforeach.cosmicreach.networking.netty.packets.meta.TransactionPacket;
+ import finalforeach.cosmicreach.networking.netty.packets.sounds.PlaySound2DPacket;
++import org.slf4j.LoggerFactory;
++
+ import finalforeach.cosmicreach.networking.netty.packets.sounds.PlaySound3DPacket;
  import finalforeach.cosmicreach.networking.server.ServerIdentity;
  import finalforeach.cosmicreach.util.ArrayUtils;
 -import finalforeach.cosmicreach.util.logging.Logger;
  import finalforeach.cosmicreach.world.Zone;
  import io.netty.buffer.ByteBuf;
  import io.netty.channel.ChannelHandlerContext;
-+import org.slf4j.LoggerFactory;
-+
- import java.lang.reflect.Constructor;
- import java.lang.reflect.InvocationTargetException;
- import java.nio.charset.StandardCharsets;
-@@ -38,12 +_,17 @@
+@@ -45,12 +_,17 @@
  public abstract class GamePacket {
  	public static Json json = new Json();
  	public short packetID;
@@ -60,16 +65,16 @@
  	public static void registerPackets() {
  		registerPacket(ProtocolSyncPacket.class);
  		registerPacket(TransactionPacket.class);
-@@ -58,6 +_,8 @@
- 		registerPacket(BreakBlockPacket.class);
- 		registerPacket(InteractBlockPacket.class);
- 		registerPacket(BlockReplacePacket.class);
+@@ -72,6 +_,8 @@
+ 		registerPacket(BlockEntityContainerSyncPacket.class);
+ 		registerPacket(BlockEntityScreenPacket.class);
+ 		registerPacket(BlockEntityDataPacket.class);
 +		registerPacket("client-identification-packet",9000, ModIdentificationPacket.class);
 +		PacketEvents.ON_REGISTER_PACKETS.invoker().onRegisterPackets();
  	}
  
  	public static void clearRegistrations() {
-@@ -67,6 +_,10 @@
+@@ -81,6 +_,10 @@
  	}
  
  	public static <T extends GamePacket> void registerPacket(Class<T> packetClass) {
@@ -80,7 +85,7 @@
  		String s = packetClass.getCanonicalName();
  		if (s == null) {
  			String s1 = "Packet class must have a canonical name";
-@@ -80,11 +_,11 @@
+@@ -94,11 +_,11 @@
  
  			throw new RuntimeException(s1);
  		} else {
@@ -94,7 +99,7 @@
  		try {
  			Constructor<T> constructor = packetClass.getDeclaredConstructor();
  			Supplier<T> supplier = () -> {
-@@ -99,14 +_,14 @@
+@@ -113,14 +_,14 @@
  			packetsToIntIds.put(packetClass, numId);
  			packetNamesToIntIds.put(strId, numId);
  			packetNamesToClasses.put(strId, packetClass);
@@ -109,5 +114,5 @@
 -		this.packetID = (short)packetsToIntIds.get((Class<? extends GamePacket>)this.getClass(), 0);
 +		this.packetID = (short)packetsToIntIds.get(this.getClass(), 0);
  		if (this.packetID == 0) {
- 			throw new RuntimeException("Cannot send packet without registering it first!");
+ 			throw new RuntimeException("Cannot send packet for " + this.getClass() + " without registering it first!");
  		}

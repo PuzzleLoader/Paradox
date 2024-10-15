@@ -1,6 +1,10 @@
 --- a/finalforeach/cosmicreach/networking/server/ServerIdentity.java
 +++ b/finalforeach/cosmicreach/networking/server/ServerIdentity.java
-@@ -9,7 +_,10 @@
+@@ -6,11 +_,13 @@
+ import finalforeach.cosmicreach.networking.netty.GamePacket;
+ import finalforeach.cosmicreach.networking.netty.NettyServer;
+ import io.netty.channel.ChannelHandlerContext;
+-
  public class ServerIdentity extends NetworkIdentity {
  	public final NettyServer server;
  	public final ChannelHandlerContext ctx;
