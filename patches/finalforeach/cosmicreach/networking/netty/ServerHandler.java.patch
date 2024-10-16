@@ -1,16 +1,14 @@
 --- a/finalforeach/cosmicreach/networking/netty/ServerHandler.java
 +++ b/finalforeach/cosmicreach/networking/netty/ServerHandler.java
-@@ -3,10 +_,13 @@
+@@ -3,10 +_,10 @@
  import finalforeach.cosmicreach.networking.common.NetworkIdentity;
  import finalforeach.cosmicreach.networking.netty.packets.meta.DisconnectPacket;
  import finalforeach.cosmicreach.networking.netty.packets.meta.ProtocolSyncPacket;
 -import finalforeach.cosmicreach.util.logging.Logger;
  import io.netty.channel.ChannelHandlerContext;
-+import org.slf4j.LoggerFactory;
  
- public class ServerHandler extends NettyPacketHandler {
-+
-+   private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Server handler");
+-public class ServerHandler extends NettyPacketHandler {
++public class ServerHandler extends com.github.puzzle.paradox.game.server.packets.ParadoxNettyPacketHandler {
 +
  	NettyServer nettyServer;
  

@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/networking/netty/NettyServer.java
 +++ b/finalforeach/cosmicreach/networking/netty/NettyServer.java
-@@ -8,22 +_,28 @@
+@@ -8,22 +_,23 @@
  import finalforeach.cosmicreach.networking.server.ServerIdentity;
  import finalforeach.cosmicreach.networking.server.ServerSingletons;
  import io.netty.bootstrap.ServerBootstrap;
@@ -13,24 +13,19 @@
  import io.netty.channel.nio.NioEventLoopGroup;
  import io.netty.channel.socket.SocketChannel;
  import io.netty.channel.socket.nio.NioServerSocketChannel;
-+import org.slf4j.Logger;
-+import org.slf4j.LoggerFactory;
+ 
+-public class NettyServer {
 +
 +import java.net.InetSocketAddress;
- 
- public class NettyServer {
++
++public class NettyServer extends com.github.puzzle.paradox.game.server.ParadoxServer {
  	private int port;
 -	Array<ServerIdentity> connections = new Array<>();
 -	ObjectMap<ChannelHandlerContext, ServerIdentity> contextToIdentity = new ObjectMap<>();
--
 +
 +	public Array<ServerIdentity> connections = new Array<>();
 +	public ObjectMap<ChannelHandlerContext, ServerIdentity> contextToIdentity = new ObjectMap<>();
-+	public ChannelFuture channelfuture;
-+	public	EventLoopGroup eventloopgroup;
-+	public	EventLoopGroup eventloopgroup1;
-+
-+    private final Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Server");
+ 
  	public NettyServer(int port) {
  		this.port = port;
 +		LOGGER.info("Using port: {}",port);
