@@ -8,7 +8,7 @@
 +
  public class BlockEventTrigger implements Serializable {
  	private IBlockAction action;
-+	public boolean shouldAct;
++	public boolean shouldAct = true;
  
  	@Override
  	public void write(Json json) {

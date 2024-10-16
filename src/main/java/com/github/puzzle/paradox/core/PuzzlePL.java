@@ -12,6 +12,7 @@ import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.convert.DefaultListDelimiterHandler;
 import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +22,7 @@ import java.nio.file.Path;
 
 public class PuzzlePL {
     private static final Logger LOGGER = LoggerFactory.getLogger("Puzzle Paradox");
-    public static final Version VERSION = new Version(1,1,1, Version.VersionType.ALPHA);
+    public static final Version VERSION = new Version(1,1,3, Version.VersionType.ALPHA);
 
     public final PropertiesConfiguration serverConfig;
     public final FileBasedConfigurationBuilder<PropertiesConfiguration> configBuilder;
