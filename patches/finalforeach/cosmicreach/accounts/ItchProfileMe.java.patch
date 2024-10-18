@@ -1,0 +1,19 @@
+--- a/finalforeach/cosmicreach/accounts/ItchProfileMe.java
++++ b/finalforeach/cosmicreach/accounts/ItchProfileMe.java
+@@ -5,13 +_,15 @@
+ import com.badlogic.gdx.utils.Json.Serializable;
+ import finalforeach.cosmicreach.util.exceptions.YarHarrFiddleDeeDeeException;
+ 
+-class ItchProfileMe implements Serializable {
++public class ItchProfileMe implements Serializable {
+ 	static final int COSMIC_REACH_ITCH_GAME_ID = 2557309;
+ 	String username;
+ 	String display_name;
+ 	String cover_url;
+ 	String url;
+ 	long id;
++
++	public ItchProfileMe(){}
+ 
+ 	@Override
+ 	public void write(Json json) {

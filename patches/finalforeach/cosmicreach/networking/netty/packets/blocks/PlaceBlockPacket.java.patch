@@ -1,12 +1,5 @@
 --- a/finalforeach/cosmicreach/networking/netty/packets/blocks/PlaceBlockPacket.java
 +++ b/finalforeach/cosmicreach/networking/netty/packets/blocks/PlaceBlockPacket.java
-@@ -1,5 +_,6 @@
- package finalforeach.cosmicreach.networking.netty.packets.blocks;
- 
-+import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
- import finalforeach.cosmicreach.GameSingletons;
- import finalforeach.cosmicreach.blockevents.BlockEventArgs;
- import finalforeach.cosmicreach.blockevents.BlockEventTrigger;
 @@ -12,6 +_,7 @@
  import io.netty.buffer.ByteBuf;
  import io.netty.channel.ChannelHandlerContext;
@@ -20,7 +13,17 @@
  	@Override
  	protected void handle(NetworkIdentity identity, ChannelHandlerContext ctx) {
 -		if (identity.getSide() != NetworkSide.CLIENT) {
-+		if (identity.getSide() != NetworkSide.CLIENT && ParadoxServerSettings.canPlaceBlock) {
++		if (identity.getSide() != NetworkSide.CLIENT && com.github.puzzle.paradox.game.server.ParadoxServerSettings.canPlaceBlock) {
  			BlockEventTrigger[] ablockeventtrigger = this.targetBlockState.getTrigger("onPlace");
  			if (ablockeventtrigger != null) {
  				BlockEventArgs blockeventargs = new BlockEventArgs();
+@@ -50,7 +_,8 @@
+ 				blockeventargs.zone = this.zone;
+ 				blockeventargs.blockPos = this.blockPos;
+ 				blockeventargs.srcIdentity = identity;
+-
++				if(!com.github.puzzle.paradox.game.player.PlayerChecks.BlockRangeCheck(identity,blockPos))
++					return;
+ 				for (int i = 0; i < ablockeventtrigger.length; i++) {
+ 					ablockeventtrigger[i].act(blockeventargs);
+ 				}

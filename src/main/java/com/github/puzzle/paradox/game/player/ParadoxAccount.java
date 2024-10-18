@@ -5,6 +5,8 @@ import finalforeach.cosmicreach.networking.server.ServerIdentity;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 
 public abstract class ParadoxAccount {
+    public String username;
+    public String uniqueId;
     public String displayname;
     public boolean tpRequst = false;
     private Player tprPlayer;

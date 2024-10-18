@@ -1,0 +1,58 @@
+--- a/finalforeach/cosmicreach/accounts/AccountItch.java
++++ b/finalforeach/cosmicreach/accounts/AccountItch.java
+@@ -2,13 +_,15 @@
+ 
+ import com.badlogic.gdx.utils.Json;
+ import com.badlogic.gdx.utils.JsonValue;
++import com.badlogic.gdx.utils.Logger;
++
+ import java.io.IOException;
+ import java.net.URL;
+ import java.time.Instant;
+ import javax.net.ssl.HttpsURLConnection;
+ 
+ public class AccountItch extends Account {
+-	ItchProfileMe profile;
++	public ItchProfileMe profile;
+ 	long expiresAtEpochSecond = Long.MAX_VALUE;
+ 
+ 	@Override
+@@ -16,15 +_,18 @@
+ 		super.read(json, jsonData);
+ 		json.readField(this, "profile", jsonData);
+ 		json.readField(this, "expiresAtEpochSecond", jsonData);
++		displayname = this.profile.display_name;
+ 	}
+ 
+ 	@Override
+ 	public void write(Json json) {
+ 		super.write(json);
+-		json.writeField(json, "profile");
+-		json.writeField(json, "expiresAtEpochSecond");
+-	}
+-
++//		org.slf4j.LoggerFactory.getLogger("areigiaejrgrg").warn(json);
++		json.writeValue( "profile",profile);
++		json.writeValue("expiresAtEpochSecond",expiresAtEpochSecond);
++	}
++	public AccountItch() {
++	}
+ 	public AccountItch(String itchApiKey) throws IOException {
+ 		String s = "https://itch.io/api/1/jwt/me";
+ 		System.setProperty("https.protocols", "TLSv1.2,TLSv1.1,SSLv3");
+@@ -37,6 +_,7 @@
+ 		this.profile = json.fromJson(ItchProfileMe.class, s1);
+ 		this.setUsername(this.profile.username);
+ 		this.setUniqueId(Long.valueOf(this.profile.id));
++
+ 	}
+ 
+ 	public void setExpiresAt(String expiresAt) {
+@@ -54,6 +_,6 @@
+ 
+ 	@Override
+ 	public String getDisplayName() {
+-		return this.profile.display_name;
++		return displayname;
+ 	}
+ }

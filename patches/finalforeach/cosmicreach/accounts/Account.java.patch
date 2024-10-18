@@ -8,8 +8,8 @@
 -	private String username;
 -	private String uniqueId;
 +public abstract class Account extends com.github.puzzle.paradox.game.player.ParadoxAccount implements Serializable {
-+	public String username;
-+	public String uniqueId;
++	// String username;
++	// String uniqueId;
  
  	public final String getUsername() {
  		return this.username;

@@ -69,7 +69,7 @@
  		registerPacket(BlockEntityContainerSyncPacket.class);
  		registerPacket(BlockEntityScreenPacket.class);
  		registerPacket(BlockEntityDataPacket.class);
-+		registerPacket("client-identification-packet",9000, ModIdentificationPacket.class);
++//		registerPacket("identification-packet",9000, ModIdentificationPacket.class);
 +		PacketEvents.ON_REGISTER_PACKETS.invoker().onRegisterPackets();
  	}
  

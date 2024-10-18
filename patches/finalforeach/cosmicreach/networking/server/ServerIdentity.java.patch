@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/networking/server/ServerIdentity.java
 +++ b/finalforeach/cosmicreach/networking/server/ServerIdentity.java
-@@ -6,11 +_,13 @@
+@@ -6,11 +_,9 @@
  import finalforeach.cosmicreach.networking.netty.GamePacket;
  import finalforeach.cosmicreach.networking.netty.NettyServer;
  import io.netty.channel.ChannelHandlerContext;
@@ -9,10 +9,6 @@
  	public final NettyServer server;
  	public final ChannelHandlerContext ctx;
 -
-+	public boolean waskicked = false;
-+	public boolean isOP = false;
-+	public boolean usingModdedClient = false;
-+	public String clientName = "unknown";
  	public ServerIdentity(NettyServer nettyServer, ChannelHandlerContext ctx) {
  		super(NetworkSide.SERVER);
  		this.server = nettyServer;
