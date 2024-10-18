@@ -1,6 +1,8 @@
-package com.github.puzzle.game.commands;
+package com.github.puzzle.paradox.game.command;
 
-import com.github.puzzle.paradox.game.command.CommandManager;
+import com.github.puzzle.game.commands.CommandManager;
+import com.github.puzzle.game.commands.CommandSource;
+import com.github.puzzle.game.commands.ParadoxClientCommandSource;
 import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import finalforeach.cosmicreach.networking.common.NetworkIdentity;

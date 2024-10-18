@@ -2,7 +2,7 @@ package com.github.puzzle.paradox.core.terminal;
 
 import com.github.puzzle.game.commands.CommandSource;
 import com.github.puzzle.game.commands.PuzzleConsoleCommandSource;
-import com.github.puzzle.paradox.game.command.CommandManager;
+import com.github.puzzle.game.commands.CommandManager;
 import com.github.puzzle.paradox.util.AnsiColours;
 import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.StringReader;
@@ -17,6 +17,7 @@ import org.jline.reader.LineReaderBuilder;
 
 import static finalforeach.cosmicreach.GameSingletons.world;
 
+//Could probably be shared with puzzle
 public class PPLTerminalConsole  extends SimpleTerminalConsole {
 
     NettyServer server;

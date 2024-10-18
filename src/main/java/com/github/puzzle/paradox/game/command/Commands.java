@@ -1,5 +1,6 @@
 package com.github.puzzle.paradox.game.command;
 
+import com.github.puzzle.game.commands.CommandManager;
 import com.github.puzzle.game.commands.CommandSource;
 import com.github.puzzle.paradox.game.command.chat.*;
 import com.github.puzzle.paradox.game.command.console.*;
