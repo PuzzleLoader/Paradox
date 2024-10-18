@@ -1,7 +1,7 @@
 package com.github.puzzle.paradox.game.command.chat;
 
 import com.badlogic.gdx.math.Vector3;
-import com.github.puzzle.paradox.game.command.CommandSource;
+import com.github.puzzle.game.commands.CommandSource;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;

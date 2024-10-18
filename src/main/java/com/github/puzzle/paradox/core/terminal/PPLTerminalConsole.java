@@ -1,8 +1,8 @@
 package com.github.puzzle.paradox.core.terminal;
 
+import com.github.puzzle.game.commands.CommandSource;
+import com.github.puzzle.game.commands.PuzzleConsoleCommandSource;
 import com.github.puzzle.paradox.game.command.CommandManager;
-import com.github.puzzle.paradox.game.command.CommandSource;
-import com.github.puzzle.paradox.game.command.PuzzleConsoleCommandSource;
 import com.github.puzzle.paradox.util.AnsiColours;
 import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.StringReader;

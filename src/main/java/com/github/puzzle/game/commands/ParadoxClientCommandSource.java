@@ -1,4 +1,4 @@
-package com.github.puzzle.paradox.game.command;
+package com.github.puzzle.game.commands;
 
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.chat.Chat;

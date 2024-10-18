@@ -67,6 +67,7 @@ public class PuzzlePL {
         serverConfig.addProperty("iteraction.shouldexplodec4",true);
         serverConfig.addProperty("server.joinmessage","");
         serverConfig.addProperty("server.canchat", true);
+        serverConfig.addProperty("server.anticheat", true);
     }
     public void init(){
         ParadoxServerSettings.initSetting();

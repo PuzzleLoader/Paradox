@@ -1,6 +1,6 @@
 package com.github.puzzle.paradox.game.command.console;
 
-import com.github.puzzle.paradox.game.command.CommandSource;
+import com.github.puzzle.game.commands.CommandSource;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;

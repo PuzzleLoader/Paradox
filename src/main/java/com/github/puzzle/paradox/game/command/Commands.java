@@ -1,8 +1,7 @@
 package com.github.puzzle.paradox.game.command;
 
-import com.github.puzzle.paradox.game.command.chat.Msg;
-import com.github.puzzle.paradox.game.command.chat.SetName;
-import com.github.puzzle.paradox.game.command.chat.Teleport;
+import com.github.puzzle.game.commands.CommandSource;
+import com.github.puzzle.paradox.game.command.chat.*;
 import com.github.puzzle.paradox.game.command.console.*;
 import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
 import com.mojang.brigadier.arguments.FloatArgumentType;

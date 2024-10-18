@@ -26,7 +26,7 @@ public class Piece {
     public static Map<String, Object> blackboard;
     public static PuzzleClassLoader classLoader;
 
-    public static final Logger LOGGER = LogManager.getLogger("Puzzle | Loader");
+    public static final Logger LOGGER = LogManager.getLogger("Paradox | Loader");
 
     public static void main(String[] args) {
         new Piece().launch(args);

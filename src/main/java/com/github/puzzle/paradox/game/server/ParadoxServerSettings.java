@@ -15,9 +15,13 @@ public class ParadoxServerSettings {
     public static boolean canPlaceBlock = true;
     public static String joinMessage = "";
     public static boolean canChat = true;
+    public static boolean anticheat = true;
 
     public static boolean getBool(String name){
-      return ServerSingletons.puzzle.serverConfig.get(Boolean.class,name,true);
+      return getBool(name,true);
+    }
+    public static boolean getBool(String name,boolean def){
+        return ServerSingletons.puzzle.serverConfig.get(Boolean.class,name,def);
     }
     public static int getInt(String name){
         return ServerSingletons.puzzle.serverConfig.get(Integer.class,name,0);
@@ -44,6 +48,7 @@ public class ParadoxServerSettings {
         canBreakBlock =  getBool("iteraction.canbreakblock");
         canPlaceBlock =  getBool("iteraction.canplaceblock");
         canChat = getBool("server.canchat");
+        anticheat = getBool("server.anticheat");
         executeChatCommands =  getBool("commands.enabled");
         joinMessage = Objects.requireNonNullElse(config.getString("server.joinmessage"),"");
         var rd = getInt("server.renderdistance");
