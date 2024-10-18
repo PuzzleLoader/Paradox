@@ -15,6 +15,9 @@ public class ParadoxServerSettings {
     public static boolean canPlaceBlock = true;
     public static String joinMessage = "";
     public static boolean canChat = true;
+    public static int RCONport = 47138;
+    public static boolean RCONenabled = false;
+    public static String RCONpassword = "";
     public static boolean anticheat = true;
 
     public static boolean getBool(String name){
@@ -47,6 +50,9 @@ public class ParadoxServerSettings {
         doesC4Explode = getBool("iteraction.shouldexplodec4");
         canBreakBlock =  getBool("iteraction.canbreakblock");
         canPlaceBlock =  getBool("iteraction.canplaceblock");
+        RCONpassword =  Objects.requireNonNullElse(config.getString("rcon.password"),"");
+        RCONport =  config.getInt("rcon.port",47138);
+        RCONenabled =  getBool("rcon.enabled",false);
         canChat = getBool("server.canchat");
         anticheat = getBool("server.anticheat");
         executeChatCommands =  getBool("commands.enabled");
