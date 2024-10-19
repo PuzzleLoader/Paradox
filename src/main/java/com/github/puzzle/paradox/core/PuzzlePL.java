@@ -71,6 +71,7 @@ public class PuzzlePL {
         serverConfig.addProperty("rcon.enabled", false);
         serverConfig.addProperty("rcon.port", 47138);
         serverConfig.addProperty("rcon.password", RandomStringUtils.randomAlphanumeric(8));
+        serverConfig.addProperty("world.worldType","base:earth");
     }
     public void init(){
         ParadoxServerSettings.initSetting();

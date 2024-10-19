@@ -81,7 +81,7 @@
 +            GameSingletons.world = ChunkLoader.loadWorld(s2);
 +            if (GameSingletons.world == null) {
 +                LOGGER.info("Creating new world.");
-+                String s3 = "base:earth";
++                String s3 = ServerSingletons.puzzle.serverConfig.getString("world.worldType", "base:earth");
 +                GameSingletons.world = World.createNew(s2, null, s3, ZoneGenerator.getZoneGenerator(s3));
 +            } else {
 +                 LOGGER.info("Loaded world.");
