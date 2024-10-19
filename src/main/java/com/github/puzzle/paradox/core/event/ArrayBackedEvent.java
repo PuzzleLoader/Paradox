@@ -13,17 +13,21 @@ public class ArrayBackedEvent<T> extends Event<T> {
     private final Function<T[], T> invokerFactory;
     private final Object lock = new Object();
     private T[] handlers;
+    private Class<? super T> type;
     private final EventData<T> data;
 
     @SuppressWarnings("unchecked")
     ArrayBackedEvent(Class<? super T> type, Function<T[], T> invokerFactory) {
         this.invokerFactory = invokerFactory;
-        this.handlers = (T[]) Array.newInstance(type, 0);
+        this.handlers = (T[]) Array.newInstance(type, 1);
         data = new EventData<>(type);
+        this.type = type;
         update();
     }
 
     void update() {
+        this.handlers = (T[]) Array.newInstance(type, data.listeners.size());
+        data.listeners.toArray(handlers);
         this.invoker = invokerFactory.apply(handlers);
     }
 
@@ -33,7 +37,6 @@ public class ArrayBackedEvent<T> extends Event<T> {
 
         synchronized (lock) {
             data.addListener(listener);
-            data.listeners.toArray(handlers);
             update();
         }
     }
@@ -43,8 +46,7 @@ public class ArrayBackedEvent<T> extends Event<T> {
         Objects.requireNonNull(listener, "Tried to unregister a null listener!");
 
         synchronized (lock) {
-            data.addListener(listener);
-            data.listeners.toArray(handlers);
+            data.removeListener(listener);
             update();
         }
     }
