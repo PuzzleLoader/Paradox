@@ -7,6 +7,7 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 
 public class CommandManager {
     public static CommandDispatcher<CommandSource> consoledispatcher = new CommandDispatcher<>();
+    public static CommandDispatcher<CommandSource> clientDispatcher = new CommandDispatcher<>(); //to separate server side chat commands
     public static CommandDispatcher<CommandSource> dispatcher = new CommandDispatcher<>();
 
     public static LiteralArgumentBuilder<CommandSource> literal(String literal) {

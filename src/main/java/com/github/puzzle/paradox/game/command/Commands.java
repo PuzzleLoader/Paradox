@@ -103,13 +103,13 @@ public class Commands {
         setname.then(CommandManager.argument("name", StringArgumentType.word())
                 //TODO parse some special chars e.g invis
                 .executes(new SetName()));
-        CommandManager.dispatcher.register(setname);
+        CommandManager.clientDispatcher.register(setname);
 
         LiteralArgumentBuilder<CommandSource> msg = CommandManager.literal("msg");
         msg.then(CommandManager.argument("name", StringArgumentType.word())
                         .then(CommandManager.argument("msg",StringArgumentType.greedyString())
                         .executes(new Msg())));
-        CommandManager.dispatcher.register(msg);
+        CommandManager.clientDispatcher.register(msg);
 
         LiteralArgumentBuilder<CommandSource> playerlist = CommandManager.literal("playerlist");
         playerlist.executes(context -> {
@@ -133,9 +133,9 @@ public class Commands {
             return 0;
         });
 
-        CommandManager.dispatcher.register(playerlist);
-        CommandManager.dispatcher.register(CommandManager.literal("help").executes(context ->{
-            Map<CommandNode<CommandSource>, String> map = CommandManager.dispatcher.getSmartUsage(CommandManager.dispatcher.getRoot(), context.getSource());
+        CommandManager.clientDispatcher.register(playerlist);
+        CommandManager.clientDispatcher.register(CommandManager.literal("help").executes(context ->{
+            Map<CommandNode<CommandSource>, String> map = CommandManager.clientDispatcher.getSmartUsage(CommandManager.clientDispatcher.getRoot(), context.getSource());
             StringBuilder builder = new StringBuilder();
             builder.append("Server Commands:\n");
             for(String s : map.values()) {
@@ -164,11 +164,11 @@ public class Commands {
         tpr.then(CommandManager.argument("name", StringArgumentType.greedyString())
                 .executes(new Teleport.TPR()));
 
-        CommandManager.dispatcher.register(tpr);
+        CommandManager.clientDispatcher.register(tpr);
 
         LiteralArgumentBuilder<CommandSource> tpa = CommandManager.literal("tpa");
         tpa.executes(new Teleport.TPA());
 
-        CommandManager.dispatcher.register(tpa);
+        CommandManager.clientDispatcher.register(tpa);
     }
 }
