@@ -1,9 +1,11 @@
 package com.github.puzzle.paradox.core;
 
+import com.github.puzzle.game.commands.CommandSource;
 import com.github.puzzle.paradox.core.terminal.PPLTerminalConsole;
 import com.github.puzzle.paradox.game.command.Commands;
 import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
 import com.github.puzzle.paradox.loader.Version;
+import com.mojang.brigadier.CommandDispatcher;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.accounts.AccountOffline;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
@@ -26,6 +28,8 @@ public class PuzzlePL {
 
     public final PropertiesConfiguration serverConfig;
     public final FileBasedConfigurationBuilder<PropertiesConfiguration> configBuilder;
+
+    public static CommandDispatcher<CommandSource> clientDispatcher = new CommandDispatcher<>(); //to separate server side chat commands
 
     public static Account SERVER_ACCOUNT = null;
 
