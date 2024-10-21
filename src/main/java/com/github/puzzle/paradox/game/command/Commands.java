@@ -115,10 +115,10 @@ public class Commands {
         LiteralArgumentBuilder<CommandSource> playerlist = CommandManager.literal("playerlist");
         playerlist.executes(context -> {
             StringBuilder builder = new StringBuilder();
-            builder.append("There are " + ServerSingletons.server.connections.size + " player(s) online\n");
+            builder.append("There are " + ServerSingletons.SERVER.connections.size + " player(s) online\n");
             builder.append("players:\n");
-            for (var id : ServerSingletons.server.connections) {
-                var acc = ServerSingletons.server.getAccount(id.ctx);
+            for (var id : ServerSingletons.SERVER.connections) {
+                var acc = ServerSingletons.SERVER.getAccount(id.ctx);
                 if(acc == context.getSource().getAccount()){
                     builder.append("\t" + acc.displayname + " <- you\n");
                 }else {

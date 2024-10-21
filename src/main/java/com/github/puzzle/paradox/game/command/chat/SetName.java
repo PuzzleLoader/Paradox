@@ -27,8 +27,8 @@ public class SetName implements Command<CommandSource> {
             return 0;
         }
         boolean isTaken = false;
-        for (var id : ServerSingletons.server.connections){
-            if(ServerSingletons.server.getAccount(id.ctx).displayname.equals(name)) {
+        for (var id : ServerSingletons.SERVER.connections){
+            if(ServerSingletons.SERVER.getAccount(id.ctx).displayname.equals(name)) {
                 isTaken = true;
                 break;
             }

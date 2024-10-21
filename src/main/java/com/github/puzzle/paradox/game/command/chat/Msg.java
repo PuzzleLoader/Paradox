@@ -35,8 +35,8 @@ public class Msg implements Command<CommandSource> {
             return 0;
         }
 
-        for (var id : ServerSingletons.server.connections){
-            var acc = ServerSingletons.server.getAccount(id.ctx);
+        for (var id : ServerSingletons.SERVER.connections){
+            var acc = ServerSingletons.SERVER.getAccount(id.ctx);
             if(acc.displayname.equals(name)) {
                 var packet = new MessagePacket("["
                         + context.getSource().getAccount().displayname

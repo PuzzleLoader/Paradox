@@ -26,8 +26,8 @@ public class ModIdentificationPacket extends GamePacket {
     @Override
     public void handle(NetworkIdentity identity, ChannelHandlerContext ctx) {
         if (identity.getSide() == NetworkSide.SERVER) {
-            ServerSingletons.server.contextToIdentity.get(ctx).usingModdedClient = true;
-            ServerSingletons.server.contextToIdentity.get(ctx).clientName = clientString;
+            ServerSingletons.SERVER.contextToIdentity.get(ctx).usingModdedClient = true;
+            ServerSingletons.SERVER.contextToIdentity.get(ctx).clientName = clientString;
 //            LoggerFactory.getLogger("test").info("Account {} has joined as a modded client, the client being used is identified as {}", ServerSingletons.getAccount(identity).getDisplayName(), this.clientString);
         }
     }

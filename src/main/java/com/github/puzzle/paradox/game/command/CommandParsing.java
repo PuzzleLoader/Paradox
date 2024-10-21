@@ -60,14 +60,14 @@ public class CommandParsing {
             }
             CommandManager.consoledispatcher.execute(message.substring(1), new ParadoxClientCommandSource(ServerSingletons.getAccount(identity), null, world, null));
         } catch (CommandSyntaxException e) {
-            ServerSingletons.server.broadcastAsServerExcept(packet,identity);
+            ServerSingletons.SERVER.broadcastAsServerExcept(packet,identity);
             var pack = new MessagePacket("[Server] "+ e.getRawMessage().getString() + ": " + message.substring(1));
             pack.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
-            pack.setupAndSend(ServerSingletons.server.contextToIdentity.get(ctx));
+            pack.setupAndSend(ServerSingletons.SERVER.contextToIdentity.get(ctx));
         } catch (IllegalArgumentException e) {
             var pack = new MessagePacket("[Server] "+ e.getMessage());
             pack.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
-            pack.setupAndSend(ServerSingletons.server.contextToIdentity.get(ctx));
+            pack.setupAndSend(ServerSingletons.SERVER.contextToIdentity.get(ctx));
         }
         System.out.println("Player: " + ServerSingletons.getAccount(identity).displayname  + " tried to execute command: " + message.split(" ",2)[0]);
 

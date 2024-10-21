@@ -12,9 +12,9 @@ public class Moderation {
     private static final Logger LOGGER  = LoggerFactory.getLogger("Paradox | Moderation");
     public static void kick(ChannelHandlerContext ctx) {
         var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
-        ServerSingletons.server.contextToIdentity.get(ctx).waskicked = true;
+        ServerSingletons.SERVER.contextToIdentity.get(ctx).waskicked = true;
 
-        LOGGER.info( "Player uid '{}' was kicked | {}:{}", ServerSingletons.server.getAccount(ctx).getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
+        LOGGER.info( "Player uid '{}' was kicked | {}:{}", ServerSingletons.SERVER.getAccount(ctx).getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
         ctx.close();
 
 

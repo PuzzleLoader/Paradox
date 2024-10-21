@@ -34,7 +34,7 @@ public class Teleport {
                                 .getIdentityByAccount(context.getSource().getAccount()));
                 return 0;
             }
-            for(var id : ServerSingletons.server.connections){
+            for(var id : ServerSingletons.SERVER.connections){
                 if (Objects.equals(ServerSingletons.getAccount(id).getDisplayName(), name)){
                     Player playerToTp = context.getSource().getPlayer();
 
@@ -78,8 +78,8 @@ public class Teleport {
                 Vector3 vector3 = player.getPosition();
 
                 playerToTp.setPosition(vector3.x, vector3.y, vector3.z);
-                if (GameSingletons.isHost && ServerSingletons.server != null) {
-                    ServerSingletons.server.broadcast(new PlayerPositionPacket(playerToTp));
+                if (GameSingletons.isHost && ServerSingletons.SERVER != null) {
+                    ServerSingletons.SERVER.broadcast(new PlayerPositionPacket(playerToTp));
                 }
                 return 0;
             }

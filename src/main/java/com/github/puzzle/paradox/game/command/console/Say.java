@@ -23,7 +23,7 @@ public class Say implements Command<CommandSource> {
         }
         var pack = new MessagePacket("[Server] "+ message);
         pack.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
-        ServerSingletons.server.broadcast(pack);
+        ServerSingletons.SERVER.broadcast(pack);
         return 0;
     }
 }

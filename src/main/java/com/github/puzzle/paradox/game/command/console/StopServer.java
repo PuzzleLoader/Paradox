@@ -18,7 +18,7 @@ public class StopServer {
 
         @Override
         public int run(CommandContext<CommandSource> context) throws CommandSyntaxException {
-            for (var id : ServerSingletons.server.connections){
+            for (var id : ServerSingletons.SERVER.connections){
                 id.ctx.close();
             }
             Save.shouldSave = true;
@@ -32,10 +32,10 @@ public class StopServer {
                 ZoneLoaders.INSTANCE.worldGenThread.stopThread();
                 TerminalConsoleAppender.print("stopping"+ "\n");
                 ServerLauncher.isRunning = false;
-                ServerSingletons.server.eventloopgroup.shutdownGracefully();
-                ServerSingletons.server.eventloopgroup1.shutdownGracefully();
+                ServerSingletons.SERVER.eventloopgroup.shutdownGracefully();
+                ServerSingletons.SERVER.eventloopgroup1.shutdownGracefully();
                 try {
-                    ServerSingletons.server.channelfuture.channel().closeFuture().sync();
+                    ServerSingletons.SERVER.channelfuture.channel().closeFuture().sync();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
