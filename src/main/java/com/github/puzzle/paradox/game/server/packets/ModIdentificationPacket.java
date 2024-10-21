@@ -1,8 +1,8 @@
 package com.github.puzzle.paradox.game.server.packets;
 
-import finalforeach.cosmicreach.networking.common.NetworkIdentity;
-import finalforeach.cosmicreach.networking.common.NetworkSide;
-import finalforeach.cosmicreach.networking.netty.GamePacket;
+import finalforeach.cosmicreach.networking.GamePacket;
+import finalforeach.cosmicreach.networking.NetworkIdentity;
+import finalforeach.cosmicreach.networking.NetworkSide;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -24,7 +24,7 @@ public class ModIdentificationPacket extends GamePacket {
     }
 
     @Override
-    protected void handle(NetworkIdentity identity, ChannelHandlerContext ctx) {
+    public void handle(NetworkIdentity identity, ChannelHandlerContext ctx) {
         if (identity.getSide() == NetworkSide.SERVER) {
             ServerSingletons.server.contextToIdentity.get(ctx).usingModdedClient = true;
             ServerSingletons.server.contextToIdentity.get(ctx).clientName = clientString;

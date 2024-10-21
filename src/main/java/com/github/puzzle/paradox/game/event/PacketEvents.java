@@ -4,8 +4,8 @@ import com.badlogic.gdx.utils.Array;
 import com.github.puzzle.paradox.core.event.Event;
 import com.github.puzzle.paradox.core.event.EventFactory;
 import finalforeach.cosmicreach.accounts.Account;
-import finalforeach.cosmicreach.networking.common.NetworkIdentity;
-import finalforeach.cosmicreach.networking.netty.GamePacket;
+import finalforeach.cosmicreach.networking.GamePacket;
+import finalforeach.cosmicreach.networking.NetworkIdentity;
 import io.netty.channel.ChannelHandlerContext;
 
 public class PacketEvents {

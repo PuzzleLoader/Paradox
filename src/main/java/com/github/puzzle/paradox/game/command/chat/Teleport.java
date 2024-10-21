@@ -8,8 +8,8 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.entities.player.Player;
-import finalforeach.cosmicreach.networking.netty.packets.MessagePacket;
-import finalforeach.cosmicreach.networking.netty.packets.PlayerPositionPacket;
+import finalforeach.cosmicreach.networking.packets.MessagePacket;
+import finalforeach.cosmicreach.networking.packets.entities.PlayerPositionPacket;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 
 import java.util.Objects;

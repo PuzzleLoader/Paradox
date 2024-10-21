@@ -1,17 +1,18 @@
 --- a/finalforeach/cosmicreach/server/ServerLauncher.java
 +++ b/finalforeach/cosmicreach/server/ServerLauncher.java
-@@ -2,6 +_,10 @@
+@@ -2,52 +_,77 @@
  
  import com.badlogic.gdx.Gdx;
  import com.badlogic.gdx.backends.headless.HeadlessFiles;
 +import com.github.puzzle.paradox.loader.entrypoint.interfaces.PluginInitializer;
++import com.github.puzzle.paradox.loader.entrypoint.interfaces.PrePluginInitializer;
 +import com.github.puzzle.paradox.loader.plugin.PluginContainer;
 +import com.github.puzzle.paradox.loader.plugin.PluginLocator;
 +import com.google.common.primitives.Ints;
  import finalforeach.cosmicreach.GameSingletons;
- import finalforeach.cosmicreach.TickRunner;
+-import finalforeach.cosmicreach.TickRunner;
  import finalforeach.cosmicreach.WorldLoaders;
-@@ -9,45 +_,63 @@
+ import finalforeach.cosmicreach.io.ChunkLoader;
  import finalforeach.cosmicreach.io.SaveLocation;
  import finalforeach.cosmicreach.networking.netty.NettyServer;
  import finalforeach.cosmicreach.networking.server.ServerSingletons;
@@ -22,6 +23,8 @@
 +
  import java.io.File;
  
++import static finalforeach.cosmicreach.worldgen.ZoneGenerator.registerZoneGenerators;
++
  public class ServerLauncher {
 -	public static void main(String[] args) throws Exception {
 -		if (!StartupHelper.startNewJvmIfRequired()) {
@@ -75,13 +78,14 @@
 +                    new File(SaveLocation.saveLocationOverride).mkdirs();
 +                }
 +            }
-+      
 +            ServerSingletons.create();
++            registerZoneGenerators();
++            PrePluginInitializer.invokeEntrypoint();
 +            String s2 = "server-world-1";
 +            GameSingletons.world = ChunkLoader.loadWorld(s2);
 +            if (GameSingletons.world == null) {
 +                LOGGER.info("Creating new world.");
-+                String s3 = ServerSingletons.puzzle.serverConfig.getString("world.worldType", "base:earth");
++                String s3 = "base:earth";
 +                GameSingletons.world = World.createNew(s2, null, s3, ZoneGenerator.getZoneGenerator(s3));
 +            } else {
 +                 LOGGER.info("Loaded world.");

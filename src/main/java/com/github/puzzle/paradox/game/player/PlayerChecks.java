@@ -2,7 +2,7 @@ package com.github.puzzle.paradox.game.player;
 
 import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
 import finalforeach.cosmicreach.blocks.BlockPosition;
-import finalforeach.cosmicreach.networking.common.NetworkIdentity;
+import finalforeach.cosmicreach.networking.NetworkIdentity;
 
 public class PlayerChecks {
 

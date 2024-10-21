@@ -10,7 +10,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.CommandNode;
-import finalforeach.cosmicreach.networking.netty.packets.MessagePacket;
+import finalforeach.cosmicreach.networking.packets.MessagePacket;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import finalforeach.cosmicreach.networking.server.ServerZoneLoader;
 import net.minecrell.terminalconsole.TerminalConsoleAppender;
@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 
 import static com.github.puzzle.paradox.core.PuzzlePL.SERVER_ACCOUNT;
+import static com.github.puzzle.paradox.core.PuzzlePL.clientDispatcher;
 
 public class Commands {
 
@@ -103,13 +104,13 @@ public class Commands {
         setname.then(CommandManager.argument("name", StringArgumentType.word())
                 //TODO parse some special chars e.g invis
                 .executes(new SetName()));
-        CommandManager.clientDispatcher.register(setname);
+        clientDispatcher.register(setname);
 
         LiteralArgumentBuilder<CommandSource> msg = CommandManager.literal("msg");
         msg.then(CommandManager.argument("name", StringArgumentType.word())
                         .then(CommandManager.argument("msg",StringArgumentType.greedyString())
                         .executes(new Msg())));
-        CommandManager.clientDispatcher.register(msg);
+        clientDispatcher.register(msg);
 
         LiteralArgumentBuilder<CommandSource> playerlist = CommandManager.literal("playerlist");
         playerlist.executes(context -> {
@@ -133,9 +134,9 @@ public class Commands {
             return 0;
         });
 
-        CommandManager.clientDispatcher.register(playerlist);
-        CommandManager.clientDispatcher.register(CommandManager.literal("help").executes(context ->{
-            Map<CommandNode<CommandSource>, String> map = CommandManager.clientDispatcher.getSmartUsage(CommandManager.clientDispatcher.getRoot(), context.getSource());
+        clientDispatcher.register(playerlist);
+        clientDispatcher.register(CommandManager.literal("help").executes(context ->{
+            Map<CommandNode<CommandSource>, String> map = clientDispatcher.getSmartUsage(clientDispatcher.getRoot(), context.getSource());
             StringBuilder builder = new StringBuilder();
             builder.append("Server Commands:\n");
             for(String s : map.values()) {
@@ -164,11 +165,11 @@ public class Commands {
         tpr.then(CommandManager.argument("name", StringArgumentType.greedyString())
                 .executes(new Teleport.TPR()));
 
-        CommandManager.clientDispatcher.register(tpr);
+        clientDispatcher.register(tpr);
 
         LiteralArgumentBuilder<CommandSource> tpa = CommandManager.literal("tpa");
         tpa.executes(new Teleport.TPA());
 
-        CommandManager.clientDispatcher.register(tpa);
+        clientDispatcher.register(tpa);
     }
 }

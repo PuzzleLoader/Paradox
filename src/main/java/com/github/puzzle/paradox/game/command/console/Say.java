@@ -5,7 +5,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import finalforeach.cosmicreach.networking.netty.packets.MessagePacket;
+import finalforeach.cosmicreach.networking.packets.MessagePacket;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 
 import static com.github.puzzle.paradox.core.PuzzlePL.SERVER_ACCOUNT;
