@@ -1,14 +1,14 @@
 --- a/finalforeach/cosmicreach/entities/ItemEntity.java
 +++ b/finalforeach/cosmicreach/entities/ItemEntity.java
-@@ -9,7 +_,6 @@
+@@ -10,7 +_,6 @@
  import finalforeach.cosmicreach.GameSingletons;
  import finalforeach.cosmicreach.TickRunner;
  import finalforeach.cosmicreach.blocks.BlockState;
 -import finalforeach.cosmicreach.entities.player.Player;
- import finalforeach.cosmicreach.io.CRBinSerializer;
  import finalforeach.cosmicreach.items.ItemStack;
- import finalforeach.cosmicreach.savelib.crbin.CRBSerialized;
-@@ -32,7 +_,7 @@
+ import finalforeach.cosmicreach.networking.packets.ContainerSyncPacket;
+ import finalforeach.cosmicreach.networking.packets.sounds.PlaySound3DPacket;
+@@ -39,7 +_,7 @@
  	boolean isFollowed;
  
  	public ItemEntity() {

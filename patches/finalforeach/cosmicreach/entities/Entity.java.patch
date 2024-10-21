@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/entities/Entity.java
 +++ b/finalforeach/cosmicreach/entities/Entity.java
-@@ -35,7 +_,7 @@
+@@ -40,7 +_,7 @@
  	@CRBSerialized
  	public String entityTypeId;
  	@CRBSerialized
@@ -9,12 +9,3 @@
  	@CRBSerialized
  	public float gravityModifier = 1.0F;
  	@CRBSerialized
-@@ -804,7 +_,7 @@
- 						throw new RuntimeException("Not yet implemented for type: " + oclass1.getSimpleName());
- 					}
- 
--					serial.writeObj(oclass1, s, field1.get(object));
-+               		serial.writeObj((Class<? extends ICRBinSerializable>) oclass1, s, field1.get(object));
- 				}
- 			} catch (IllegalAccessException | IllegalArgumentException illegalargumentexception) {
- 				System.err.println("Write error for " + this.getClass().getSimpleName());

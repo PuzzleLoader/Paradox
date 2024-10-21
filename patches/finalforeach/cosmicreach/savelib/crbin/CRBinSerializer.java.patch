@@ -1,0 +1,115 @@
+--- a/finalforeach/cosmicreach/savelib/crbin/CRBinSerializer.java
++++ b/finalforeach/cosmicreach/savelib/crbin/CRBinSerializer.java
+@@ -220,16 +_,24 @@
+ 		ByteArrayUtils.writeInt(this.bytes, i);
+ 	}
+ 
+-	public <T> void writeObj(Class<T> elementType, String name, Object item) {
+-		TriConsumer<CRBinSerializer, String, T> triconsumer = (TriConsumer<CRBinSerializer, String, T>)this.classSerializers.get(elementType);
+-		if (triconsumer != null) {
+-			triconsumer.accept(this, name, (T)item);
+-		} else if (ICRBinSerializable.class.isAssignableFrom(elementType)) {
+-			this.writeObj(name, (T)((ICRBinSerializable)item));
+-		} else {
+-			throw new RuntimeException(elementType.getSimpleName() + " neither has an associated class serializer, nor is derived from ICosmicReachBinarySerializable!");
+-		}
++	@SuppressWarnings("unchecked")
++	public <T> void writeObj(Class<T> elementType, String name, Object item)
++	{
++		var consumer = (TriConsumer<CRBinSerializer, String, T>)classSerializers.get(elementType);
++		if(consumer != null)
++		{
++			consumer.accept(this, name, (T) item);
++			return;
++		}
++		if(ICRBinSerializable.class.isAssignableFrom(elementType))
++		{
++			writeObj(name, (ICRBinSerializable) item);
++			return;
++		}
++		throw new RuntimeException(elementType.getSimpleName()
++				+ " neither has an associated class serializer, nor is derived from ICosmicReachBinarySerializable!");
+ 	}
++
+ 
+ 	public <T extends ICRBinSerializable> void writeObj(String name, T item) {
+ 		CRBinSchema crbinschema = this.schema;
+@@ -262,38 +_,52 @@
+ 		this.bytes = ibytearray;
+ 	}
+ 
+-	public void autoWrite(Object obj) {
+-		for (Class<?> oclass = obj.getClass(); oclass != Object.class; oclass = oclass.getSuperclass()) {
+-			Field[] afield = oclass.getDeclaredFields();
++	public void autoWrite(Object obj)
++	{
++		Class<?> clazz = obj.getClass();
++		while(clazz != Object.class)
++		{
++			var fields = clazz.getDeclaredFields();
+ 
+-			for (Field field : afield) {
+-				if (field.isAnnotationPresent(CRBSerialized.class)) {
++			for(Field field : fields)
++			{
++				if(field.isAnnotationPresent(CRBSerialized.class))
++				{
+ 					field.setAccessible(true);
+-
+-					try {
+-						String s = field.getName();
+-						Class<?> oclass1 = field.getType();
+-						if (oclass1 == int.class) {
+-							this.writeInt(s, field.getInt(obj));
+-						} else if (oclass1 == float.class) {
+-							this.writeFloat(s, field.getFloat(obj));
+-						} else if (oclass1 == boolean.class) {
+-							this.writeBoolean(s, field.getBoolean(obj));
+-						} else if (oclass1 == String.class) {
+-							this.writeString(s, (String)field.get(obj));
+-						} else {
+-							if (oclass1.isPrimitive()) {
+-								throw new RuntimeException("Not yet implemented for type: " + oclass1.getSimpleName());
+-							}
+-
+-							this.writeObj(oclass1, s, field.get(obj));
+-						}
+-					} catch (IllegalAccessException | IllegalArgumentException illegalargumentexception) {
++					try
++					{
++						String name = field.getName();
++						var type = field.getType();
++						if(type == int.class)
++						{
++							writeInt(name, field.getInt(obj));
++						}
++						else if(type == float.class)
++						{
++							writeFloat(name, field.getFloat(obj));
++						}else if(type == boolean.class)
++						{
++							writeBoolean(name, field.getBoolean(obj));
++						}else if(type == String.class)
++						{
++							writeString(name, (String) field.get(obj));
++						}
++						else if(!type.isPrimitive())
++						{
++							writeObj(type, name, field.get(obj));
++						}else
++						{
++							throw new RuntimeException("Not yet implemented for type: " + type.getSimpleName());
++						}
++					} catch (IllegalArgumentException | IllegalAccessException e)
++					{
+ 						System.err.println("Write error for " + obj.getClass().getSimpleName());
+-						illegalargumentexception.printStackTrace();
++						e.printStackTrace();
+ 					}
+ 				}
+ 			}
++			clazz = clazz.getSuperclass();
+ 		}
++
+ 	}
+ }

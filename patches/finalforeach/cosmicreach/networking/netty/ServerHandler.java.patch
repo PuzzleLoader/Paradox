@@ -1,9 +1,9 @@
 --- a/finalforeach/cosmicreach/networking/netty/ServerHandler.java
 +++ b/finalforeach/cosmicreach/networking/netty/ServerHandler.java
-@@ -3,10 +_,10 @@
- import finalforeach.cosmicreach.networking.common.NetworkIdentity;
- import finalforeach.cosmicreach.networking.netty.packets.meta.DisconnectPacket;
- import finalforeach.cosmicreach.networking.netty.packets.meta.ProtocolSyncPacket;
+@@ -5,10 +_,10 @@
+ import finalforeach.cosmicreach.networking.NetworkIdentity;
+ import finalforeach.cosmicreach.networking.packets.meta.DisconnectPacket;
+ import finalforeach.cosmicreach.networking.packets.meta.ProtocolSyncPacket;
 -import finalforeach.cosmicreach.util.logging.Logger;
  import io.netty.channel.ChannelHandlerContext;
  
@@ -13,20 +13,24 @@
  	NettyServer nettyServer;
  
  	public ServerHandler(NettyServer nettyServer) {
-@@ -15,17 +_,18 @@
+@@ -17,21 +_,22 @@
  
  	@Override
  	public void handlerAdded(ChannelHandlerContext ctx) {
 -		Logger.info("Handler added");
 +      	LOGGER.info("Handler added");
  		this.nettyServer.addContext(ctx);
- 		new ProtocolSyncPacket().setupAndSend(ctx);
+ 		new ProtocolSyncPacket(RuntimeInfo.version).setupAndSend(ctx);
  	}
  
  	@Override
  	public void handlerRemoved(ChannelHandlerContext ctx) {
 -		Logger.info("Handler removed");
- 		this.nettyServer.broadcast(new DisconnectPacket(this.nettyServer.getAccount(ctx)));
+ 		Account account = this.nettyServer.getAccount(ctx);
+ 		if (account != null) {
+ 			this.nettyServer.broadcast(new DisconnectPacket(account));
+ 		}
+ 
 +      	LOGGER.info("Handler removed");
  		this.nettyServer.removeContext(ctx);
  	}

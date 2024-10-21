@@ -6,9 +6,16 @@
  import com.badlogic.gdx.utils.Array;
 +import com.github.puzzle.paradox.game.event.PacketEvents;
  import finalforeach.cosmicreach.GameSingletons;
- import finalforeach.cosmicreach.networking.common.NetworkIdentity;
- import finalforeach.cosmicreach.networking.netty.packets.meta.TransactionPacket;
-@@ -24,12 +_,17 @@
+ import finalforeach.cosmicreach.networking.GamePacket;
+ import finalforeach.cosmicreach.networking.NetworkIdentity;
+@@ -20,17 +_,24 @@
+ 			bytebuf = (ByteBuf)msg;
+ 			short short1 = bytebuf.readShort();
+ 			GamePacket gamepacket = GamePacket.getPacket(short1);
++			if(gamepacket == null)
++				return;
+ 			gamepacket.receive(bytebuf);
+ 			NetworkIdentity networkidentity = this.getIdentity(ctx);
  			if (TransactionPacket.keepBundling && !(gamepacket instanceof TransactionPacket)) {
  				this.bundledPackets.add(gamepacket);
  			} else {

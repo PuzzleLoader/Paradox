@@ -1,16 +1,17 @@
 --- a/finalforeach/cosmicreach/world/Zone.java
 +++ b/finalforeach/cosmicreach/world/Zone.java
-@@ -7,8 +_,8 @@
+@@ -7,9 +_,9 @@
  import com.badlogic.gdx.utils.Array;
  import com.badlogic.gdx.utils.Disposable;
  import com.badlogic.gdx.utils.Json;
 -import com.badlogic.gdx.utils.JsonValue;
+ import com.badlogic.gdx.utils.ObjectMap;
  import com.badlogic.gdx.utils.Json.Serializable;
 +import com.badlogic.gdx.utils.JsonValue;
  import com.badlogic.gdx.utils.JsonWriter.OutputType;
  import finalforeach.cosmicreach.GameSingletons;
- import finalforeach.cosmicreach.MobSpawner;
-@@ -25,8 +_,9 @@
+ import finalforeach.cosmicreach.RandomTicks;
+@@ -30,8 +_,9 @@
  import finalforeach.cosmicreach.settings.DifficultySettings;
  import finalforeach.cosmicreach.util.ArrayUtils;
  import finalforeach.cosmicreach.util.Point3DMap;
@@ -21,7 +22,7 @@
  import java.io.File;
  import java.io.FileOutputStream;
  import java.io.IOException;
-@@ -58,6 +_,7 @@
+@@ -64,6 +_,7 @@
  	int totalSpawnAttempts;
  	private LightPropagator lightPropagator = new LightPropagator();
  
@@ -29,7 +30,7 @@
  	private Zone() {
  		this.randomTicks = new RandomTicks(this);
  	}
-@@ -515,7 +_,7 @@
+@@ -521,7 +_,7 @@
  	public boolean calculateSpawn() {
  		Vector2 vector2 = new Vector2();
  		this.zoneGenerator.getSpawnPoint(vector2, this.totalSpawnAttempts++);
@@ -38,7 +39,7 @@
  		this.spawnPoint = new Vector3(vector2.x, 100.0F, vector2.y);
  		return true;
  	}
-@@ -531,13 +_,13 @@
+@@ -537,13 +_,13 @@
  			if (--i < -150 || blockstate == Block.WATER.getDefaultBlockState()) {
  				int b0 = 100;
  				this.spawnPoint = new Vector3((float)j, (float)b0, (float)k);

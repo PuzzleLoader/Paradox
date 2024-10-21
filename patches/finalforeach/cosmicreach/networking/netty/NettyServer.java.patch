@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/networking/netty/NettyServer.java
 +++ b/finalforeach/cosmicreach/networking/netty/NettyServer.java
-@@ -8,22 +_,23 @@
+@@ -10,24 +_,24 @@
  import finalforeach.cosmicreach.networking.server.ServerIdentity;
  import finalforeach.cosmicreach.networking.server.ServerSingletons;
  import io.netty.bootstrap.ServerBootstrap;
@@ -15,24 +15,26 @@
  import io.netty.channel.socket.nio.NioServerSocketChannel;
  
 -public class NettyServer {
-+
+-	public final ServerBroadcastIdentity broadcastIdentity;
 +import java.net.InetSocketAddress;
 +
 +public class NettyServer extends com.github.puzzle.paradox.game.server.ParadoxServer {
  	private int port;
 -	Array<ServerIdentity> connections = new Array<>();
 -	ObjectMap<ChannelHandlerContext, ServerIdentity> contextToIdentity = new ObjectMap<>();
++	public final ServerBroadcastIdentity broadcastIdentity;
 +
 +	public Array<ServerIdentity> connections = new Array<>();
 +	public ObjectMap<ChannelHandlerContext, ServerIdentity> contextToIdentity = new ObjectMap<>();
  
  	public NettyServer(int port) {
  		this.port = port;
+ 		this.broadcastIdentity = new ServerBroadcastIdentity(this);
 +		LOGGER.info("Using port: {}",port);
  	}
  
  	public NettyServer() {
-@@ -31,8 +_,8 @@
+@@ -35,8 +_,8 @@
  	}
  
  	public void run() throws Exception {
@@ -43,7 +45,7 @@
  
  		try {
  			ServerBootstrap serverbootstrap = new ServerBootstrap();
-@@ -41,9 +_,10 @@
+@@ -45,9 +_,10 @@
  					ch.pipeline().addLast(new ByteArrayDataEncoder(), new ByteArrayDataDecoder(), new ServerHandler(NettyServer.this));
  				}
  			}).option(ChannelOption.SO_BACKLOG, Integer.valueOf(128)).childOption(ChannelOption.SO_KEEPALIVE, true);
@@ -55,7 +57,7 @@
  			eventloopgroup1.shutdownGracefully();
  			eventloopgroup.shutdownGracefully();
  		}
-@@ -52,10 +_,12 @@
+@@ -56,10 +_,12 @@
  	public void broadcast(GamePacket packet) {
  		packet.setupAndSendToAll(this.connections);
  	}
@@ -69,7 +71,7 @@
  
  	public void addContext(ChannelHandlerContext ctx) {
  		ServerIdentity serveridentity = new ServerIdentity(this, ctx);
-@@ -65,6 +_,9 @@
+@@ -69,6 +_,9 @@
  
  	public void removeContext(ChannelHandlerContext ctx) {
  		ServerIdentity serveridentity = this.contextToIdentity.get(ctx);
@@ -79,7 +81,7 @@
  		this.connections.removeValue(serveridentity, true);
  		this.contextToIdentity.remove(ctx);
  		Player player = ServerSingletons.getPlayer(serveridentity);
-@@ -76,6 +_,7 @@
+@@ -80,6 +_,7 @@
  	public int getPort() {
  		return this.port;
  	}

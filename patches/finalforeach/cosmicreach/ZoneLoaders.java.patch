@@ -1,0 +1,23 @@
+--- a/finalforeach/cosmicreach/ZoneLoaders.java
++++ b/finalforeach/cosmicreach/ZoneLoaders.java
+@@ -9,9 +_,9 @@
+ 
+ public class ZoneLoaders {
+ 	public static final ZoneLoaders INSTANCE = new ZoneLoaders();
+-	private PauseableThread worldGenThread;
++	public PauseableThread worldGenThread;
+ 	private ObjectMap<Zone, IZoneLoader> zoneLoaders = new ObjectMap<>();
+-
++	private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger("Cosmic Reach | World loaders");
+ 	public void continueWorldGenThread() {
+ 		this.worldGenThread.onResume();
+ 	}
+@@ -20,7 +_,7 @@
+ 		if (!this.zoneLoaders.containsKey(zone)) {
+ 			IZoneLoader izoneloader = GameSingletons.zoneLoaderCreator.apply(zone);
+ 			this.zoneLoaders.put(zone, izoneloader);
+-			Logger.info("Added zone loader: " + izoneloader.getClass().getSimpleName() + " for zone: " + zone.zoneId);
++			LOGGER.info("Added zone loader: " + izoneloader.getClass().getSimpleName() + " for zone: " + zone.zoneId);
+ 		}
+ 	}
+ 
