@@ -2,6 +2,8 @@ package com.github.puzzle.paradox.game.server;
 
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import finalforeach.cosmicreach.networking.server.ServerZoneLoader;
+import finalforeach.cosmicreach.settings.Difficulty;
+import finalforeach.cosmicreach.settings.DifficultySettings;
 import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
@@ -59,7 +61,11 @@ public class ParadoxServerSettings {
         joinMessage = Objects.requireNonNullElse(config.getString("server.joinmessage"),"");
         var rd = getInt("server.renderdistance");
         ServerZoneLoader.INSTANCE.serverLoadDistance = rd < 3 || rd > 32 ? 10 : rd;
-
+        if (Objects.requireNonNullElse(config.getString("world.Difficulty"),"normal") == "peaceful"){
+            DifficultySettings.difficultyLevel.setValue(Difficulty.PEACEFUL);
+        }else {
+            DifficultySettings.difficultyLevel.setValue(Difficulty.NORMAL);
+        }
     }
 
 }
