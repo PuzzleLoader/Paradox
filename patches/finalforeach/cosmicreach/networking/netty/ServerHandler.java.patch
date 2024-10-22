@@ -28,7 +28,7 @@
 -		Logger.info("Handler removed");
  		Account account = this.nettyServer.getAccount(ctx);
  		if (account != null) {
- 			this.nettyServer.broadcast(new DisconnectPacket(account));
+ 			this.nettyServer.broadcastToAll(new DisconnectPacket(account));
  		}
  
 +      	LOGGER.info("Handler removed");

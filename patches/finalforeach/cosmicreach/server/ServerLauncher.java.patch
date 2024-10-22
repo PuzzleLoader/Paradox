@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/server/ServerLauncher.java
 +++ b/finalforeach/cosmicreach/server/ServerLauncher.java
-@@ -2,52 +_,78 @@
+@@ -2,52 +_,77 @@
  
  import com.badlogic.gdx.Gdx;
  import com.badlogic.gdx.backends.headless.HeadlessFiles;
@@ -92,7 +92,6 @@
 +                 ZoneLoaders.INSTANCE.addZoneLoader(GameSingletons.world.getDefaultZone());
 +            }
 +            NettyServer nettyserver = new NettyServer(Ints.constrainToRange(ServerSingletons.puzzle.serverConfig.getInt("server.port"),1,(Short.MAX_VALUE*2)+1));
-+            ServerSingletons.SERVER = nettyserver;
 +            ServerSingletons.SERVER = nettyserver;
 +            ServerSingletons.puzzle.init();
 +            PluginLocator.locatedPlugins.keySet().forEach(containerID -> {

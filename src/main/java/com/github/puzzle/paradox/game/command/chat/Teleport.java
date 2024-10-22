@@ -79,7 +79,7 @@ public class Teleport {
 
                 playerToTp.setPosition(vector3.x, vector3.y, vector3.z);
                 if (GameSingletons.isHost && ServerSingletons.SERVER != null) {
-                    ServerSingletons.SERVER.broadcast(new PlayerPositionPacket(playerToTp));
+                    ServerSingletons.SERVER.broadcastToAll(new PlayerPositionPacket(playerToTp));
                 }
                 return 0;
             }
