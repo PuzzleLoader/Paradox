@@ -61,7 +61,7 @@ public class ParadoxServerSettings {
         joinMessage = Objects.requireNonNullElse(config.getString("server.joinmessage"),"");
         var rd = getInt("server.renderdistance");
         ServerZoneLoader.INSTANCE.serverLoadDistance = rd < 3 || rd > 32 ? 10 : rd;
-        if (Objects.requireNonNullElse(config.getString("world.Difficulty"),"normal") == "peaceful"){
+        if (Objects.requireNonNullElse(config.getString("world.difficulty"),"normal") == "peaceful"){
             DifficultySettings.difficultyLevel.setValue(Difficulty.PEACEFUL);
         }else {
             DifficultySettings.difficultyLevel.setValue(Difficulty.NORMAL);
