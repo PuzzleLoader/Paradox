@@ -19,7 +19,7 @@
  	private static ObjectMap<String, Account> uniqueIdsToAccounts = new ObjectMap<>();
 @@ -121,6 +_,7 @@
  			world.currentWorldTick++;
- 			SERVER.broadcast(new EndTickPacket());
+ 			SERVER.broadcastToAll(new EndTickPacket());
  		});
 +		puzzle = new com.github.puzzle.paradox.core.PuzzlePL();
  		registerBlockEntityOpeners();

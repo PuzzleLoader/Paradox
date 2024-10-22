@@ -27,8 +27,8 @@
  	@Override
  	public void write(Json json) {
  		super.write(json);
--		json.writeField(json, "profile");
--		json.writeField(json, "expiresAtEpochSecond");
+-		json.writeValue("profile", this.profile);
+-		json.writeValue("expiresAtEpochSecond", this.expiresAtEpochSecond);
 -	}
  
 +//		org.slf4j.LoggerFactory.getLogger("areigiaejrgrg").warn(json);

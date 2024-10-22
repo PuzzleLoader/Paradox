@@ -1,7 +1,7 @@
 --- a/finalforeach/cosmicreach/networking/NetworkIdentity.java
 +++ b/finalforeach/cosmicreach/networking/NetworkIdentity.java
-@@ -4,7 +_,7 @@
- import finalforeach.cosmicreach.entities.player.Player;
+@@ -5,7 +_,7 @@
+ import finalforeach.cosmicreach.world.World;
  import finalforeach.cosmicreach.world.Zone;
  
 -public abstract class NetworkIdentity {
