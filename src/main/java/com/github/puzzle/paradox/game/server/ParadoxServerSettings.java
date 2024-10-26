@@ -61,7 +61,7 @@ public class ParadoxServerSettings {
         RCONenabled =  getBool("rcon.enabled",false);
         canChat = getBool("server.canchat");
         anticheat = getBool("server.anticheat");
-        isOffline = getBool("server.s", false);
+        isOffline = getBool("server.isoffline", false);
         executeChatCommands =  getBool("commands.enabled");
         joinMessage = Objects.requireNonNullElse(config.getString("server.joinmessage"),"");
         itAPIkey = Objects.requireNonNullElse(config.getString("itch.apikey"),"");
