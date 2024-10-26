@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/networking/netty/NettyServer.java
 +++ b/finalforeach/cosmicreach/networking/netty/NettyServer.java
-@@ -12,24 +_,24 @@
+@@ -14,24 +_,24 @@
  import finalforeach.cosmicreach.util.ArrayUtils;
  import finalforeach.cosmicreach.world.Zone;
  import io.netty.bootstrap.ServerBootstrap;
@@ -34,7 +34,7 @@
  	}
  
  	public NettyServer() {
-@@ -37,8 +_,8 @@
+@@ -39,8 +_,8 @@
  	}
  
  	public void run() throws Exception {
@@ -45,7 +45,7 @@
  
  		try {
  			ServerBootstrap serverbootstrap = new ServerBootstrap();
-@@ -47,9 +_,10 @@
+@@ -49,9 +_,10 @@
  					ch.pipeline().addLast(new ByteArrayDataEncoder(), new ByteArrayDataDecoder(), new ServerHandler(NettyServer.this));
  				}
  			}).option(ChannelOption.SO_BACKLOG, Integer.valueOf(128)).childOption(ChannelOption.SO_KEEPALIVE, true);
@@ -57,7 +57,7 @@
  			eventloopgroup1.shutdownGracefully();
  			eventloopgroup.shutdownGracefully();
  		}
-@@ -58,10 +_,12 @@
+@@ -60,10 +_,12 @@
  	public void broadcastToAll(GamePacket packet) {
  		packet.setupAndSendToAll(this.connections);
  	}
@@ -71,17 +71,21 @@
  
  	public void addContext(ChannelHandlerContext ctx) {
  		ServerIdentity serveridentity = new ServerIdentity(this, ctx);
-@@ -71,6 +_,9 @@
+@@ -73,6 +_,9 @@
  
  	public void removeContext(ChannelHandlerContext ctx) {
  		ServerIdentity serveridentity = this.contextToIdentity.get(ctx);
-+		var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
-+		if(!serveridentity.waskicked)
-+			LOGGER.info( "Player uid '{}' left | {}:{}", getAccount(ctx).getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
++		var addy = ((InetSocketAddress) ctx.channel().remoteAddress());
++		if (!serveridentity.waskicked)
++			LOGGER.info("Player uid '{}' left | {}:{}", getAccount(ctx).getUniqueId(), addy.getAddress().getHostAddress(), addy.getPort());
+ 		Player player = ServerSingletons.getPlayer(serveridentity);
+ 		if (player != null) {
+ 			PlayerSaver.savePlayer(GameSingletons.world, player);
+@@ -82,10 +_,10 @@
  		this.connections.removeValue(serveridentity, true);
  		this.contextToIdentity.remove(ctx);
- 		Player player = ServerSingletons.getPlayer(serveridentity);
-@@ -82,6 +_,7 @@
+ 	}
+-
  	public int getPort() {
  		return this.port;
  	}

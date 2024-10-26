@@ -6,6 +6,7 @@ import finalforeach.cosmicreach.settings.Difficulty;
 import finalforeach.cosmicreach.settings.DifficultySettings;
 import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
@@ -21,6 +22,8 @@ public class ParadoxServerSettings {
     public static boolean RCONenabled = false;
     public static String RCONpassword = "";
     public static boolean anticheat = true;
+    public static boolean isOffline = false;
+    public static String itAPIkey = "";
 
     public static boolean getBool(String name){
       return getBool(name,true);
@@ -37,6 +40,7 @@ public class ParadoxServerSettings {
         config.addProperty("iteraction.canbreakblock",canBreakBlock);
         config.addProperty("iteraction.canplaceblock",canPlaceBlock);
         config.addProperty("server.canchat",canChat);
+        config.addProperty("server.isoffline",false);
         config.addProperty("commands.enabled",executeChatCommands);
         var rd = ServerZoneLoader.INSTANCE.serverLoadDistance;
         config.addProperty("server.renderdistance",rd < 3 || rd > 32 ? 10 : rd);
@@ -57,8 +61,14 @@ public class ParadoxServerSettings {
         RCONenabled =  getBool("rcon.enabled",false);
         canChat = getBool("server.canchat");
         anticheat = getBool("server.anticheat");
+        isOffline = getBool("server.s", false);
         executeChatCommands =  getBool("commands.enabled");
         joinMessage = Objects.requireNonNullElse(config.getString("server.joinmessage"),"");
+        itAPIkey = Objects.requireNonNullElse(config.getString("itch.apikey"),"");
+        if(itAPIkey.isEmpty() && itAPIkey.isBlank()){
+            LoggerFactory.getLogger("Paradox").warn("No itch api key in server.properties, cannot verify accounts. Setting server to an offline server");
+            isOffline = true;
+        }
         var rd = getInt("server.renderdistance");
         ServerZoneLoader.INSTANCE.serverLoadDistance = rd < 3 || rd > 32 ? 10 : rd;
         if (Objects.requireNonNullElse(config.getString("world.difficulty"),"normal") == "peaceful"){

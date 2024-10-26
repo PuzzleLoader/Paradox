@@ -11,6 +11,7 @@ public class CommandManager {
 
     public static LiteralArgumentBuilder<CommandSource> literal(String literal) {
         return LiteralArgumentBuilder.literal(literal);
+
     }
 
     public static <T> RequiredArgumentBuilder<CommandSource, T> argument(String name, ArgumentType<T> type) {

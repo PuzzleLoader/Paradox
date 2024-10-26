@@ -1,13 +1,6 @@
 --- a/finalforeach/cosmicreach/networking/packets/meta/LoginPacket.java
 +++ b/finalforeach/cosmicreach/networking/packets/meta/LoginPacket.java
-@@ -1,22 +_,29 @@
- package finalforeach.cosmicreach.networking.packets.meta;
- 
-+import com.github.puzzle.paradox.game.event.PacketEvents;
-+import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
- import finalforeach.cosmicreach.accounts.Account;
- import finalforeach.cosmicreach.accounts.AccountItch;
- import finalforeach.cosmicreach.accounts.AccountOffline;
+@@ -6,17 +_,23 @@
  import finalforeach.cosmicreach.networking.GamePacket;
  import finalforeach.cosmicreach.networking.NetworkIdentity;
  import finalforeach.cosmicreach.networking.NetworkSide;
@@ -18,6 +11,7 @@
  import io.netty.channel.ChannelHandlerContext;
  
 +import java.net.InetSocketAddress;
++import java.util.Objects;
 +
 +import static com.github.puzzle.paradox.core.PuzzlePL.SERVER_ACCOUNT;
 +
@@ -31,19 +25,25 @@
  	public LoginPacket(Account account) {
  		this.account = account;
  	}
-@@ -44,7 +_,14 @@
+@@ -42,9 +_,20 @@
+ 	@Override
+ 	public void handle(NetworkIdentity identity, ChannelHandlerContext ctx) {
  		if (identity.getSide() == NetworkSide.SERVER) {
++//			if(this.account.getPrefix().equals("offline") && com.github.puzzle.paradox.game.server.ParadoxServerSettings.isOffline){
++//				ctx.close();
++//				return;
++//			}
  			Logger.debug("Received login packet from " + this.account.getUsername());
  			ServerSingletons.addAccount(identity, this.account);
 -			Logger.info("Is it really " + this.account.getUsername() + "? I have no choice to believe so!");
 +			var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
 +			LOGGER.info( "Player uid '{}' joined | {}:{}",this.account.getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
-+			if(!ParadoxServerSettings.joinMessage.isEmpty()|| !ParadoxServerSettings.joinMessage.isBlank()){
-+				var pack = new MessagePacket(ParadoxServerSettings.joinMessage);
++			if(!com.github.puzzle.paradox.game.server.ParadoxServerSettings.joinMessage.isEmpty()|| !com.github.puzzle.paradox.game.server.ParadoxServerSettings.joinMessage.isBlank()){
++				var pack = new MessagePacket(com.github.puzzle.paradox.game.server.ParadoxServerSettings.joinMessage);
 +				pack.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
 +				ServerSingletons.SERVER.send(pack, ctx);
 +			}
-+			PacketEvents.ON_PLAYER_JOIN_EVENT.invoker().onPlayerJoin(account,identity,ctx);
++			com.github.puzzle.paradox.game.event.PacketEvents.ON_PLAYER_JOIN_EVENT.invoker().onPlayerJoin(account,identity,ctx);
  		}
  	}
  }

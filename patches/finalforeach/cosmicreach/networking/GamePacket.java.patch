@@ -1,16 +1,15 @@
 --- a/finalforeach/cosmicreach/networking/GamePacket.java
 +++ b/finalforeach/cosmicreach/networking/GamePacket.java
-@@ -57,6 +_,9 @@
+@@ -58,6 +_,8 @@
  
  public abstract class GamePacket {
  	public static final Json json = new Json();
 +	public boolean shouldGameIgnore = false;
 +	private static final org.slf4j.Logger LOGGER =  org.slf4j.LoggerFactory.getLogger("Cosmic Reach | Game packet");
-+	private static int vanillaPacketIndex = 0;
  	protected static final IntMap<Supplier<? extends GamePacket>> idsToPackets = new IntMap<>();
  	protected static final ObjectIntMap<Class<? extends GamePacket>> packetsToIntIds = new ObjectIntMap<>();
  	protected static final ObjectIntMap<String> packetNamesToIntIds = new ObjectIntMap<>();
-@@ -104,6 +_,10 @@
+@@ -106,6 +_,10 @@
  	}
  
  	public static <T extends GamePacket> void registerPacket(Class<T> packetClass) {
@@ -21,7 +20,16 @@
  		String s = packetClass.getCanonicalName();
  		if (s == null) {
  			String s1 = "Packet class must have a canonical name";
-@@ -136,14 +_,14 @@
+@@ -123,7 +_,7 @@
+ 		}
+ 	}
+ 
+-	protected static <T extends GamePacket> void registerPacket(String strId, int numId, Class<T> packetClass) {
++	public static <T extends GamePacket> void registerPacket(String strId, int numId, Class<T> packetClass) {
+ 		try {
+ 			Constructor<T> constructor = packetClass.getDeclaredConstructor();
+ 			Supplier<T> supplier = () -> {
+@@ -138,14 +_,14 @@
  			packetsToIntIds.put(packetClass, numId);
  			packetNamesToIntIds.put(strId, numId);
  			packetNamesToClasses.put(strId, packetClass);
@@ -38,7 +46,7 @@
  		if (this.packetID == 0) {
  			throw new RuntimeException("Cannot send packet for " + this.getClass() + " without registering it first!");
  		}
-@@ -154,7 +_,9 @@
+@@ -156,7 +_,9 @@
  	public static GamePacket getPacket(short packetId) {
  		Supplier<? extends GamePacket> supplier = idsToPackets.get(packetId);
  		if (supplier == null) {

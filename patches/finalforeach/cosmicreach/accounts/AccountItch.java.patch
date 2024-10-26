@@ -1,12 +1,14 @@
 --- a/finalforeach/cosmicreach/accounts/AccountItch.java
 +++ b/finalforeach/cosmicreach/accounts/AccountItch.java
-@@ -2,13 +_,15 @@
+@@ -2,33 +_,47 @@
  
  import com.badlogic.gdx.utils.Json;
  import com.badlogic.gdx.utils.JsonValue;
 +import com.badlogic.gdx.utils.Logger;
 +
  import java.io.IOException;
++import java.net.MalformedURLException;
++import java.net.ProtocolException;
  import java.net.URL;
  import java.time.Instant;
  import javax.net.ssl.HttpsURLConnection;
@@ -15,13 +17,25 @@
 -	ItchProfileMe profile;
 +	public ItchProfileMe profile;
  	long expiresAtEpochSecond = Long.MAX_VALUE;
+-	AccountItch.AuthType authType;
++	AuthType authType;
++
++
++	enum AuthType {
++		JWT,
++		API
++	}
++
  
  	@Override
-@@ -16,18 +_,19 @@
+ 	public void read(Json json, JsonValue jsonData) {
  		super.read(json, jsonData);
  		json.readField(this, "profile", jsonData);
  		json.readField(this, "expiresAtEpochSecond", jsonData);
++
 +		displayname = this.profile.display_name;
++		validateItchAccount(profile.id);
++
  	}
  
  	@Override
@@ -31,17 +45,16 @@
 -		json.writeValue("expiresAtEpochSecond", this.expiresAtEpochSecond);
 -	}
  
-+//		org.slf4j.LoggerFactory.getLogger("areigiaejrgrg").warn(json);
 +		json.writeValue( "profile",profile);
 +		json.writeValue("expiresAtEpochSecond",expiresAtEpochSecond);
 +	}
  	public AccountItch() {
  	}
 -
- 	public AccountItch(String itchApiKey) throws IOException {
- 		String s = "https://itch.io/api/1/jwt/me";
- 		System.setProperty("https.protocols", "TLSv1.2,TLSv1.1,SSLv3");
-@@ -40,6 +_,7 @@
+ 	public AccountItch(String itchApiKey, String expiresAt) throws IOException {
+ 		String s;
+ 		if (expiresAt == null) {
+@@ -50,6 +_,7 @@
  		this.profile = json.fromJson(ItchProfileMe.class, s1);
  		this.setUsername(this.profile.username);
  		this.setUniqueId(Long.valueOf(this.profile.id));
@@ -49,11 +62,21 @@
  	}
  
  	public void setExpiresAt(String expiresAt) {
-@@ -57,6 +_,6 @@
+@@ -67,16 +_,10 @@
  
  	@Override
  	public String getDisplayName() {
 -		return this.profile.display_name;
 +		return displayname;
+ 	}
+-
+ 	@Override
+ 	public boolean canSave() {
+ 		return true;
+-	}
+-
+-	static enum AuthType {
+-		JWT,
+-		API;
  	}
  }

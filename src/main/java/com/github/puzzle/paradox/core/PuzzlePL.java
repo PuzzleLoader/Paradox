@@ -6,6 +6,7 @@ import com.github.puzzle.paradox.game.command.Commands;
 import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
 import com.github.puzzle.paradox.loader.Version;
 import com.mojang.brigadier.CommandDispatcher;
+import finalforeach.cosmicreach.TickRunner;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.accounts.AccountOffline;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
@@ -24,7 +25,7 @@ import java.nio.file.Path;
 
 public class PuzzlePL {
     private static final Logger LOGGER = LoggerFactory.getLogger("Puzzle Paradox");
-    public static final Version VERSION = new Version(1,1,4, Version.VersionType.ALPHA);
+    public static final Version VERSION = new Version(1,1,5, Version.VersionType.ALPHA);
 
     public final PropertiesConfiguration serverConfig;
     public final FileBasedConfigurationBuilder<PropertiesConfiguration> configBuilder;
@@ -72,13 +73,16 @@ public class PuzzlePL {
         serverConfig.addProperty("server.joinmessage","");
         serverConfig.addProperty("server.canchat", true);
         serverConfig.addProperty("server.anticheat", true);
+        serverConfig.addProperty("server.isoffline", false);
         serverConfig.addProperty("rcon.enabled", false);
         serverConfig.addProperty("rcon.port", 47138);
         serverConfig.addProperty("rcon.password", RandomStringUtils.randomAlphanumeric(8));
         serverConfig.addProperty("world.worldType","base:earth");
         serverConfig.addProperty("world.difficulty","normal");
+        serverConfig.addProperty("itch.apikey","");
     }
     public void init(){
+        TickRunner.INSTANCE = new TickRunner();
         ParadoxServerSettings.initSetting();
         Commands.registerConsoleCommands();
         Commands.registerClientCommands();

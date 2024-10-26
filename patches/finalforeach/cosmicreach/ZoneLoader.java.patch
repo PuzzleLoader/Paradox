@@ -22,7 +22,15 @@
  import finalforeach.cosmicreach.worldgen.ChunkColumn;
  
  public class ZoneLoader {
-@@ -442,11 +_,12 @@
+@@ -188,7 +_,6 @@
+ 		int j = i;
+ 		int k = MathUtils.clamp(i, 6, 12);
+ 		if (!this.spawnReady) {
+-			int flag = true;
+ 		}
+ 
+ 		if (player.isLoading()) {
+@@ -444,11 +_,12 @@
  		}
  
  		long k = System.currentTimeMillis();
@@ -33,6 +41,6 @@
  			this.lastSaveMillis = k;
  			this.requestSave = false;
 +			Save.shouldSave = false;
- 		} else {
+ 		} else if (!this.needToGenDifferentChunks(this.zone, this.localGenRadiusInChunks) && this.getChunkColumnsToGenerate().isEmpty()) {
  			if (!this.spawnReady && GameSingletons.isHost) {
- 				int l = Math.floorDiv((int)Math.floor((double)this.zone.spawnPoint.x), 16);
+ 				this.readyToPlay = false;

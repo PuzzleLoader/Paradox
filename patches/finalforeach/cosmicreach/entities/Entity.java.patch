@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/entities/Entity.java
 +++ b/finalforeach/cosmicreach/entities/Entity.java
-@@ -40,7 +_,7 @@
+@@ -41,7 +_,7 @@
  	@CRBSerialized
  	public String entityTypeId;
  	@CRBSerialized

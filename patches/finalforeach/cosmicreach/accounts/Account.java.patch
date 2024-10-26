@@ -13,7 +13,7 @@
  
  	public final String getUsername() {
  		return this.username;
-@@ -16,11 +_,12 @@
+@@ -16,15 +_,16 @@
  		return this.uniqueId;
  	}
  
@@ -28,9 +28,16 @@
  		this.uniqueId = this.getPrefix() + ":" + uniqueId.toString();
  	}
  
-@@ -39,4 +_,5 @@
+-	public abstract String getPrefix();
++	//public abstract String getPrefix();
+ 
+ 	public abstract String getDisplayName();
+ 
+@@ -39,6 +_,7 @@
  		json.readField(this, "username", jsonData);
  		json.readField(this, "uniqueId", jsonData);
  	}
 +
- }
+ 
+ 	public abstract boolean canSave();
+ 

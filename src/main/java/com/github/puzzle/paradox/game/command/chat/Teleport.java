@@ -25,9 +25,9 @@ public class Teleport {
         @Override
         public int run(CommandContext<CommandSource> context) throws CommandSyntaxException {
             String name = StringArgumentType.getString(context, "name");
-            if(name.length() > 12)
+            if(name.length() > 25)
             {
-                var packet = new MessagePacket("Player name cannot be longer than 12 chars");
+                var packet = new MessagePacket("Player name cannot be longer than 25 chars");
                 packet.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
                 packet.setupAndSend(
                         ServerSingletons
