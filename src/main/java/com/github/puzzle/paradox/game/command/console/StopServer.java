@@ -5,6 +5,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import finalforeach.cosmicreach.GameSingletons;
+import finalforeach.cosmicreach.TickRunner;
 import finalforeach.cosmicreach.ZoneLoaders;
 import finalforeach.cosmicreach.io.ChunkSaver;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
@@ -30,6 +31,7 @@ public class StopServer {
                 }
                 ServerSingletons.puzzle.exit();
                 ZoneLoaders.INSTANCE.worldGenThread.stopThread();
+                TickRunner.INSTANCE.thread.stopThread();
                 TerminalConsoleAppender.print("stopping"+ "\n");
                 ServerLauncher.isRunning = false;
                 ServerSingletons.SERVER.eventloopgroup.shutdownGracefully();

@@ -71,17 +71,25 @@
  
  	public void addContext(ChannelHandlerContext ctx) {
  		ServerIdentity serveridentity = new ServerIdentity(this, ctx);
-@@ -73,6 +_,9 @@
+@@ -73,19 +_,24 @@
  
  	public void removeContext(ChannelHandlerContext ctx) {
  		ServerIdentity serveridentity = this.contextToIdentity.get(ctx);
-+		var addy = ((InetSocketAddress) ctx.channel().remoteAddress());
-+		if (!serveridentity.waskicked)
-+			LOGGER.info("Player uid '{}' left | {}:{}", getAccount(ctx).getUniqueId(), addy.getAddress().getHostAddress(), addy.getPort());
- 		Player player = ServerSingletons.getPlayer(serveridentity);
- 		if (player != null) {
- 			PlayerSaver.savePlayer(GameSingletons.world, player);
-@@ -82,10 +_,10 @@
+-		Player player = ServerSingletons.getPlayer(serveridentity);
+-		if (player != null) {
+-			PlayerSaver.savePlayer(GameSingletons.world, player);
+-			ServerSingletons.removeAccount(serveridentity);
++		if(!serveridentity.shouldIgnore) {
++			var addy = ((InetSocketAddress) ctx.channel().remoteAddress());
++			if (!serveridentity.waskicked)
++				LOGGER.info("Player uid '{}' left | {}:{}", getAccount(ctx).getUniqueId(), addy.getAddress().getHostAddress(), addy.getPort());
++			Player player = ServerSingletons.getPlayer(serveridentity);
++			if (player != null) {
++				PlayerSaver.savePlayer(GameSingletons.world, player);
++				ServerSingletons.removeAccount(serveridentity);
++			}
+ 		}
+ 
  		this.connections.removeValue(serveridentity, true);
  		this.contextToIdentity.remove(ctx);
  	}

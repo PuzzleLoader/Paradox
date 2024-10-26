@@ -1,14 +1,16 @@
 --- a/finalforeach/cosmicreach/TickRunner.java
 +++ b/finalforeach/cosmicreach/TickRunner.java
-@@ -8,7 +_,7 @@
+@@ -8,8 +_,8 @@
  
  public class TickRunner {
  	public static final float FIXED_UPDATE_TIMESTEP = 0.05F;
 -	public static final TickRunner INSTANCE = new TickRunner();
+-	PauseableThread thread;
 +	public static TickRunner INSTANCE;
- 	PauseableThread thread;
++	public PauseableThread thread;
  	float fixedUpdateAccumulator = 0.0F;
  	double lastUpdateTime = -1.0;
+ 	double lastThreadLoopTime = -1.0;
 @@ -25,6 +_,7 @@
  	}
  
