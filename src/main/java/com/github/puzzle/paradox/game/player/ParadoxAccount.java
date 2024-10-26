@@ -66,7 +66,6 @@ public abstract class ParadoxAccount {
 
                     isValid = true;
                     var username = obj.get("user").asObject().get("username").asString();
-                    System.out.println("Lol: " + username);
                     this.displayname = username;
                     this.username = this.getPrefix() + ":" + username;
                     return;

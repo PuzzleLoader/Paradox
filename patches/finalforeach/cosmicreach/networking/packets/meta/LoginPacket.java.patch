@@ -37,7 +37,7 @@
  		if (identity.getSide() == NetworkSide.SERVER) {
 +			com.github.puzzle.paradox.game.event.PacketEvents.ON_PLAYER_JOIN_EVENT.invoker().onPlayerJoin(account,identity,ctx);
 +			var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
-+			if((this.account.getPrefix().equals("offline") && !com.github.puzzle.paradox.game.server.ParadoxServerSettings.isOffline) || (account.isValid && !com.github.puzzle.paradox.game.server.ParadoxServerSettings.isOffline)){
++			if((this.account.getPrefix().equals("offline") && com.github.puzzle.paradox.game.server.ParadoxServerSettings.isOffline) || (!account.isValid && com.github.puzzle.paradox.game.server.ParadoxServerSettings.isOffline)){
 +				ctx.close();
 +				identity.shouldIgnore = true;
 +				System.out.println("Denied account: " + account.getUniqueId() + " was invalid or an offline account | ip: " + addy.getAddress().getHostAddress() + ":" + addy.getPort() );
