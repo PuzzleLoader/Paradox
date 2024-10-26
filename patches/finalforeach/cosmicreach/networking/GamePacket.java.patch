@@ -1,14 +1,22 @@
 --- a/finalforeach/cosmicreach/networking/GamePacket.java
 +++ b/finalforeach/cosmicreach/networking/GamePacket.java
-@@ -58,6 +_,8 @@
+@@ -46,7 +_,6 @@
+ import finalforeach.cosmicreach.savelib.IByteArray;
+ import finalforeach.cosmicreach.savelib.crbin.CRBinSerializer;
+ import finalforeach.cosmicreach.util.ArrayUtils;
+-import finalforeach.cosmicreach.util.logging.Logger;
+ import finalforeach.cosmicreach.world.Zone;
+ import io.netty.buffer.ByteBuf;
+ import io.netty.channel.ChannelFuture;
+@@ -56,7 +_,7 @@
+ import java.nio.charset.StandardCharsets;
+ import java.util.function.Supplier;
  
- public abstract class GamePacket {
+-public abstract class GamePacket {
++public abstract class GamePacket extends com.github.puzzle.paradox.game.server.packets.PuzzleGamePacket  {
  	public static final Json json = new Json();
-+	public boolean shouldGameIgnore = false;
-+	private static final org.slf4j.Logger LOGGER =  org.slf4j.LoggerFactory.getLogger("Cosmic Reach | Game packet");
  	protected static final IntMap<Supplier<? extends GamePacket>> idsToPackets = new IntMap<>();
  	protected static final ObjectIntMap<Class<? extends GamePacket>> packetsToIntIds = new ObjectIntMap<>();
- 	protected static final ObjectIntMap<String> packetNamesToIntIds = new ObjectIntMap<>();
 @@ -106,6 +_,10 @@
  	}
  
