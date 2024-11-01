@@ -102,7 +102,11 @@ public class PuzzlePL {
                     return;
                 }
                 new PPLTerminalConsole(ServerSingletons.SERVER).start();
-
+                try {
+                    Thread.sleep(15);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
         };
