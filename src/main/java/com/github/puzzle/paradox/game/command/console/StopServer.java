@@ -1,10 +1,12 @@
 package com.github.puzzle.paradox.game.command.console;
 
 import com.github.puzzle.game.commands.CommandSource;
+import com.github.puzzle.paradox.game.server.Moderation;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import finalforeach.cosmicreach.GameSingletons;
+import finalforeach.cosmicreach.Threads;
 import finalforeach.cosmicreach.TickRunner;
 import finalforeach.cosmicreach.ZoneLoaders;
 import finalforeach.cosmicreach.io.ChunkSaver;
@@ -20,7 +22,7 @@ public class StopServer {
         @Override
         public int run(CommandContext<CommandSource> context) throws CommandSyntaxException {
             for (var id : ServerSingletons.SERVER.connections){
-                id.ctx.close();
+                ServerSingletons.SERVER.kick("Server stopping!",id);
             }
             Save.shouldSave = true;
             GameSingletons.unregisterAllPlayers();
@@ -29,18 +31,10 @@ public class StopServer {
 
 
                 }
+
                 ServerSingletons.puzzle.exit();
-                ZoneLoaders.INSTANCE.worldGenThread.stopThread();
-                TickRunner.INSTANCE.thread.stopThread();
                 TerminalConsoleAppender.print("stopping"+ "\n");
                 ServerLauncher.isRunning = false;
-                ServerSingletons.SERVER.eventloopgroup.shutdownGracefully();
-                ServerSingletons.SERVER.eventloopgroup1.shutdownGracefully();
-                try {
-                    ServerSingletons.SERVER.channelfuture.channel().closeFuture().sync();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
             }
             return 0;
         }

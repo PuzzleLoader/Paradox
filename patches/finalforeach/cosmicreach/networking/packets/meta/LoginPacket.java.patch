@@ -1,14 +1,15 @@
 --- a/finalforeach/cosmicreach/networking/packets/meta/LoginPacket.java
 +++ b/finalforeach/cosmicreach/networking/packets/meta/LoginPacket.java
-@@ -6,17 +_,23 @@
- import finalforeach.cosmicreach.networking.GamePacket;
+@@ -8,18 +_,24 @@
  import finalforeach.cosmicreach.networking.NetworkIdentity;
  import finalforeach.cosmicreach.networking.NetworkSide;
+ import finalforeach.cosmicreach.networking.server.ServerSettings;
 +import finalforeach.cosmicreach.networking.packets.MessagePacket;
  import finalforeach.cosmicreach.networking.server.ServerSingletons;
  import finalforeach.cosmicreach.util.logging.Logger;
  import io.netty.buffer.ByteBuf;
  import io.netty.channel.ChannelHandlerContext;
+ import java.net.InetSocketAddress;
  
 +import java.net.InetSocketAddress;
 +import java.util.Objects;
@@ -25,7 +26,7 @@
  	public LoginPacket(Account account) {
  		this.account = account;
  	}
-@@ -37,14 +_,28 @@
+@@ -40,27 +_,35 @@
  			default -> throw new IllegalArgumentException("Unexpected value: " + s);
  		};
  		this.account = this.readObjectFromJson(in, oclass);
@@ -35,23 +36,44 @@
  	@Override
  	public void handle(NetworkIdentity identity, ChannelHandlerContext ctx) {
  		if (identity.getSide() == NetworkSide.SERVER) {
+-			Logger.debug("Received login packet from " + this.account.getUsername());
 +			com.github.puzzle.paradox.game.event.PacketEvents.ON_PLAYER_JOIN_EVENT.invoker().onPlayerJoin(account,identity,ctx);
 +			var addy = ((InetSocketAddress)ctx.channel().remoteAddress());
-+			if((this.account.getPrefix().equals("offline") && com.github.puzzle.paradox.game.server.ParadoxServerSettings.isOffline) || (!account.isValid && com.github.puzzle.paradox.game.server.ParadoxServerSettings.isOffline)){
-+				ctx.close();
-+				identity.shouldIgnore = true;
-+				System.out.println("Denied account: " + account.getUniqueId() + " was invalid or an offline account | ip: " + addy.getAddress().getHostAddress() + ":" + addy.getPort() );
-+				return;
-+			}
- 			Logger.debug("Received login packet from " + this.account.getUsername());
- 			ServerSingletons.addAccount(identity, this.account);
--			Logger.info("Is it really " + this.account.getUsername() + "? I have no choice to believe so!");
-+			LOGGER.info( "Player uid '{}' joined | {}:{}",this.account.getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
++			LOGGER.debug("Received login packet from " + this.account.getUsername());
 +			if(!com.github.puzzle.paradox.game.server.ParadoxServerSettings.joinMessage.isEmpty()|| !com.github.puzzle.paradox.game.server.ParadoxServerSettings.joinMessage.isBlank()){
 +				var pack = new MessagePacket(com.github.puzzle.paradox.game.server.ParadoxServerSettings.joinMessage);
 +				pack.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
 +				ServerSingletons.SERVER.send(pack, ctx);
 +			}
- 		}
- 	}
- }
+ 			if (ServerSettings.WHITELIST_ENABLED.isTrue() && !ServerSingletons.WHITELIST.hasAccount(this.account)) {
+-				Logger.info("Account is not in the whitelist: " + this.account.getUsername());
++				LOGGER.info("Account is not in the whitelist: " + this.account.getUsername());
+ 				ServerSingletons.SERVER.kick("You are not whitelisted on this server.", identity);
+ 				return;
+ 			}
+ 
+ 			if (ServerSingletons.BAN_LIST.hasAccount(this.account)) {
+-				Logger.info("Account is in the banlist: " + this.account.getUsername());
++				LOGGER.info("Account is in the banlist: " + this.account.getUsername());
+ 				ServerSingletons.SERVER.kick("You are banned on this server.", identity);
+ 				return;
+ 			}
+ 
+ 			String s = ((InetSocketAddress)ctx.channel().remoteAddress()).getAddress().getHostAddress();
+ 			if (ServerSingletons.BANNED_IP_LIST.hasAddress(s)) {
+-				Logger.info("IP is in the banlist: " + ctx.channel().remoteAddress());
++				LOGGER.info("IP is in the banlist: " + ctx.channel().remoteAddress());
+ 				ServerSingletons.SERVER.kick("You are banned on this server.", identity);
+ 				return;
+ 			}
+@@ -72,7 +_,9 @@
+ 
+ 			if (this.account.isAllowed()) {
+ 				ServerSingletons.addAccount(identity, this.account);
+-				Logger.info("Is it really " + this.account.getUsername() + "? I have no choice to believe so (Offline mode)!");
++				LOGGER.info( "Player uid '{}' joined | {}:{}",this.account.getUniqueId(),addy.getAddress().getHostAddress() ,addy.getPort());
++
++//				LOGGER.info("Is it really " + this.account.getUsername() + "? I have no choice to believe so (Offline mode)!");
+ 			} else {
+ 				Logger.info("Unable to authenticate " + this.account.getUsername());
+ 				ServerSingletons.SERVER.kick("Unable to authenticate your account.", identity);

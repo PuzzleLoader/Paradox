@@ -2,6 +2,7 @@ package com.github.puzzle.paradox.game.command;
 
 import com.github.puzzle.game.commands.CommandManager;
 import com.github.puzzle.game.commands.CommandSource;
+import com.github.puzzle.game.commands.PuzzleConsoleCommandSource;
 import com.github.puzzle.paradox.game.command.chat.*;
 import com.github.puzzle.paradox.game.command.console.*;
 import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
@@ -10,23 +11,101 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.CommandNode;
+import finalforeach.cosmicreach.accounts.Account;
+import finalforeach.cosmicreach.chat.Chat;
+import finalforeach.cosmicreach.chat.IChat;
+import finalforeach.cosmicreach.chat.commands.*;
+import finalforeach.cosmicreach.chat.commands.moderation.*;
+import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.networking.packets.MessagePacket;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import finalforeach.cosmicreach.networking.server.ServerZoneLoader;
+import finalforeach.cosmicreach.util.exceptions.ChatCommandException;
+import finalforeach.cosmicreach.world.World;
 import net.minecrell.terminalconsole.TerminalConsoleAppender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import static com.github.puzzle.paradox.core.PuzzlePL.SERVER_ACCOUNT;
 import static com.github.puzzle.paradox.core.PuzzlePL.clientDispatcher;
+import static finalforeach.cosmicreach.chat.commands.Command.registerCommand;
+import static finalforeach.cosmicreach.networking.server.ServerSingletons.OP_LIST;
 
 public class Commands {
 
     private static final Logger LOGGER  = LoggerFactory.getLogger("Paradox | command");
+    public static void registerVanillaCommands(Supplier<Command> commandSupplier, String commandName, String[] aliases){
+        var builder = CommandManager.literal(commandName);
 
+
+        com.mojang.brigadier.Command<CommandSource> command2 = (commandContext -> {
+            final Account account = commandContext.getSource().getAccount();
+
+            final IChat chat = commandContext.getSource().getChat();
+            final World world = commandContext.getSource().getWorld();
+
+            String[] args = commandContext.getInput().substring(1).split(" ");
+            String commandStr = args[0];
+            if (!commandStr.equalsIgnoreCase("help") && !commandStr.equals("?")) {
+                if (commandSupplier != null) {
+                    try {
+                        Command command = commandSupplier.get();
+                        command.setup(account,args);
+                        command.run(chat);
+                    } catch (ChatCommandException var8) {
+                        ChatCommandException cce = var8;
+                        chat.addMessage(account, "ERROR: " + cce.getMessage());
+                    } catch (Exception var9) {
+                        Exception ex = var9;
+                        ex.printStackTrace();
+                        chat.addMessage(account, "ERROR: An exception occured running the command: " + String.join(" ", args));
+                    }
+
+                } else {
+                    chat.addMessage(account, "Unknown command: " + commandStr);
+                }
+            }
+            return 0;
+        });
+        builder.executes(command2);
+        builder.then(CommandManager.argument("vanillaCommandArgument", StringArgumentType.greedyString()).executes(command2));
+        if(commandSupplier.get().doesRequireOP()){
+            var node = CommandManager.consoledispatcher.register(builder);
+            for (var alias : aliases){
+                CommandManager.consoledispatcher.register(CommandManager.literal(alias).redirect(node));
+            }
+        }else {
+            var node = com.github.puzzle.paradox.core.PuzzlePL.clientDispatcher.register(builder);
+            for (var alias : aliases) {
+                com.github.puzzle.paradox.core.PuzzlePL.clientDispatcher.register(CommandManager.literal(alias).redirect(node));
+            }
+        }
+
+    }
+    static void vanillaCommands(){
+        registerCommand(CommandKill::new, "kill");
+        registerCommand(CommandGamemode::new, "gamemode", "gm");
+        registerCommand(CommandNightVision::new, "nightvision", "nv");
+        registerCommand(CommandNoClip::new, "noclip", "nc");
+        registerCommand(CommandSkylight::new, "skylight", "sl");
+        registerCommand(CommandSummon::new, "summon", "s");
+        registerCommand(CommandTeleport::new, "teleport", "tp");
+        registerCommand(CommandTime::new, "time", "t");
+        registerCommand(CommandBan::new, "ban");
+        registerCommand(CommandBanIp::new, "ban-ip", "banip");
+        registerCommand(CommandOp::new, "op");
+        registerCommand(CommandDeop::new, "deop", "de-op");
+        registerCommand(CommandKick::new, "kick");
+        registerCommand(CommandUnban::new, "unban");
+        registerCommand(CommandUnbanIp::new, "unban-ip", "unbanip");
+    }
     public static void registerConsoleCommands(){
+
 
         CommandManager.consoledispatcher.register(CommandManager.literal("setrenderdistance").then(
                 CommandManager.argument("size", IntegerArgumentType.integer(3,32)).executes(
@@ -37,14 +116,14 @@ public class Commands {
                 )
         ));
 
-        CommandManager.consoledispatcher.register(CommandManager.literal("kick").
-        then(CommandManager.argument("id", StringArgumentType.greedyString())
-         .executes(new Kick())));
+//        CommandManager.consoledispatcher.register(CommandManager.literal("kick").
+//        then(CommandManager.argument("id", StringArgumentType.greedyString())
+//         .executes(new Kick())));
 
-        LiteralArgumentBuilder<CommandSource> op = CommandManager.literal("op");
-        op.then(CommandManager.argument("id", StringArgumentType.greedyString())
-                .executes(new Op()));
-        CommandManager.consoledispatcher.register(op);
+//        LiteralArgumentBuilder<CommandSource> op = CommandManager.literal("op");
+//        op.then(CommandManager.argument("id", StringArgumentType.greedyString())
+//                .executes(new Op()));
+//        CommandManager.consoledispatcher.register(op);
 
         LiteralArgumentBuilder<CommandSource> say = CommandManager.literal("say");
         say.then(CommandManager.argument("txt", StringArgumentType.greedyString())
@@ -98,6 +177,7 @@ public class Commands {
         stop.executes(new StopServer.stop());
 
         CommandManager.consoledispatcher.register(stop);
+        vanillaCommands();
     }
     public static void registerClientCommands(){
         LiteralArgumentBuilder<CommandSource> setname = CommandManager.literal("setname");
@@ -142,7 +222,7 @@ public class Commands {
             for(String s : map.values()) {
                 builder.append("\t" + s + "\n");
             }
-            if(ServerSingletons.getIdentityByAccount(context.getSource().getAccount()).isOP)
+            if(OP_LIST.hasAccount(context.getSource().getAccount()))
             {
                 builder.append("Operator Commands:\n");
                 Map<CommandNode<CommandSource>, String> mapconsole = CommandManager.consoledispatcher.getSmartUsage(CommandManager.consoledispatcher.getRoot(), context.getSource());

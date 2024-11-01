@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/networking/NetworkIdentity.java
 +++ b/finalforeach/cosmicreach/networking/NetworkIdentity.java
-@@ -5,7 +_,7 @@
+@@ -6,7 +_,7 @@
  import finalforeach.cosmicreach.world.World;
  import finalforeach.cosmicreach.world.Zone;
  

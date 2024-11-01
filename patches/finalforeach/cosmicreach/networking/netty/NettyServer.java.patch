@@ -1,7 +1,13 @@
 --- a/finalforeach/cosmicreach/networking/netty/NettyServer.java
 +++ b/finalforeach/cosmicreach/networking/netty/NettyServer.java
-@@ -14,24 +_,24 @@
+@@ -18,25 +_,27 @@
+ import finalforeach.cosmicreach.networking.server.ServerIdentity;
+ import finalforeach.cosmicreach.networking.server.ServerSettings;
+ import finalforeach.cosmicreach.networking.server.ServerSingletons;
++import finalforeach.cosmicreach.server.ServerLauncher;
  import finalforeach.cosmicreach.util.ArrayUtils;
+ import finalforeach.cosmicreach.util.logging.Logger;
+ import finalforeach.cosmicreach.world.IZoneLoader;
  import finalforeach.cosmicreach.world.Zone;
  import io.netty.bootstrap.ServerBootstrap;
 -import io.netty.channel.ChannelFuture;
@@ -13,6 +19,8 @@
  import io.netty.channel.nio.NioEventLoopGroup;
  import io.netty.channel.socket.SocketChannel;
  import io.netty.channel.socket.nio.NioServerSocketChannel;
+ import java.io.BufferedReader;
+ import java.io.InputStreamReader;
  
 -public class NettyServer {
 -	public final ServerBroadcastIdentity broadcastIdentity;
@@ -20,21 +28,24 @@
 +
 +public class NettyServer extends com.github.puzzle.paradox.game.server.ParadoxServer {
  	private int port;
--	Array<ServerIdentity> connections = new Array<>();
--	ObjectMap<ChannelHandlerContext, ServerIdentity> contextToIdentity = new ObjectMap<>();
 +	public final ServerBroadcastIdentity broadcastIdentity;
 +
 +	public Array<ServerIdentity> connections = new Array<>();
 +	public ObjectMap<ChannelHandlerContext, ServerIdentity> contextToIdentity = new ObjectMap<>();
- 
+ 	private ChannelFuture channelFuture;
+ 	public IChat systemChat = new IChat() {
+ 		@Override
+@@ -48,9 +_,6 @@
+ 			}
+ 		}
+ 	};
+-	Array<ServerIdentity> connections = new Array<>();
+-	ObjectMap<ChannelHandlerContext, ServerIdentity> contextToIdentity = new ObjectMap<>();
+-
  	public NettyServer(int port) {
  		this.port = port;
  		this.broadcastIdentity = new ServerBroadcastIdentity(this);
-+		LOGGER.info("Using port: {}",port);
- 	}
- 
- 	public NettyServer() {
-@@ -39,8 +_,8 @@
+@@ -62,8 +_,8 @@
  	}
  
  	public void run() throws Exception {
@@ -45,19 +56,50 @@
  
  		try {
  			ServerBootstrap serverbootstrap = new ServerBootstrap();
-@@ -49,9 +_,10 @@
- 					ch.pipeline().addLast(new ByteArrayDataEncoder(), new ByteArrayDataDecoder(), new ServerHandler(NettyServer.this));
+@@ -73,23 +_,32 @@
  				}
  			}).option(ChannelOption.SO_BACKLOG, Integer.valueOf(128)).childOption(ChannelOption.SO_KEEPALIVE, true);
--			ChannelFuture channelfuture = serverbootstrap.bind(this.port).sync();
-+			channelfuture = serverbootstrap.bind(this.port).sync();
- 			channelfuture.channel().closeFuture().sync();
- 		} finally {
-+			ServerSingletons.puzzle.exit();
- 			eventloopgroup1.shutdownGracefully();
- 			eventloopgroup.shutdownGracefully();
+ 			this.channelFuture = serverbootstrap.bind(this.port).sync();
+-			BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(System.in));
+-			String s = null;
+-			Logger.info("Server started, type 'stop' to shutdown and 'help' for commands.");
+-
++			LOGGER.info("Server started, type 'stop' to shutdown and 'help' for commands.");
++			/*
+ 			while (!"stop".equals(s) && this.channelFuture.channel().isActive()) {
+ 				s = bufferedreader.readLine();
+ 				this.processCommand(s);
+ 			}
+-
+-			this.shutdown();
++			 */
++			LOGGER.info("Using port: {}",port);
++
++
++			while(ServerLauncher.isRunning() &&  this.channelFuture.channel().isActive()) {
++
++			}
++			shutdown();
+ 			this.channelFuture.channel().closeFuture().sync();
+-		} finally {
+-			eventloopgroup1.shutdownGracefully();
+-			eventloopgroup.shutdownGracefully();
++			eventloopgroup.shutdownGracefully();
++			eventloopgroup1.shutdownGracefully();
++;
++		} catch (Throwable th) {
++			eventloopgroup1.shutdownGracefully();
++			eventloopgroup.shutdownGracefully();
++			throw th;
++
  		}
-@@ -60,10 +_,12 @@
+ 
+-		Logger.info("Server closed.");
++		LOGGER.info("Server closed.");
+ 	}
+ 
+ 	public void processCommand(String commandLine) {
+@@ -112,10 +_,12 @@
  	public void broadcastToAll(GamePacket packet) {
  		packet.setupAndSendToAll(this.connections);
  	}
@@ -71,7 +113,7 @@
  
  	public void addContext(ChannelHandlerContext ctx) {
  		ServerIdentity serveridentity = new ServerIdentity(this, ctx);
-@@ -73,19 +_,24 @@
+@@ -125,19 +_,24 @@
  
  	public void removeContext(ChannelHandlerContext ctx) {
  		ServerIdentity serveridentity = this.contextToIdentity.get(ctx);

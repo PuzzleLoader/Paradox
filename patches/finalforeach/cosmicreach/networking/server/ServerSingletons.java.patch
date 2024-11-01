@@ -8,7 +8,7 @@
  import finalforeach.cosmicreach.GameSingletons;
  import finalforeach.cosmicreach.Threads;
  import finalforeach.cosmicreach.accounts.Account;
-@@ -28,6 +_,8 @@
+@@ -31,6 +_,8 @@
  
  public class ServerSingletons {
  	public static NettyServer SERVER;
@@ -17,7 +17,7 @@
  	private static ObjectMap<NetworkIdentity, Account> netIdsToAccounts = new ObjectMap<>();
  	private static ObjectMap<Account, NetworkIdentity> accountsToNetIds = new ObjectMap<>();
  	private static ObjectMap<String, Account> uniqueIdsToAccounts = new ObjectMap<>();
-@@ -116,12 +_,14 @@
+@@ -128,6 +_,7 @@
  			World world = GameSingletons.world;
  
  			for (Zone zone : world.getZones()) {
@@ -25,23 +25,31 @@
  				zone.update(deltaTime);
  			}
  
- 			world.currentWorldTick++;
- 			SERVER.broadcastToAll(new EndTickPacket());
+@@ -136,6 +_,7 @@
+ 				SERVER.broadcastToAll(new EndTickPacket(world.currentWorldTick));
+ 			}
  		});
 +		puzzle = new com.github.puzzle.paradox.core.PuzzlePL();
  		registerBlockEntityOpeners();
  		GameSingletons.postCreate();
  	}
-@@ -144,9 +_,11 @@
+@@ -154,15 +_,17 @@
+ 			serveridentity.send(new BlockEntityScreenPacket(blockentity));
+ 		});
+ 	}
+-
  	public static Account getAccount(NetworkIdentity identity) {
  		return identity == null ? null : netIdsToAccounts.get(identity);
  	}
 -
  	public static Player getPlayer(NetworkIdentity identity) {
- 		return GameSingletons.getPlayerFromUniqueId(getAccount(identity).getUniqueId());
+ 		Account account = getAccount(identity);
+ 		return account == null ? null : GameSingletons.getPlayerFromUniqueId(account.getUniqueId());
 +    }
 +    public static ServerIdentity getIdentityByAccount(Account account) {
 +      return (ServerIdentity)accountsToNetIds.get(account);
  	}
++
  
  	public static ServerIdentity getConnection(Player player) {
+ 		Account account = GameSingletons.getAccountFromPlayer(player);

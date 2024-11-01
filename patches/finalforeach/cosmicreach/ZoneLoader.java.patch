@@ -26,11 +26,11 @@
  		int j = i;
  		int k = MathUtils.clamp(i, 6, 12);
  		if (!this.spawnReady) {
--			int flag = true;
+-			k = 1;
  		}
  
  		if (player.isLoading()) {
-@@ -444,11 +_,12 @@
+@@ -448,11 +_,12 @@
  		}
  
  		long k = System.currentTimeMillis();

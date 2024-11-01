@@ -1,11 +1,12 @@
 --- a/finalforeach/cosmicreach/networking/netty/ServerHandler.java
 +++ b/finalforeach/cosmicreach/networking/netty/ServerHandler.java
-@@ -5,10 +_,10 @@
- import finalforeach.cosmicreach.networking.NetworkIdentity;
- import finalforeach.cosmicreach.networking.packets.meta.DisconnectPacket;
+@@ -7,11 +_,11 @@
  import finalforeach.cosmicreach.networking.packets.meta.ProtocolSyncPacket;
+ import finalforeach.cosmicreach.networking.packets.meta.RemovedPlayerPacket;
+ import finalforeach.cosmicreach.networking.server.ServerSingletons;
 -import finalforeach.cosmicreach.util.logging.Logger;
  import io.netty.channel.ChannelHandlerContext;
+ import java.net.InetSocketAddress;
  
 -public class ServerHandler extends NettyPacketHandler {
 +public class ServerHandler extends com.github.puzzle.paradox.game.server.packets.ParadoxNettyPacketHandler {
@@ -13,22 +14,28 @@
  	NettyServer nettyServer;
  
  	public ServerHandler(NettyServer nettyServer) {
-@@ -17,21 +_,22 @@
- 
- 	@Override
+@@ -22,11 +_,11 @@
  	public void handlerAdded(ChannelHandlerContext ctx) {
--		Logger.info("Handler added");
-+      	LOGGER.info("Handler added");
- 		this.nettyServer.addContext(ctx);
- 		new ProtocolSyncPacket(RuntimeInfo.version).setupAndSend(ctx);
- 	}
+ 		String s = ((InetSocketAddress)ctx.channel().remoteAddress()).getAddress().getHostAddress();
+ 		if (ServerSingletons.BANNED_IP_LIST.hasAddress(s)) {
+-			Logger.info("IP is in the banlist: " + s);
++			LOGGER.info("IP is in the banlist: " + s);
+ 			new DisconnectPacket("You are banned on this server.").setupAndSend(ctx);
+ 			ctx.close();
+ 		} else {
+-			Logger.info("Handler added");
++      		LOGGER.info("Handler added");
+ 			this.nettyServer.addContext(ctx);
+ 			new ProtocolSyncPacket(RuntimeInfo.version).setupAndSend(ctx);
+ 		}
+@@ -34,14 +_,15 @@
  
  	@Override
  	public void handlerRemoved(ChannelHandlerContext ctx) {
 -		Logger.info("Handler removed");
  		Account account = this.nettyServer.getAccount(ctx);
  		if (account != null) {
- 			this.nettyServer.broadcastToAll(new DisconnectPacket(account));
+ 			this.nettyServer.broadcastToAll(new RemovedPlayerPacket(account));
  		}
  
 +      	LOGGER.info("Handler removed");

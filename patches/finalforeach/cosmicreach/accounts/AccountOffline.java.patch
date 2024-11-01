@@ -1,7 +1,7 @@
 --- a/finalforeach/cosmicreach/accounts/AccountOffline.java
 +++ b/finalforeach/cosmicreach/accounts/AccountOffline.java
-@@ -3,9 +_,13 @@
- import com.badlogic.gdx.math.MathUtils;
+@@ -4,9 +_,13 @@
+ import finalforeach.cosmicreach.networking.server.ServerSettings;
  
  public class AccountOffline extends Account {
 +
@@ -11,11 +11,11 @@
 +		this.setUsername("Player_" + accountIndex );
 +		accountIndex++;
  		this.setUniqueId(Long.valueOf(MathUtils.random(Long.MAX_VALUE)));
-+		if(com.github.puzzle.paradox.game.server.ParadoxServerSettings.isOffline) isValid = false;
++		if(isAllowed()) isValid = false;
  	}
  
  	@Override
-@@ -15,7 +_,7 @@
+@@ -16,7 +_,7 @@
  
  	@Override
  	public String getDisplayName() {

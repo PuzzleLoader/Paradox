@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/networking/GamePacket.java
 +++ b/finalforeach/cosmicreach/networking/GamePacket.java
-@@ -46,7 +_,6 @@
+@@ -50,7 +_,6 @@
  import finalforeach.cosmicreach.savelib.IByteArray;
  import finalforeach.cosmicreach.savelib.crbin.CRBinSerializer;
  import finalforeach.cosmicreach.util.ArrayUtils;
@@ -8,16 +8,16 @@
  import finalforeach.cosmicreach.world.Zone;
  import io.netty.buffer.ByteBuf;
  import io.netty.channel.ChannelFuture;
-@@ -56,7 +_,7 @@
+@@ -60,7 +_,7 @@
  import java.nio.charset.StandardCharsets;
  import java.util.function.Supplier;
  
 -public abstract class GamePacket {
 +public abstract class GamePacket extends com.github.puzzle.paradox.game.server.packets.PuzzleGamePacket  {
- 	public static final Json json = new Json();
+ 	public static final Json JSON = new Json();
  	protected static final IntMap<Supplier<? extends GamePacket>> idsToPackets = new IntMap<>();
  	protected static final ObjectIntMap<Class<? extends GamePacket>> packetsToIntIds = new ObjectIntMap<>();
-@@ -106,6 +_,10 @@
+@@ -114,6 +_,10 @@
  	}
  
  	public static <T extends GamePacket> void registerPacket(Class<T> packetClass) {
@@ -28,7 +28,7 @@
  		String s = packetClass.getCanonicalName();
  		if (s == null) {
  			String s1 = "Packet class must have a canonical name";
-@@ -123,7 +_,7 @@
+@@ -131,7 +_,7 @@
  		}
  	}
  
@@ -37,7 +37,7 @@
  		try {
  			Constructor<T> constructor = packetClass.getDeclaredConstructor();
  			Supplier<T> supplier = () -> {
-@@ -138,14 +_,14 @@
+@@ -146,14 +_,14 @@
  			packetsToIntIds.put(packetClass, numId);
  			packetNamesToIntIds.put(strId, numId);
  			packetNamesToClasses.put(strId, packetClass);
@@ -54,7 +54,7 @@
  		if (this.packetID == 0) {
  			throw new RuntimeException("Cannot send packet for " + this.getClass() + " without registering it first!");
  		}
-@@ -156,7 +_,9 @@
+@@ -164,7 +_,9 @@
  	public static GamePacket getPacket(short packetId) {
  		Supplier<? extends GamePacket> supplier = idsToPackets.get(packetId);
  		if (supplier == null) {

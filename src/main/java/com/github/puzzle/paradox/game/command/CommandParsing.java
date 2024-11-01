@@ -14,11 +14,13 @@ import io.netty.channel.ChannelHandlerContext;
 import static com.github.puzzle.paradox.core.PuzzlePL.SERVER_ACCOUNT;
 import static com.github.puzzle.paradox.core.PuzzlePL.clientDispatcher;
 import static finalforeach.cosmicreach.GameSingletons.world;
+import static finalforeach.cosmicreach.networking.server.ServerSingletons.OP_LIST;
 
 public class CommandParsing {
     public static void parse(GamePacket packet, String message, NetworkIdentity identity, ChannelHandlerContext ctx){
         try {
-            ParseResults<CommandSource> results = clientDispatcher.parse(message.substring(1),new ParadoxClientCommandSource(ServerSingletons.getAccount(identity),null,world,ServerSingletons.getPlayer(identity)));
+
+            ParseResults<CommandSource> results = clientDispatcher.parse(message.substring(1),new ParadoxClientCommandSource(ServerSingletons.getAccount(identity),ServerSingletons.SERVER.systemChat,world,ServerSingletons.getPlayer(identity)));
             CommandSyntaxException e;
             if(results.getReader().canRead()) {
                 if(results.getExceptions().size() == 1)
@@ -30,11 +32,11 @@ public class CommandParsing {
             }
            clientDispatcher.execute(message.substring(1), new ParadoxClientCommandSource(ServerSingletons.getAccount(identity), null, world, ServerSingletons.getPlayer(identity)));
         } catch (CommandSyntaxException e) {
-            if(ServerSingletons.SERVER.contextToIdentity.get(ctx).isOP){
+            if(OP_LIST.hasAccount(ServerSingletons.SERVER.contextToIdentity.get(ctx).getAccount())){
                 parseOperatorCommand(packet,message,identity,ctx);
                 return;
             }else {
-                var pack = new MessagePacket("[Server] " + e.getRawMessage().getString() + ": " + message.substring(1));
+                var pack = new MessagePacket("[Server] " + e.getRawMessage().getString() + ": " + message);
                 pack.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
                 pack.setupAndSend(ServerSingletons.SERVER.contextToIdentity.get(ctx));
             }

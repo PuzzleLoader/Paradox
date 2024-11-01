@@ -43,9 +43,10 @@ public class PuzzlePL {
 
         try {
             boolean propExists = true;
-            if(!Files.exists(Path.of("server.properties"))) {
+            Path path = Path.of("server.properties");
+            if(!Files.exists(path)) {
                 propExists = false;
-                Files.createFile(Path.of("server.properties"));
+                Files.createFile(path);
             }
             Parameters params = new Parameters();
             configBuilder =

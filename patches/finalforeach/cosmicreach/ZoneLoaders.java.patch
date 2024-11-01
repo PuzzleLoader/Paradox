@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/ZoneLoaders.java
 +++ b/finalforeach/cosmicreach/ZoneLoaders.java
-@@ -9,9 +_,9 @@
+@@ -10,9 +_,9 @@
  
  public class ZoneLoaders {
  	public static final ZoneLoaders INSTANCE = new ZoneLoaders();
@@ -12,7 +12,7 @@
  	public void continueWorldGenThread() {
  		this.worldGenThread.onResume();
  	}
-@@ -20,7 +_,7 @@
+@@ -21,7 +_,7 @@
  		if (!this.zoneLoaders.containsKey(zone)) {
  			IZoneLoader izoneloader = GameSingletons.zoneLoaderCreator.apply(zone);
  			this.zoneLoaders.put(zone, izoneloader);

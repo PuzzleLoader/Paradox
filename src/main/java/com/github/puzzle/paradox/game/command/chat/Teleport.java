@@ -36,7 +36,7 @@ public class Teleport {
             }
             for(var id : ServerSingletons.SERVER.connections){
                 if (Objects.equals(ServerSingletons.getAccount(id).getDisplayName(), name)){
-                    Player playerToTp = context.getSource().getPlayer();
+                    Player playerToTp = context.getSource().getAccount().getPlayer();
 
                     ServerSingletons.getAccount(id).addTpr(id,playerToTp);
 

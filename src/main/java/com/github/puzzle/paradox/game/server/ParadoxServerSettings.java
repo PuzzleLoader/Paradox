@@ -22,7 +22,7 @@ public class ParadoxServerSettings {
     public static boolean RCONenabled = false;
     public static String RCONpassword = "";
     public static boolean anticheat = true;
-    public static boolean isOffline = false;
+//    public static boolean isOffline = false;
     public static String itAPIkey = "";
 
     public static boolean getBool(String name){
@@ -36,14 +36,14 @@ public class ParadoxServerSettings {
     }
     public static void writeSetting(){
         PropertiesConfiguration config = ServerSingletons.puzzle.serverConfig;
-        config.addProperty("iteraction.shouldexplodec4",doesC4Explode);
-        config.addProperty("iteraction.canbreakblock",canBreakBlock);
-        config.addProperty("iteraction.canplaceblock",canPlaceBlock);
-        config.addProperty("server.canchat",canChat);
-        config.addProperty("server.isoffline",false);
-        config.addProperty("commands.enabled",executeChatCommands);
+        config.setProperty("iteraction.shouldexplodec4",doesC4Explode);
+        config.setProperty("iteraction.canbreakblock",canBreakBlock);
+        config.setProperty("iteraction.canplaceblock",canPlaceBlock);
+        config.setProperty("server.canchat",canChat);
+//        config.setProperty("server.isoffline",isOffline);
+        config.setProperty("commands.enabled",executeChatCommands);
         var rd = ServerZoneLoader.INSTANCE.serverLoadDistance;
-        config.addProperty("server.renderdistance",rd < 3 || rd > 32 ? 10 : rd);
+        config.setProperty("server.renderdistance",rd < 3 || rd > 32 ? 10 : rd);
         try {
             ServerSingletons.puzzle.configBuilder.save();
         } catch (ConfigurationException e) {
@@ -61,20 +61,20 @@ public class ParadoxServerSettings {
         RCONenabled =  getBool("rcon.enabled",false);
         canChat = getBool("server.canchat");
         anticheat = getBool("server.anticheat");
-        isOffline = getBool("server.isoffline", false);
+//        isOffline = getBool("server.isoffline", false);
         executeChatCommands =  getBool("commands.enabled");
         joinMessage = Objects.requireNonNullElse(config.getString("server.joinmessage"),"");
-        itAPIkey = Objects.requireNonNullElse(config.getString("itch.apikey"),"");
-        if(itAPIkey.isEmpty() && itAPIkey.isBlank()){
-            LoggerFactory.getLogger("Paradox").warn("No itch api key in server.properties, cannot verify accounts. Setting server to an offline server");
-            isOffline = true;
-        }
+//        itAPIkey = Objects.requireNonNullElse(config.getString("itch.apikey"),"");
+//        if(itAPIkey.isEmpty() && itAPIkey.isBlank()){
+//            LoggerFactory.getLogger("Paradox").warn("No itch api key in server.properties, cannot verify accounts. Setting server to an offline server");
+//            isOffline = true;
+//        }
         var rd = getInt("server.renderdistance");
         ServerZoneLoader.INSTANCE.serverLoadDistance = rd < 3 || rd > 32 ? 10 : rd;
         if (Objects.requireNonNullElse(config.getString("world.difficulty"),"normal") == "peaceful"){
-            DifficultySettings.difficultyLevel.setValue(Difficulty.PEACEFUL);
+            DifficultySettings.DIFFICULTY_LEVEL.setValue(Difficulty.PEACEFUL);
         }else {
-            DifficultySettings.difficultyLevel.setValue(Difficulty.NORMAL);
+            DifficultySettings.DIFFICULTY_LEVEL.setValue(Difficulty.NORMAL);
         }
     }
 

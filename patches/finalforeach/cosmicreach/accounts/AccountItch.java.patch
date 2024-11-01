@@ -1,32 +1,24 @@
 --- a/finalforeach/cosmicreach/accounts/AccountItch.java
 +++ b/finalforeach/cosmicreach/accounts/AccountItch.java
-@@ -2,33 +_,47 @@
+@@ -22,33 +_,38 @@
  
- import com.badlogic.gdx.utils.Json;
- import com.badlogic.gdx.utils.JsonValue;
-+import com.badlogic.gdx.utils.Logger;
-+
- import java.io.IOException;
-+import java.net.MalformedURLException;
-+import java.net.ProtocolException;
- import java.net.URL;
- import java.time.Instant;
- import javax.net.ssl.HttpsURLConnection;
- 
- public class AccountItch extends Account {
+ public class AccountItch extends Account implements IAuthenticatedAccount {
+ 	private static final Json JSON = new Json();
 -	ItchProfileMe profile;
-+	public ItchProfileMe profile;
++
  	long expiresAtEpochSecond = Long.MAX_VALUE;
--	AccountItch.AuthType authType;
-+	AuthType authType;
-+
-+
-+	enum AuthType {
-+		JWT,
-+		API
-+	}
-+
+ 	AccountItch.AuthType authType;
+ 	private transient String itchApiKey;
+ 	public static final String ITCH_AUTH_ROOT_URL_STR = "http://cosmicreach-auth.finalforeach.com:8080";
+ 	private static final String ITCH_KEY_TYPE = "keyType";
+-	private static final String SERVER_CHALLENGE = "serverChallenge";
++	public ItchProfileMe profile;
+ 	private static final String ITCH_API_KEY = "itchApiKey";
+ 	public static URL ITCH_VERIFY_AUTH_URL;
  
++
++
++
  	@Override
  	public void read(Json json, JsonValue jsonData) {
  		super.read(json, jsonData);
@@ -34,7 +26,6 @@
  		json.readField(this, "expiresAtEpochSecond", jsonData);
 +
 +		displayname = this.profile.display_name;
-+		validateItchAccount(profile.id);
 +
  	}
  
@@ -52,17 +43,17 @@
  	}
 -
  	public AccountItch(String itchApiKey, String expiresAt) throws IOException {
+ 		this.itchApiKey = itchApiKey;
  		String s;
- 		if (expiresAt == null) {
-@@ -50,6 +_,7 @@
- 		this.profile = json.fromJson(ItchProfileMe.class, s1);
+@@ -74,6 +_,7 @@
+ 	public void initProfile() {
  		this.setUsername(this.profile.username);
  		this.setUniqueId(Long.valueOf(this.profile.id));
 +
  	}
  
  	public void setExpiresAt(String expiresAt) {
-@@ -67,16 +_,10 @@
+@@ -91,9 +_,8 @@
  
  	@Override
  	public String getDisplayName() {
@@ -73,10 +64,3 @@
  	@Override
  	public boolean canSave() {
  		return true;
--	}
--
--	static enum AuthType {
--		JWT,
--		API;
- 	}
- }

@@ -1,8 +1,8 @@
 --- a/finalforeach/cosmicreach/accounts/Account.java
 +++ b/finalforeach/cosmicreach/accounts/Account.java
-@@ -4,9 +_,9 @@
- import com.badlogic.gdx.utils.JsonValue;
- import com.badlogic.gdx.utils.Json.Serializable;
+@@ -7,9 +_,9 @@
+ import finalforeach.cosmicreach.entities.player.Player;
+ import finalforeach.cosmicreach.networking.server.ServerSingletons;
  
 -public abstract class Account implements Serializable {
 -	private String username;
@@ -13,7 +13,7 @@
  
  	public final String getUsername() {
  		return this.username;
-@@ -16,15 +_,16 @@
+@@ -19,15 +_,16 @@
  		return this.uniqueId;
  	}
  
@@ -25,7 +25,7 @@
  
 -	protected final void setUniqueId(Object uniqueId) {
 +	public final void setUniqueId(Object uniqueId) {
- 		this.uniqueId = this.getPrefix() + ":" + uniqueId.toString();
+ 		this.uniqueId = this.getPrefix() + "_id:" + uniqueId.toString();
  	}
  
 -	public abstract String getPrefix();
@@ -33,7 +33,7 @@
  
  	public abstract String getDisplayName();
  
-@@ -39,6 +_,7 @@
+@@ -42,6 +_,7 @@
  		json.readField(this, "username", jsonData);
  		json.readField(this, "uniqueId", jsonData);
  	}
