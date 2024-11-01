@@ -25,7 +25,7 @@ import java.nio.file.Path;
 
 public class PuzzlePL {
     private static final Logger LOGGER = LoggerFactory.getLogger("Puzzle Paradox");
-    public static final Version VERSION = new Version(1,1,6, Version.VersionType.ALPHA);
+    public static final Version VERSION = new Version(1,1,7, Version.VersionType.ALPHA);
 
     public final PropertiesConfiguration serverConfig;
     public final FileBasedConfigurationBuilder<PropertiesConfiguration> configBuilder;
