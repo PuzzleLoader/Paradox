@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/server/ServerLauncher.java
 +++ b/finalforeach/cosmicreach/server/ServerLauncher.java
-@@ -2,52 +_,77 @@
+@@ -2,6 +_,11 @@
  
  import com.badlogic.gdx.Gdx;
  import com.badlogic.gdx.backends.headless.HeadlessFiles;
@@ -10,9 +10,9 @@
 +import com.github.puzzle.paradox.loader.plugin.PluginLocator;
 +import com.google.common.primitives.Ints;
  import finalforeach.cosmicreach.GameSingletons;
--import finalforeach.cosmicreach.TickRunner;
+ import finalforeach.cosmicreach.TickRunner;
  import finalforeach.cosmicreach.ZoneLoaders;
- import finalforeach.cosmicreach.io.ChunkLoader;
+@@ -9,45 +_,67 @@
  import finalforeach.cosmicreach.io.SaveLocation;
  import finalforeach.cosmicreach.networking.netty.NettyServer;
  import finalforeach.cosmicreach.networking.server.ServerSingletons;
@@ -91,6 +91,7 @@
 +                 LOGGER.info("Loaded world.");
 +                 ZoneLoaders.INSTANCE.addZoneLoader(GameSingletons.world.getDefaultZone());
 +            }
++            TickRunner.INSTANCE.continueTickThread();
 +            NettyServer nettyserver = new NettyServer(Ints.constrainToRange(ServerSingletons.puzzle.serverConfig.getInt("server.port"),1,(Short.MAX_VALUE*2)+1));
 +            ServerSingletons.SERVER = nettyserver;
 +            ServerSingletons.puzzle.init();

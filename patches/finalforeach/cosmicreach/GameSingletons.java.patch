@@ -21,7 +21,7 @@
  import java.util.HashMap;
  import java.util.WeakHashMap;
  import java.util.function.Consumer;
-@@ -67,7 +_,7 @@
+@@ -68,7 +_,7 @@
  	public static IClientSingletons clientSingletons;
  
  	public static void create() {

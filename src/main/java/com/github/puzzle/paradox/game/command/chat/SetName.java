@@ -1,21 +1,22 @@
 package com.github.puzzle.paradox.game.command.chat;
 
 import com.github.puzzle.game.commands.CommandSource;
-import com.mojang.brigadier.Command;
+import com.github.puzzle.paradox.game.command.DefaultPuzzleCommand;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import finalforeach.cosmicreach.networking.packets.MessagePacket;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 
 import static com.github.puzzle.paradox.core.PuzzlePL.SERVER_ACCOUNT;
 
-public class SetName implements Command<CommandSource> {
+public class SetName extends DefaultPuzzleCommand {
 
-    public SetName() {}
+    public SetName() {
+        registerPermission(0);
+    }
 
     @Override
-    public int run(CommandContext<CommandSource> context) throws CommandSyntaxException {
+    public int execute(CommandContext<CommandSource> context) {
         String name =  StringArgumentType.getString(context, "name");
         if(name.length() > 25) {
 
@@ -27,7 +28,7 @@ public class SetName implements Command<CommandSource> {
             return 0;
         }
         boolean isTaken = false;
-        for (var id : ServerSingletons.SERVER.connections){
+        for (var id : ServerSingletons.SERVER.authenticatedConnections){
             if(ServerSingletons.SERVER.getAccount(id.ctx).displayname.equals(name)) {
                 isTaken = true;
                 break;
@@ -48,5 +49,15 @@ public class SetName implements Command<CommandSource> {
                 ServerSingletons
                         .getIdentityByAccount(context.getSource().getAccount()));
         return 0;
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public String[] getAliases() {
+        return new String[0];
     }
 }

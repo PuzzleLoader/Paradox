@@ -1,6 +1,10 @@
 --- a/finalforeach/cosmicreach/networking/packets/ZonePacket.java
 +++ b/finalforeach/cosmicreach/networking/packets/ZonePacket.java
-@@ -13,7 +_,7 @@
+@@ -10,14 +_,14 @@
+ import finalforeach.cosmicreach.world.Zone;
+ import io.netty.buffer.ByteBuf;
+ import io.netty.channel.ChannelHandlerContext;
+-
  public class ZonePacket extends GamePacket {
  	public Zone zone;
  	boolean setDefault;
@@ -9,7 +13,11 @@
  	public ZonePacket() {
  	}
  
-@@ -38,7 +_,7 @@
++
+ 	public ZonePacket(Zone zone, boolean setDefault) {
+ 		this();
+ 		this.zone = zone;
+@@ -39,7 +_,7 @@
  	@Override
  	public void handle(NetworkIdentity identity, ChannelHandlerContext ctx) {
  		if (!identity.isServer()) {

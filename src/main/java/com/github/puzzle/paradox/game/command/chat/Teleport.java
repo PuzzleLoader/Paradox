@@ -2,7 +2,7 @@ package com.github.puzzle.paradox.game.command.chat;
 
 import com.badlogic.gdx.math.Vector3;
 import com.github.puzzle.game.commands.CommandSource;
-import com.mojang.brigadier.Command;
+import com.github.puzzle.paradox.game.command.DefaultPuzzleCommand;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -18,12 +18,14 @@ import static com.github.puzzle.paradox.core.PuzzlePL.SERVER_ACCOUNT;
 
 public class Teleport {
 
-    public static class TPR implements Command<CommandSource> {
+    public static class TPR extends DefaultPuzzleCommand {
 
-        public TPR() {}
+        public TPR() {
+            registerPermission(0);
+        }
 
         @Override
-        public int run(CommandContext<CommandSource> context) throws CommandSyntaxException {
+        public int execute(CommandContext<CommandSource> context) throws CommandSyntaxException {
             String name = StringArgumentType.getString(context, "name");
             if(name.length() > 25)
             {
@@ -34,7 +36,7 @@ public class Teleport {
                                 .getIdentityByAccount(context.getSource().getAccount()));
                 return 0;
             }
-            for(var id : ServerSingletons.SERVER.connections){
+            for(var id : ServerSingletons.SERVER.authenticatedConnections){
                 if (Objects.equals(ServerSingletons.getAccount(id).getDisplayName(), name)){
                     Player playerToTp = context.getSource().getAccount().getPlayer();
 
@@ -63,13 +65,25 @@ public class Teleport {
                             .getIdentityByAccount(context.getSource().getAccount()));
             return 0;
         }
-    }
-
-    public static class TPA implements Command<CommandSource>{
-        public TPA() {}
 
         @Override
-        public int run(CommandContext<CommandSource> context) throws CommandSyntaxException {
+        public String getName() {
+            return "tpr";
+        }
+
+        @Override
+        public String[] getAliases() {
+            return new String[0];
+        }
+    }
+
+    public static class TPA extends DefaultPuzzleCommand {
+        public TPA() {
+            registerPermission(0);
+        }
+
+        @Override
+        public int execute(CommandContext<CommandSource> context) throws CommandSyntaxException {
             context.getSource().getAccount();
             if (context.getSource().getAccount().tpRequst){
                 Player player = context.getSource().getAccount().getTprPlayer();
@@ -89,6 +103,16 @@ public class Teleport {
                     ServerSingletons
                             .getIdentityByAccount(context.getSource().getAccount()));
             return 0;
+        }
+
+        @Override
+        public String getName() {
+            return "tpa";
+        }
+
+        @Override
+        public String[] getAliases() {
+            return new String[0];
         }
     }
 }

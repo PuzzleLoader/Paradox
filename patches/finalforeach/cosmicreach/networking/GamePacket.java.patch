@@ -1,6 +1,10 @@
 --- a/finalforeach/cosmicreach/networking/GamePacket.java
 +++ b/finalforeach/cosmicreach/networking/GamePacket.java
-@@ -50,7 +_,6 @@
+@@ -47,10 +_,10 @@
+ import finalforeach.cosmicreach.networking.packets.sounds.PlaySound2DPacket;
+ import finalforeach.cosmicreach.networking.packets.sounds.PlaySound3DPacket;
+ import finalforeach.cosmicreach.networking.server.ServerIdentity;
++import finalforeach.cosmicreach.networking.server.ServerSingletons;
  import finalforeach.cosmicreach.savelib.IByteArray;
  import finalforeach.cosmicreach.savelib.crbin.CRBinSerializer;
  import finalforeach.cosmicreach.util.ArrayUtils;
@@ -65,3 +69,21 @@
  		} else {
  			GamePacket gamepacket = supplier.get();
  			gamepacket.packetID = packetId;
+@@ -274,12 +_,16 @@
+ 
+ 	public void setupAndSendToAll(Array<ServerIdentity> connections) {
+ 		this.setupForSend();
+-		ArrayUtils.forEach(connections, c -> this.flushToContext(c.ctx));
++
++		ArrayUtils.forEach(connections, c ->{
++				this.flushToContext(c.ctx);
++		});
+ 	}
+ 
+ 	public void setupAndSendToAllExcept(Array<ServerIdentity> connections, NetworkIdentity identity) {
+ 		this.setupForSend();
+ 		ArrayUtils.forEach(connections, c -> {
++
+ 			if (c != identity) {
+ 				this.flushToContext(c.ctx);
+ 			}

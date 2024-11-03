@@ -6,7 +6,7 @@
  	public static final float FIXED_UPDATE_TIMESTEP = 0.05F;
 -	public static final TickRunner INSTANCE = new TickRunner();
 -	PauseableThread thread;
-+	public static TickRunner INSTANCE;
++	public static TickRunner INSTANCE = new TickRunner();
 +	public PauseableThread thread;
  	float fixedUpdateAccumulator = 0.0F;
  	double lastUpdateTime = -1.0;

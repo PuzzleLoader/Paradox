@@ -107,6 +107,8 @@ public class Commands {
     public static void registerConsoleCommands(){
 
 
+
+
         CommandManager.consoledispatcher.register(CommandManager.literal("setrenderdistance").then(
                 CommandManager.argument("size", IntegerArgumentType.integer(3,32)).executes(
                         context ->{
@@ -115,15 +117,6 @@ public class Commands {
                         }
                 )
         ));
-
-//        CommandManager.consoledispatcher.register(CommandManager.literal("kick").
-//        then(CommandManager.argument("id", StringArgumentType.greedyString())
-//         .executes(new Kick())));
-
-//        LiteralArgumentBuilder<CommandSource> op = CommandManager.literal("op");
-//        op.then(CommandManager.argument("id", StringArgumentType.greedyString())
-//                .executes(new Op()));
-//        CommandManager.consoledispatcher.register(op);
 
         LiteralArgumentBuilder<CommandSource> say = CommandManager.literal("say");
         say.then(CommandManager.argument("txt", StringArgumentType.greedyString())
@@ -195,9 +188,9 @@ public class Commands {
         LiteralArgumentBuilder<CommandSource> playerlist = CommandManager.literal("playerlist");
         playerlist.executes(context -> {
             StringBuilder builder = new StringBuilder();
-            builder.append("There are " + ServerSingletons.SERVER.connections.size + " player(s) online\n");
+            builder.append("There are " + ServerSingletons.SERVER.authenticatedConnections.size + " player(s) online\n");
             builder.append("players:\n");
-            for (var id : ServerSingletons.SERVER.connections) {
+            for (var id : ServerSingletons.SERVER.authenticatedConnections) {
                 var acc = ServerSingletons.SERVER.getAccount(id.ctx);
                 if(acc == context.getSource().getAccount()){
                     builder.append("\t" + acc.displayname + " <- you\n");

@@ -1,7 +1,7 @@
 package com.github.puzzle.paradox.game.command.chat;
 
 import com.github.puzzle.game.commands.CommandSource;
-import com.mojang.brigadier.Command;
+import com.github.puzzle.paradox.game.command.DefaultPuzzleCommand;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -10,11 +10,13 @@ import finalforeach.cosmicreach.networking.server.ServerSingletons;
 
 import static com.github.puzzle.paradox.core.PuzzlePL.SERVER_ACCOUNT;
 
-public class Msg implements Command<CommandSource> {
-    public Msg() {}
+public class Msg extends DefaultPuzzleCommand {
+    public Msg() {
+        registerPermission(0);
+    }
 
     @Override
-    public int run(CommandContext<CommandSource> context) throws CommandSyntaxException {
+    public int execute(CommandContext<CommandSource> context) throws CommandSyntaxException {
         String name =  StringArgumentType.getString(context, "name");
         String message =  StringArgumentType.getString(context, "msg");
         if(name.length() > 25) {
@@ -35,7 +37,7 @@ public class Msg implements Command<CommandSource> {
             return 0;
         }
 
-        for (var id : ServerSingletons.SERVER.connections){
+        for (var id : ServerSingletons.SERVER.authenticatedConnections){
             var acc = ServerSingletons.SERVER.getAccount(id.ctx);
             if(acc.displayname.equals(name)) {
                 var packet = new MessagePacket("["
@@ -61,4 +63,13 @@ public class Msg implements Command<CommandSource> {
         return 0;
     }
 
+    @Override
+    public String getName() {
+        return "msg";
+    }
+
+    @Override
+    public String[] getAliases() {
+        return new String[0];
+    }
 }

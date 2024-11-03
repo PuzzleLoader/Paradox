@@ -1,6 +1,8 @@
 package com.github.puzzle.paradox.core;
 
 import com.github.puzzle.game.commands.CommandSource;
+import com.github.puzzle.paradox.core.permissions.Permission;
+import com.github.puzzle.paradox.core.permissions.PermissionGroup;
 import com.github.puzzle.paradox.core.terminal.PPLTerminalConsole;
 import com.github.puzzle.paradox.game.command.Commands;
 import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
@@ -22,8 +24,15 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PuzzlePL {
+
+    Map<String,Permission> allPermissions;
+
     private static final Logger LOGGER = LoggerFactory.getLogger("Puzzle Paradox");
     public static final Version VERSION = new Version(1,1,8, Version.VersionType.ALPHA);
 
@@ -40,7 +49,7 @@ public class PuzzlePL {
         SERVER_ACCOUNT.setUsername("Server");
         SERVER_ACCOUNT.setUniqueId("Server");
         LOGGER.info("Loading Paradox");
-
+        allPermissions = new HashMap<>();
         try {
             boolean propExists = true;
             Path path = Path.of("server.properties");
@@ -62,6 +71,14 @@ public class PuzzlePL {
         } catch (ConfigurationException | IOException e) {
             throw new RuntimeException(e);
         }
+
+    }
+    public Permission getPermission(String permissionName){
+        return allPermissions.get(permissionName);
+    }
+    public void addPermission(Permission permission){
+        assert(permission != null);
+        allPermissions.putIfAbsent(permission.getPermissionVarString(), permission);
     }
 
     private void writeToNewConfig(){
@@ -78,15 +95,14 @@ public class PuzzlePL {
         serverConfig.addProperty("rcon.enabled", false);
         serverConfig.addProperty("rcon.port", 47138);
         serverConfig.addProperty("rcon.password", RandomStringUtils.randomAlphanumeric(8));
-        serverConfig.addProperty("world.worldType","base:earth");
-        serverConfig.addProperty("world.difficulty","normal");
+        serverConfig.addProperty("world.worldtype","base:earth");
         serverConfig.addProperty("itch.apikey","");
     }
     public void init(){
-        TickRunner.INSTANCE = new TickRunner();
         ParadoxServerSettings.initSetting();
         Commands.registerConsoleCommands();
         Commands.registerClientCommands();
+        PermissionGroup.DEFAULT_GROUP = new PermissionGroup("default", "default.command.msg","default.command.setname","default.command.tpr","default.command.tpa");
     }
 
     public void exit() {

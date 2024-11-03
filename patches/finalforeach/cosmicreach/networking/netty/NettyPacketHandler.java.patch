@@ -10,36 +10,67 @@
  import finalforeach.cosmicreach.networking.NetworkIdentity;
 +import finalforeach.cosmicreach.networking.packets.entities.DropItemPacket;
  import finalforeach.cosmicreach.networking.packets.meta.TransactionPacket;
- import io.netty.buffer.ByteBuf;
- import io.netty.channel.ChannelHandlerContext;
-@@ -20,17 +_,28 @@
+ import finalforeach.cosmicreach.networking.server.ServerSingletons;
+ import finalforeach.cosmicreach.util.exceptions.UnauthenticatedPacketRecieveException;
+@@ -17,6 +_,7 @@
+ 
+ public abstract class NettyPacketHandler extends ChannelInboundHandlerAdapter {
+ 	Array<GamePacket> bundledPackets = new Array<>();
++	org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger("Cosmic Reach | Packet Handler");
+ 
+ 	@Override
+ 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+@@ -26,32 +_,43 @@
  			bytebuf = (ByteBuf)msg;
  			short short1 = bytebuf.readShort();
- 			GamePacket gamepacket = GamePacket.getPacket(short1);
-+			if(gamepacket == null)
+ 			GamePacket gamepacket1 = GamePacket.getPacket(short1);
+-			if (GameSingletons.isHost && gamepacket1.shouldRejectUnauthenticated()) {
+-				AttributeKey<Boolean> attributekey = ServerSingletons.AUTHENTICATED_ATTRIBUTE;
+-				Channel channel = ctx.channel();
+-				if (!channel.hasAttr(attributekey)) {
+-					throw new UnauthenticatedPacketRecieveException((Class<? extends GamePacket>)gamepacket1.getClass());
+-				}
+-			}
++			if (GameSingletons.isHost) {
++                assert gamepacket1 != null;
++                if (gamepacket1.shouldRejectUnauthenticated()) {
++                    AttributeKey<Boolean> attributekey = ServerSingletons.AUTHENTICATED_ATTRIBUTE;
++                    Channel channel = ctx.channel();
++                    if (!channel.hasAttr(attributekey)) {
++                        throw new UnauthenticatedPacketRecieveException((Class<? extends GamePacket>) gamepacket1.getClass());
++                    }
++                }
++            }
+ 
++			if(gamepacket1 == null)
 +				return;
- 			gamepacket.receive(bytebuf);
+ 			gamepacket1.receive(bytebuf);
  			NetworkIdentity networkidentity = this.getIdentity(ctx);
 +//			System.out.println("Packet: " + short1);
-+			if(gamepacket instanceof DropItemPacket){
-+				System.out.println("hi form drop packet");
-+			}
- 			if (TransactionPacket.keepBundling && !(gamepacket instanceof TransactionPacket)) {
- 				this.bundledPackets.add(gamepacket);
+ 			if (TransactionPacket.keepBundling && !(gamepacket1 instanceof TransactionPacket)) {
+ 				this.bundledPackets.add(gamepacket1);
  			} else {
--				gamepacket.handle(networkidentity, ctx);
-+				PacketEvents.ON_PACKET_HANDLE_EVENT.invoker().onPacketHandle(gamepacket,networkidentity,ctx);
-+				if(!gamepacket.shouldGameIgnore)
-+					gamepacket.handle(networkidentity, ctx);
+-				gamepacket1.handle(networkidentity, ctx);
++				PacketEvents.ON_PACKET_HANDLE_EVENT.invoker().onPacketHandle(gamepacket1,networkidentity,ctx);
++				if(!gamepacket1.shouldGameIgnore)
++					gamepacket1.handle(networkidentity, ctx);
  			}
  
  			if (!this.bundledPackets.isEmpty() && !TransactionPacket.keepBundling) {
 +				PacketEvents.ON_BUNDLE_PACKET_HANDLE_EVENT.invoker().onPacketBundleHandle(bundledPackets,networkidentity,ctx);
 +
- 				for (GamePacket gamepacket1 : this.bundledPackets) {
--					gamepacket1.handle(networkidentity, ctx);
-+					if(!gamepacket1.shouldGameIgnore)
-+						gamepacket1.handle(networkidentity, ctx);
+ 				for (GamePacket gamepacket : this.bundledPackets) {
+-					gamepacket.handle(networkidentity, ctx);
++					if(!gamepacket.shouldGameIgnore)
++						gamepacket.handle(networkidentity, ctx);
  				}
  
  				this.bundledPackets.clear();
+ 			}
+ 		} catch (UnauthenticatedPacketRecieveException unauthenticatedpacketrecieveexception) {
+ 			String s = ((InetSocketAddress)ctx.channel().remoteAddress()).getAddress().getHostAddress();
+-			Logger.warn("Rejected packet " + unauthenticatedpacketrecieveexception.packetClass.getSimpleName() + " from unauthenticated client: " + s);
++			LOGGER.warn("Rejected packet " + unauthenticatedpacketrecieveexception.packetClass.getSimpleName() + " from unauthenticated client: " + s);
+ 		} catch (Exception exception) {
+ 			if (GameSingletons.isClient) {
+ 				throw exception;

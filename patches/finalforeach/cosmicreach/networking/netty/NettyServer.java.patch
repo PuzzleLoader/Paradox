@@ -1,9 +1,9 @@
 --- a/finalforeach/cosmicreach/networking/netty/NettyServer.java
 +++ b/finalforeach/cosmicreach/networking/netty/NettyServer.java
-@@ -18,25 +_,27 @@
+@@ -18,53 +_,56 @@
  import finalforeach.cosmicreach.networking.server.ServerIdentity;
- import finalforeach.cosmicreach.networking.server.ServerSettings;
  import finalforeach.cosmicreach.networking.server.ServerSingletons;
+ import finalforeach.cosmicreach.settings.ServerSettings;
 +import finalforeach.cosmicreach.server.ServerLauncher;
  import finalforeach.cosmicreach.util.ArrayUtils;
  import finalforeach.cosmicreach.util.logging.Logger;
@@ -21,31 +21,55 @@
  import io.netty.channel.socket.nio.NioServerSocketChannel;
  import java.io.BufferedReader;
  import java.io.InputStreamReader;
++import java.net.InetSocketAddress;
  
 -public class NettyServer {
 -	public final ServerBroadcastIdentity broadcastIdentity;
-+import java.net.InetSocketAddress;
-+
+-	ObjectMap<ChannelHandlerContext, ServerIdentity> contextToIdentity = new ObjectMap<>();
+-	private Array<ServerIdentity> unauthenticatedConnections = new Array<>();
+-	private Array<ServerIdentity> authenticatedConnections = new Array<>();
 +public class NettyServer extends com.github.puzzle.paradox.game.server.ParadoxServer {
  	private int port;
 +	public final ServerBroadcastIdentity broadcastIdentity;
-+
-+	public Array<ServerIdentity> connections = new Array<>();
 +	public ObjectMap<ChannelHandlerContext, ServerIdentity> contextToIdentity = new ObjectMap<>();
++	public Array<ServerIdentity> unauthenticatedConnections;
++	public Array<ServerIdentity> authenticatedConnections;
++
  	private ChannelFuture channelFuture;
- 	public IChat systemChat = new IChat() {
- 		@Override
-@@ -48,9 +_,6 @@
- 			}
- 		}
- 	};
--	Array<ServerIdentity> connections = new Array<>();
--	ObjectMap<ChannelHandlerContext, ServerIdentity> contextToIdentity = new ObjectMap<>();
+-	public IChat systemChat = new IChat() {
+-		@Override
+-		public void addMessage(Account account, String messageText) {
+-			if (account != null) {
+-				Logger.info(account.getUsername() + ": " + messageText);
+-			} else {
+-				Logger.info("\n" + messageText);
+-			}
+-		}
+-	};
 -
++	public IChat systemChat;
  	public NettyServer(int port) {
++		this.contextToIdentity = new ObjectMap<>();
++		this.unauthenticatedConnections = new Array<>();
++		this.authenticatedConnections = new Array<>();
++		this.systemChat = new IChat() {
++			@Override
++			public void addMessage(Account account, String messageText) {
++				if (account != null) {
++					LOGGER.info(account.getUsername() + ": " + messageText);
++				} else {
++					LOGGER.info("\n" + messageText);
++				}
++			}
++		};
  		this.port = port;
  		this.broadcastIdentity = new ServerBroadcastIdentity(this);
-@@ -62,8 +_,8 @@
+ 		ServerSettings.init();
+ 	}
+ 
++
+ 	public NettyServer() {
+ 		this(47137);
  	}
  
  	public void run() throws Exception {
@@ -56,7 +80,7 @@
  
  		try {
  			ServerBootstrap serverbootstrap = new ServerBootstrap();
-@@ -73,23 +_,36 @@
+@@ -74,23 +_,36 @@
  				}
  			}).option(ChannelOption.SO_BACKLOG, Integer.valueOf(128)).childOption(ChannelOption.SO_KEEPALIVE, true);
  			this.channelFuture = serverbootstrap.bind(this.port).sync();
@@ -103,13 +127,13 @@
  	}
  
  	public void processCommand(String commandLine) {
-@@ -112,10 +_,12 @@
+@@ -113,10 +_,12 @@
  	public void broadcastToAll(GamePacket packet) {
- 		packet.setupAndSendToAll(this.connections);
+ 		packet.setupAndSendToAll(this.authenticatedConnections);
  	}
 -
  	public void broadcastAsServerExcept(GamePacket packet, NetworkIdentity identity) {
- 		packet.setupAndSendToAllExcept(this.connections, identity);
+ 		packet.setupAndSendToAllExcept(this.authenticatedConnections, identity);
  	}
 +	public void send(GamePacket packet, ChannelHandlerContext ctx) {
 +		packet.setupAndSend(ctx);
@@ -117,7 +141,7 @@
  
  	public void addContext(ChannelHandlerContext ctx) {
  		ServerIdentity serveridentity = new ServerIdentity(this, ctx);
-@@ -125,19 +_,24 @@
+@@ -139,20 +_,25 @@
  
  	public void removeContext(ChannelHandlerContext ctx) {
  		ServerIdentity serveridentity = this.contextToIdentity.get(ctx);
@@ -136,7 +160,8 @@
 +			}
  		}
  
- 		this.connections.removeValue(serveridentity, true);
+ 		this.unauthenticatedConnections.removeValue(serveridentity, true);
+ 		this.authenticatedConnections.removeValue(serveridentity, true);
  		this.contextToIdentity.remove(ctx);
  	}
 -

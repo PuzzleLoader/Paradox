@@ -1,7 +1,7 @@
 --- a/finalforeach/cosmicreach/accounts/AccountOffline.java
 +++ b/finalforeach/cosmicreach/accounts/AccountOffline.java
 @@ -4,9 +_,13 @@
- import finalforeach.cosmicreach.networking.server.ServerSettings;
+ import finalforeach.cosmicreach.settings.ServerSettings;
  
  public class AccountOffline extends Account {
 +

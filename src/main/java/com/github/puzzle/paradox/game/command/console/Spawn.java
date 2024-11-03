@@ -2,6 +2,7 @@ package com.github.puzzle.paradox.game.command.console;
 
 import com.badlogic.gdx.math.Vector3;
 import com.github.puzzle.game.commands.CommandSource;
+import com.github.puzzle.paradox.game.command.DefaultPuzzleCommand;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -12,11 +13,13 @@ import static finalforeach.cosmicreach.GameSingletons.world;
 
 public class Spawn {
 
-    public static class SetSpawn implements Command<CommandSource> {
-        public SetSpawn(){}
+    public static class SetSpawn extends DefaultPuzzleCommand {
+        public SetSpawn(){
+            registerPermission(100_000_000);
+        }
 
         @Override
-        public int run(CommandContext<CommandSource> context) throws CommandSyntaxException {
+        public int execute(CommandContext<CommandSource> context) throws CommandSyntaxException {
             float x = FloatArgumentType.getFloat(context, "x");
             float y = FloatArgumentType.getFloat(context, "y");
             float z = FloatArgumentType.getFloat(context, "z");
@@ -26,6 +29,16 @@ public class Spawn {
             world.getDefaultZone().spawnPoint = spawnPoint;
             TerminalConsoleAppender.print("set spawn point to " + spawnPoint + "\n");
             return 0;
+        }
+
+        @Override
+        public String getName() {
+            return "setspawn";
+        }
+
+        @Override
+        public String[] getAliases() {
+            return new String[0];
         }
     }
 

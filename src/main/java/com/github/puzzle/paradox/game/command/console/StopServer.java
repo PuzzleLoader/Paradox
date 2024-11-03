@@ -1,14 +1,10 @@
 package com.github.puzzle.paradox.game.command.console;
 
 import com.github.puzzle.game.commands.CommandSource;
-import com.github.puzzle.paradox.game.server.Moderation;
-import com.mojang.brigadier.Command;
+import com.github.puzzle.paradox.game.command.DefaultPuzzleCommand;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import finalforeach.cosmicreach.GameSingletons;
-import finalforeach.cosmicreach.Threads;
-import finalforeach.cosmicreach.TickRunner;
-import finalforeach.cosmicreach.ZoneLoaders;
 import finalforeach.cosmicreach.io.ChunkSaver;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import finalforeach.cosmicreach.server.ServerLauncher;
@@ -16,12 +12,17 @@ import net.minecrell.terminalconsole.TerminalConsoleAppender;
 
 public class StopServer {
 
-    public static class stop implements Command<CommandSource> {
-        public stop(){}
+    public static class stop extends DefaultPuzzleCommand {
+        public stop(){
+            registerPermission(100_000_000);
+        }
 
         @Override
-        public int run(CommandContext<CommandSource> context) throws CommandSyntaxException {
-            for (var id : ServerSingletons.SERVER.connections){
+        public int execute(CommandContext<CommandSource> context) throws CommandSyntaxException {
+            for (var id : ServerSingletons.SERVER.authenticatedConnections){
+                ServerSingletons.SERVER.kick("Server stopping!",id);
+            }
+            for (var id : ServerSingletons.SERVER.unauthenticatedConnections){
                 ServerSingletons.SERVER.kick("Server stopping!",id);
             }
             Save.shouldSave = true;
@@ -37,6 +38,16 @@ public class StopServer {
                 ServerLauncher.isRunning = false;
             }
             return 0;
+        }
+
+        @Override
+        public String getName() {
+          return "stop";
+        }
+
+        @Override
+        public String[] getAliases() {
+            return new String[0];
         }
     }
 }

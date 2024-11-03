@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/entities/player/PlayerEntity.java
 +++ b/finalforeach/cosmicreach/entities/player/PlayerEntity.java
-@@ -12,7 +_,7 @@
+@@ -13,7 +_,7 @@
  	public static IEntityModel playerModel;
  
  	protected PlayerEntity() {

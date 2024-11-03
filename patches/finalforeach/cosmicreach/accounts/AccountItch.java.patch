@@ -9,7 +9,7 @@
  	long expiresAtEpochSecond = Long.MAX_VALUE;
  	AccountItch.AuthType authType;
  	private transient String itchApiKey;
- 	public static final String ITCH_AUTH_ROOT_URL_STR = "http://cosmicreach-auth.finalforeach.com:8080";
+ 	public static final String ITCH_AUTH_ROOT_URL_STR = "https://cosmicreach-auth.finalforeach.com";
  	private static final String ITCH_KEY_TYPE = "keyType";
 -	private static final String SERVER_CHALLENGE = "serverChallenge";
 +	public ItchProfileMe profile;
