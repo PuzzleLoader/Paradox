@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/blocks/BlockState.java
 +++ b/finalforeach/cosmicreach/blocks/BlockState.java
-@@ -1,11 +_,7 @@
+@@ -1,12 +_,7 @@
  package finalforeach.cosmicreach.blocks;
  
  import com.badlogic.gdx.math.collision.BoundingBox;
@@ -8,19 +8,20 @@
 -import com.badlogic.gdx.utils.Json;
 -import com.badlogic.gdx.utils.JsonValue;
 -import com.badlogic.gdx.utils.ObjectIntMap;
+-import com.badlogic.gdx.utils.ObjectSet;
 -import com.badlogic.gdx.utils.OrderedMap;
 +import com.badlogic.gdx.utils.*;
  import com.badlogic.gdx.utils.Json.Serializable;
  import com.badlogic.gdx.utils.ObjectMap.Entry;
  import finalforeach.cosmicreach.GameSingletons;
-@@ -19,10 +_,14 @@
+@@ -20,10 +_,14 @@
  import finalforeach.cosmicreach.savelib.blocks.IBlockState;
  import finalforeach.cosmicreach.util.ArrayUtils;
  import finalforeach.cosmicreach.util.JsonPredicateParser;
 +import org.slf4j.Logger;
 +import org.slf4j.LoggerFactory;
 +
- import java.util.HashSet;
+ import finalforeach.cosmicreach.util.exceptions.MissingBlockStateException;
  import java.util.Map;
  import java.util.function.Predicate;
  import java.util.regex.Pattern;
@@ -28,7 +29,7 @@
  
  public class BlockState implements IBlockState, Serializable {
  	private static final Pattern idAndParamsPattern = Pattern.compile("[\\[\\]]");
-@@ -375,7 +_,7 @@
+@@ -384,7 +_,7 @@
  	public boolean hasTag(String tagName) {
  		return this.tags == null ? false : ArrayUtils.contains(this.tags, tagName, false);
  	}
@@ -37,7 +38,7 @@
  	public void initialize(Block block) {
  		this.block = block;
  		this.blockId = block.getStringId();
-@@ -395,7 +_,7 @@
+@@ -404,7 +_,7 @@
  		if (this.stateGenerators != null) {
  			for (String s : this.stateGenerators) {
  				BlockStateGenerator blockstategenerator = BlockStateGenerator.getInstance(s);
@@ -46,7 +47,7 @@
  				blockstategenerator.generate(this);
  			}
  		}
-@@ -486,7 +_,7 @@
+@@ -495,7 +_,7 @@
  		this.rotXZ = jsonData.getInt("rotXZ", 0);
  		this.hardness = jsonData.getFloat("hardness", 1.5F);
  		this.blastResistance = jsonData.getFloat("blastResistance", 100.0F);

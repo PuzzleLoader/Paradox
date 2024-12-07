@@ -1,7 +1,7 @@
 --- a/finalforeach/cosmicreach/entities/player/PlayerEntity.java
 +++ b/finalforeach/cosmicreach/entities/player/PlayerEntity.java
-@@ -13,7 +_,7 @@
- 	public static IEntityModel playerModel;
+@@ -18,7 +_,7 @@
+ 	private final transient Vector3 tmpPos = new Vector3();
  
  	protected PlayerEntity() {
 -		super("base:entity_player");

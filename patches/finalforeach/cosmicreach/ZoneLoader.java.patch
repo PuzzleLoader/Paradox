@@ -1,14 +1,14 @@
 --- a/finalforeach/cosmicreach/ZoneLoader.java
 +++ b/finalforeach/cosmicreach/ZoneLoader.java
-@@ -7,6 +_,7 @@
- import com.badlogic.gdx.utils.Array;
+@@ -8,6 +_,7 @@
  import com.badlogic.gdx.utils.ObjectMap;
  import com.badlogic.gdx.utils.ObjectSet;
+ import com.badlogic.gdx.utils.Queue;
 +import com.github.puzzle.paradox.game.command.console.Save;
  import finalforeach.cosmicreach.entities.player.Player;
  import finalforeach.cosmicreach.io.ChunkLoader;
  import finalforeach.cosmicreach.io.ChunkSaver;
-@@ -16,12 +_,7 @@
+@@ -17,12 +_,7 @@
  import finalforeach.cosmicreach.networking.server.ServerSingletons;
  import finalforeach.cosmicreach.util.ArrayUtils;
  import finalforeach.cosmicreach.util.Point3DMap;
@@ -22,7 +22,7 @@
  import finalforeach.cosmicreach.worldgen.ChunkColumn;
  
  public class ZoneLoader {
-@@ -188,7 +_,6 @@
+@@ -191,7 +_,6 @@
  		int j = i;
  		int k = MathUtils.clamp(i, 6, 12);
  		if (!this.spawnReady) {
@@ -30,7 +30,7 @@
  		}
  
  		if (player.isLoading()) {
-@@ -448,11 +_,12 @@
+@@ -473,11 +_,12 @@
  		}
  
  		long k = System.currentTimeMillis();
@@ -41,6 +41,6 @@
  			this.lastSaveMillis = k;
  			this.requestSave = false;
 +			Save.shouldSave = false;
- 		} else if (!this.needToGenDifferentChunks(this.zone, this.localGenRadiusInChunks) && this.getChunkColumnsToGenerate().isEmpty()) {
+ 		} else if (!this.needToGenDifferentChunks(this.zone, this.localGenRadiusInChunks) && !this.hasChunkColumnsToGenerate()) {
  			if (!this.spawnReady && GameSingletons.isHost) {
  				this.readyToPlay = false;

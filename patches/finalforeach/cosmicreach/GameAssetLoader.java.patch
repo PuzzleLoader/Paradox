@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/GameAssetLoader.java
 +++ b/finalforeach/cosmicreach/GameAssetLoader.java
-@@ -9,7 +_,9 @@
+@@ -10,7 +_,9 @@
  import finalforeach.cosmicreach.io.SaveLocation;
  import finalforeach.cosmicreach.util.Identifier;
  import finalforeach.cosmicreach.util.logging.AnsiColours;
@@ -9,8 +9,8 @@
 +import org.slf4j.LoggerFactory;
 +
  import java.util.HashMap;
- import java.util.HashSet;
  import java.util.WeakHashMap;
+ import java.util.function.BiConsumer;
 @@ -20,6 +_,9 @@
  
  public class GameAssetLoader {

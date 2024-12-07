@@ -20,7 +20,7 @@
  
  	@Override
  	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-@@ -26,32 +_,43 @@
+@@ -26,33 +_,43 @@
  			bytebuf = (ByteBuf)msg;
  			short short1 = bytebuf.readShort();
  			GamePacket gamepacket1 = GamePacket.getPacket(short1);
@@ -28,6 +28,7 @@
 -				AttributeKey<Boolean> attributekey = ServerSingletons.AUTHENTICATED_ATTRIBUTE;
 -				Channel channel = ctx.channel();
 -				if (!channel.hasAttr(attributekey)) {
+-					ctx.close();
 -					throw new UnauthenticatedPacketRecieveException((Class<? extends GamePacket>)gamepacket1.getClass());
 -				}
 -			}
