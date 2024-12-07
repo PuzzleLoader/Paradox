@@ -13,10 +13,10 @@
  	public void save() {
  		File file1 = new File(SaveLocation.getSaveFolderLocation() + "/" + this.fileName);
 +		if (!file1.exists()) {
++			if (!file1.getParentFile().exists()) file1.getParentFile().mkdirs();
 +            try {
 +                file1.createNewFile();
 +            } catch (IOException e) {
-+                throw new RuntimeException(e);
 +            }
 +        }
  		StringBuilder stringbuilder = new StringBuilder();
