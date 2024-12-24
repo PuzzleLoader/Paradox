@@ -34,7 +34,7 @@ public class PuzzlePL {
     Map<String,Permission> allPermissions;
 
     private static final Logger LOGGER = LoggerFactory.getLogger("Puzzle Paradox");
-    public static final Version VERSION = new Version(1,1,10, Version.VersionType.ALPHA);
+    public static final Version VERSION = new Version(1,1,13, Version.VersionType.ALPHA);
 
     public final PropertiesConfiguration serverConfig;
     public final FileBasedConfigurationBuilder<PropertiesConfiguration> configBuilder;
