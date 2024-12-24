@@ -1,0 +1,48 @@
+--- a/finalforeach/cosmicreach/networking/netty/ServerHandler.java
++++ b/finalforeach/cosmicreach/networking/netty/ServerHandler.java
+@@ -7,12 +_,12 @@
+ import finalforeach.cosmicreach.networking.packets.meta.ProtocolSyncPacket;
+ import finalforeach.cosmicreach.networking.packets.meta.RemovedPlayerPacket;
+ import finalforeach.cosmicreach.networking.server.ServerSingletons;
+-import finalforeach.cosmicreach.util.logging.Logger;
+ import io.netty.channel.ChannelHandlerContext;
+ import java.net.InetSocketAddress;
+ import java.net.SocketException;
+ 
+-public class ServerHandler extends NettyPacketHandler {
++public class ServerHandler extends com.github.puzzle.paradox.game.server.packets.ParadoxNettyPacketHandler {
++
+ 	NettyServer nettyServer;
+ 
+ 	public ServerHandler(NettyServer nettyServer) {
+@@ -32,11 +_,11 @@
+ 	public void handlerAdded(ChannelHandlerContext ctx) {
+ 		String s = ((InetSocketAddress)ctx.channel().remoteAddress()).getAddress().getHostAddress();
+ 		if (ServerSingletons.BANNED_IP_LIST.hasAddress(s)) {
+-			Logger.info("IP is in the banlist: " + s);
++			LOGGER.info("IP is in the banlist: " + s);
+ 			new DisconnectPacket("You are banned on this server.").setupAndSend(ctx);
+ 			ctx.close();
+ 		} else {
+-			Logger.info("Handler added");
++      		LOGGER.info("Handler added");
+ 			this.nettyServer.addContext(ctx);
+ 			new ProtocolSyncPacket(RuntimeInfo.version).setupAndSend(ctx);
+ 		}
+@@ -44,14 +_,15 @@
+ 
+ 	@Override
+ 	public void handlerRemoved(ChannelHandlerContext ctx) {
+-		Logger.info("Handler removed");
+ 		Account account = this.nettyServer.getAccount(ctx);
+ 		if (account != null) {
+ 			this.nettyServer.broadcastToAll(new RemovedPlayerPacket(account));
+ 		}
+ 
++      	LOGGER.info("Handler removed");
+ 		this.nettyServer.removeContext(ctx);
+ 	}
++
+ 
+ 	@Override
+ 	public NetworkIdentity getIdentity(ChannelHandlerContext ctx) {

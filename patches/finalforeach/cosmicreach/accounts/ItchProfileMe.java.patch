@@ -1,0 +1,22 @@
+--- a/finalforeach/cosmicreach/accounts/ItchProfileMe.java
++++ b/finalforeach/cosmicreach/accounts/ItchProfileMe.java
+@@ -8,14 +_,18 @@
+ import java.util.regex.Matcher;
+ import java.util.regex.Pattern;
+ 
+-class ItchProfileMe implements Serializable {
++public class ItchProfileMe implements Serializable {
++
+ 	static Pattern URL_USERNAME_PATTERN = Pattern.compile("(https?:\\/\\/)?(?<username>[^\\.]+)\\.itch\\.io");
++
+ 	static final int COSMIC_REACH_ITCH_GAME_ID = 2557309;
+ 	String username;
+ 	String display_name;
+ 	String cover_url;
+ 	String url;
+ 	long id;
++
++	public ItchProfileMe(){}
+ 
+ 	@Override
+ 	public void write(Json json) {

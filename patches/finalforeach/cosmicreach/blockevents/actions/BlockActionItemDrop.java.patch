@@ -1,0 +1,10 @@
+--- a/finalforeach/cosmicreach/blockevents/actions/BlockActionItemDrop.java
++++ b/finalforeach/cosmicreach/blockevents/actions/BlockActionItemDrop.java
+@@ -18,6 +_,7 @@
+ 
+ 	@Override
+ 	public void act(BlockEventArgs args) {
++
+ 		Zone zone = args.zone;
+ 		BlockState blockstate = args.srcBlockState;
+ 		BlockPosition blockposition = args.blockPos;

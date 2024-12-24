@@ -1,0 +1,32 @@
+--- a/finalforeach/cosmicreach/GameSingletons.java
++++ b/finalforeach/cosmicreach/GameSingletons.java
+@@ -5,6 +_,7 @@
+ import com.badlogic.gdx.math.collision.BoundingBox;
+ import com.badlogic.gdx.utils.Array;
+ import com.badlogic.gdx.utils.ObjectMap;
++import com.github.puzzle.paradox.core.PuzzlePL;
+ import finalforeach.cosmicreach.accounts.Account;
+ import finalforeach.cosmicreach.blockentities.BlockEntity;
+ import finalforeach.cosmicreach.blockentities.BlockEntityCreator;
+@@ -39,10 +_,11 @@
+ import finalforeach.cosmicreach.util.containers.CRObjectMap;
+ import finalforeach.cosmicreach.util.containers.DynamicArray;
+ import finalforeach.cosmicreach.util.containers.DynamicByteArray;
+-import finalforeach.cosmicreach.util.logging.Logger;
+ import finalforeach.cosmicreach.world.IZoneLoader;
+ import finalforeach.cosmicreach.world.World;
+ import finalforeach.cosmicreach.world.Zone;
++import org.slf4j.LoggerFactory;
++
+ import java.util.HashMap;
+ import java.util.WeakHashMap;
+ import java.util.function.Consumer;
+@@ -70,7 +_,7 @@
+ 	public static IClientSingletons clientSingletons;
+ 
+ 	public static void create() {
+-		Logger.info("Starting Cosmic Reach " + (isClient ? "Client" : "Server") + " version " + RuntimeInfo.version);
++		LoggerFactory.getLogger("Cosmic Reach").info("Starting Cosmic Reach " + (isClient ? "Client" : "Server") + " version " + RuntimeInfo.version + " | Paradox " + PuzzlePL.VERSION);
+ 		DynamicArrays.instantiator = new IDynamicArrayInstantiator() {
+ 			@Override
+ 			public <E> IDynamicArray<E> create(Class<E> clazz) {

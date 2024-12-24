@@ -1,0 +1,24 @@
+--- a/finalforeach/cosmicreach/settings/AccountListConfig.java
++++ b/finalforeach/cosmicreach/settings/AccountListConfig.java
+@@ -6,6 +_,7 @@
+ import java.io.File;
+ import java.io.FileInputStream;
+ import java.io.FileOutputStream;
++import java.io.IOException;
+ import java.nio.charset.StandardCharsets;
+ 
+ public class AccountListConfig {
+@@ -128,6 +_,13 @@
+ 
+ 	public void save() {
+ 		File file1 = new File(SaveLocation.getSaveFolderLocation() + "/" + this.fileName);
++		if (!file1.exists()) {
++			if (!file1.getParentFile().exists()) file1.getParentFile().mkdirs();
++            try {
++                file1.createNewFile();
++            } catch (IOException e) {
++            }
++        }
+ 		StringBuilder stringbuilder = new StringBuilder();
+ 
+ 		for (AccountListConfig.AccountEntry accountlistconfig$accountentry : this.accountEntries) {

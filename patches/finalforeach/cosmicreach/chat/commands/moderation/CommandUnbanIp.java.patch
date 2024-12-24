@@ -1,0 +1,11 @@
+--- a/finalforeach/cosmicreach/chat/commands/moderation/CommandUnbanIp.java
++++ b/finalforeach/cosmicreach/chat/commands/moderation/CommandUnbanIp.java
+@@ -26,4 +_,8 @@
+ 	public String getShortDescription() {
+ 		return "Unbans an IP address";
+ 	}
++
++	public boolean doesRequireOP(){
++		return true;
++	}
+ }

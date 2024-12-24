@@ -1,0 +1,90 @@
+--- a/finalforeach/cosmicreach/networking/GamePacket.java
++++ b/finalforeach/cosmicreach/networking/GamePacket.java
+@@ -48,10 +_,10 @@
+ import finalforeach.cosmicreach.networking.packets.sounds.PlaySound2DPacket;
+ import finalforeach.cosmicreach.networking.packets.sounds.PlaySound3DPacket;
+ import finalforeach.cosmicreach.networking.server.ServerIdentity;
++import finalforeach.cosmicreach.networking.server.ServerSingletons;
+ import finalforeach.cosmicreach.savelib.IByteArray;
+ import finalforeach.cosmicreach.savelib.crbin.CRBinSerializer;
+ import finalforeach.cosmicreach.util.ArrayUtils;
+-import finalforeach.cosmicreach.util.logging.Logger;
+ import finalforeach.cosmicreach.world.Zone;
+ import io.netty.buffer.ByteBuf;
+ import io.netty.channel.ChannelFuture;
+@@ -61,7 +_,7 @@
+ import java.nio.charset.StandardCharsets;
+ import java.util.function.Supplier;
+ 
+-public abstract class GamePacket {
++public abstract class GamePacket extends com.github.puzzle.paradox.game.server.packets.PuzzleGamePacket  {
+ 	public static final Json JSON = new Json();
+ 	protected static final IntMap<Supplier<? extends GamePacket>> idsToPackets = new IntMap<>();
+ 	protected static final ObjectIntMap<Class<? extends GamePacket>> packetsToIntIds = new ObjectIntMap<>();
+@@ -116,6 +_,10 @@
+ 	}
+ 
+ 	public static <T extends GamePacket> void registerPacket(Class<T> packetClass) {
++		if(!packetClass.getName().startsWith("finalforeach.cosmicreach.networking")){
++			LOGGER.warn("Not registering packet: {}. Method reserved for vanilla packets. Please use registerPacket(String strId, int numId, Class<T> packetClass) instead.",packetClass.getName());
++			return;
++		}
+ 		String s = packetClass.getCanonicalName();
+ 		if (s == null) {
+ 			String s1 = "Packet class must have a canonical name";
+@@ -133,7 +_,7 @@
+ 		}
+ 	}
+ 
+-	protected static <T extends GamePacket> void registerPacket(String strId, int numId, Class<T> packetClass) {
++	public static <T extends GamePacket> void registerPacket(String strId, int numId, Class<T> packetClass) {
+ 		try {
+ 			Constructor<T> constructor = packetClass.getDeclaredConstructor();
+ 			Supplier<T> supplier = () -> {
+@@ -151,15 +_,15 @@
+ 				packetsToIntIds.put(packetClass, numId);
+ 				packetNamesToIntIds.put(strId, numId);
+ 				packetNamesToClasses.put(strId, packetClass);
+-				Logger.info("Registered packet ( id = " + numId + " ):" + strId);
+ 			}
++			LOGGER.info("Registered packet ( id = " + numId + " ):" + strId);
+ 		} catch (Exception exception) {
+ 			throw new RuntimeException(exception);
+ 		}
+ 	}
+ 
+ 	public GamePacket() {
+-		this.packetID = (short)packetsToIntIds.get((Class<? extends GamePacket>)this.getClass(), 0);
++		this.packetID = (short)packetsToIntIds.get(this.getClass(), 0);
+ 		if (this.packetID == 0) {
+ 			throw new RuntimeException("Cannot send packet for " + this.getClass() + " without registering it first!");
+ 		}
+@@ -170,7 +_,9 @@
+ 	public static GamePacket getPacket(short packetId) {
+ 		Supplier<? extends GamePacket> supplier = idsToPackets.get(packetId);
+ 		if (supplier == null) {
+-			throw new NullPointerException("Unknown packet for id: " + packetId);
++//			throw new NullPointerException("Unknown packet for id: " + packetId);
++			LOGGER.warn("Unknown packet for id: " + packetId);
++			return null;
+ 		} else {
+ 			GamePacket gamepacket = supplier.get();
+ 			gamepacket.packetID = packetId;
+@@ -280,12 +_,16 @@
+ 
+ 	public void setupAndSendToAll(Array<ServerIdentity> connections) {
+ 		this.setupForSend();
+-		ArrayUtils.forEach(connections, c -> this.flushToContext(c.ctx));
++
++		ArrayUtils.forEach(connections, c ->{
++				this.flushToContext(c.ctx);
++		});
+ 	}
+ 
+ 	public void setupAndSendToAllExcept(Array<ServerIdentity> connections, NetworkIdentity identity) {
+ 		this.setupForSend();
+ 		ArrayUtils.forEach(connections, c -> {
++
+ 			if (c != identity) {
+ 				this.flushToContext(c.ctx);
+ 			}

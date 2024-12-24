@@ -1,0 +1,66 @@
+--- a/finalforeach/cosmicreach/accounts/AccountItch.java
++++ b/finalforeach/cosmicreach/accounts/AccountItch.java
+@@ -22,33 +_,38 @@
+ 
+ public class AccountItch extends Account implements IAuthenticatedAccount {
+ 	private static final Json JSON = new Json();
+-	ItchProfileMe profile;
++
+ 	long expiresAtEpochSecond = Long.MAX_VALUE;
+ 	AccountItch.AuthType authType;
+ 	private transient String itchApiKey;
+ 	public static final String ITCH_AUTH_ROOT_URL_STR = "https://cosmicreach-auth.finalforeach.com";
+ 	private static final String ITCH_KEY_TYPE = "keyType";
+-	private static final String SERVER_CHALLENGE = "serverChallenge";
++	public ItchProfileMe profile;
+ 	private static final String ITCH_API_KEY = "itchApiKey";
+ 	public static URL ITCH_VERIFY_AUTH_URL;
+ 
++
++
++
+ 	@Override
+ 	public void read(Json json, JsonValue jsonData) {
+ 		super.read(json, jsonData);
+ 		json.readField(this, "profile", jsonData);
+ 		json.readField(this, "expiresAtEpochSecond", jsonData);
++
++		displayname = this.profile.display_name;
++
+ 	}
+ 
+ 	@Override
+ 	public void write(Json json) {
+ 		super.write(json);
+-		json.writeValue("profile", this.profile);
+-		json.writeValue("expiresAtEpochSecond", this.expiresAtEpochSecond);
+-	}
+ 
++		json.writeValue( "profile",profile);
++		json.writeValue("expiresAtEpochSecond",expiresAtEpochSecond);
++	}
+ 	public AccountItch() {
+ 	}
+-
+ 	public AccountItch(String itchApiKey, String expiresAt) throws IOException {
+ 		this.itchApiKey = itchApiKey;
+ 		String s;
+@@ -74,6 +_,7 @@
+ 	public void initProfile() {
+ 		this.setUsername(this.profile.username);
+ 		this.setUniqueId(Long.valueOf(this.profile.id));
++
+ 	}
+ 
+ 	public void setExpiresAt(String expiresAt) {
+@@ -91,9 +_,8 @@
+ 
+ 	@Override
+ 	public String getDisplayName() {
+-		return this.profile.display_name;
++		return displayname;
+ 	}
+-
+ 	@Override
+ 	public boolean canSave() {
+ 		return true;

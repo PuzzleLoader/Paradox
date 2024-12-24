@@ -1,0 +1,11 @@
+--- a/finalforeach/cosmicreach/entities/Entity.java
++++ b/finalforeach/cosmicreach/entities/Entity.java
+@@ -41,7 +_,7 @@
+ 	@CRBSerialized
+ 	public String entityTypeId;
+ 	@CRBSerialized
+-	float sightRange = 64.0F;
++    public float sightRange = 64.0F;
+ 	@CRBSerialized
+ 	public float gravityModifier = 1.0F;
+ 	@CRBSerialized

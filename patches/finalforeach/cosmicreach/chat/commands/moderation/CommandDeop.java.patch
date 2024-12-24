@@ -1,0 +1,11 @@
+--- a/finalforeach/cosmicreach/chat/commands/moderation/CommandDeop.java
++++ b/finalforeach/cosmicreach/chat/commands/moderation/CommandDeop.java
+@@ -24,4 +_,8 @@
+ 	public String getShortDescription() {
+ 		return "Takes away operator status from a player";
+ 	}
++
++	public boolean doesRequireOP(){
++		return true;
++	}
+ }
