@@ -1,6 +1,7 @@
 package com.github.puzzle.paradox.core;
 
 import com.github.puzzle.game.commands.CommandSource;
+import com.github.puzzle.paradox.core.permissions.GlobalPermissions;
 import com.github.puzzle.paradox.core.permissions.Permission;
 import com.github.puzzle.paradox.core.permissions.PermissionGroup;
 import com.github.puzzle.paradox.core.terminal.PPLTerminalConsole;
@@ -21,13 +22,17 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static finalforeach.cosmicreach.io.SaveLocation.getSaveFolderLocation;
 
 public class PuzzlePL {
 
@@ -102,7 +107,30 @@ public class PuzzlePL {
         ParadoxServerSettings.initSetting();
         Commands.registerConsoleCommands();
         Commands.registerClientCommands();
-        PermissionGroup.DEFAULT_GROUP = new PermissionGroup("default", "default.command.msg","default.command.setname","default.command.tpr","default.command.tpa");
+        if(!Files.exists(Paths.get(getSaveFolderLocation() + "/permissions"))){
+            try {
+                Files.createDirectories(Paths.get(getSaveFolderLocation() + "/permissions"));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if(!new File(getSaveFolderLocation() + "/permissions/" + "permissiongroups.crbin").exists()) {
+            GlobalPermissions.DEFAULT_GROUP = new PermissionGroup("default", "default.command.msg", "default.command.setname", "default.command.tpr", "default.command.tpa");
+            GlobalPermissions.addPermissionGroup(GlobalPermissions.DEFAULT_GROUP.getName(),GlobalPermissions.DEFAULT_GROUP);
+            GlobalPermissions.savePermissionGroups();
+        }else{
+            GlobalPermissions.loadPermissionGroups();
+            GlobalPermissions.DEFAULT_GROUP = GlobalPermissions.getPermissionGroup("default");
+            if(GlobalPermissions.DEFAULT_GROUP == null){
+                LoggerFactory.getLogger("Paradox | Initialisation").warn("default group not found recreating it | DO NOT DELETE THE DEFAULT GROUP");
+                GlobalPermissions.DEFAULT_GROUP = new PermissionGroup("default", "default.command.msg", "default.command.setname", "default.command.tpr", "default.command.tpa");
+                GlobalPermissions.addPermissionGroup(GlobalPermissions.DEFAULT_GROUP.getName(),GlobalPermissions.DEFAULT_GROUP);
+                GlobalPermissions.savePermissionGroups();
+            }
+        }
+        if(new File(getSaveFolderLocation() + "/permissions/" + "playerperms.crbin").exists()) {
+            GlobalPermissions.loadPlayerPermissions();
+        }
     }
 
     public void exit() {

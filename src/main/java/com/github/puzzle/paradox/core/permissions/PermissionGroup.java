@@ -21,9 +21,14 @@ public class PermissionGroup implements ICRBinSerializable {
                 permissionList.putIfAbsent(permString,ServerSingletons.puzzle.getPermission(permString));
         }
     }
+    // DO NOT USE, ONLY FOR ICRBinSerializable TO WORK
+    public PermissionGroup(){
 
-    public static PermissionGroup DEFAULT_GROUP;
+    }
     String permissionGroupName;
+    public String getName(){
+        return permissionGroupName;
+    }
 
     HashMap<String,Permission> permissionList = new HashMap<>();
 
@@ -47,7 +52,7 @@ public class PermissionGroup implements ICRBinSerializable {
     @Override
     public void read(CRBinDeserializer deserializer) {
 //        permissionList =  deserializer.readObj("permissionList",HashMap.class);
-
+        permissionGroupName = deserializer.readString("name");
         var permissionListStrings = deserializer.readStringArray("permissionListStrings");
         for (var s : permissionListStrings){
 //            assert ServerSingletons.puzzle.getPermission(s) != null;
@@ -58,6 +63,7 @@ public class PermissionGroup implements ICRBinSerializable {
 
     @Override
     public void write(CRBinSerializer serializer) {
+        serializer.writeString("name",permissionGroupName);
         String[] array = new String[permissionList.size()];
         var ks = permissionList.keySet().toArray(array);
         serializer.writeStringArray("permissionListStrings",ks,permissionList.size());
