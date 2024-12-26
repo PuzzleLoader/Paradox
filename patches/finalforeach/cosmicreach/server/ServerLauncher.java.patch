@@ -107,7 +107,7 @@
 +            ServerSingletons.puzzle.initConsoleListener();
 +            nettyserver.run();
 +            isRunning = false;
-+
++            ServerSingletons.puzzle.exit();
 +        }
 +    }
 +

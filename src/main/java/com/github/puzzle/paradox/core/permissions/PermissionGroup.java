@@ -51,11 +51,9 @@ public class PermissionGroup implements ICRBinSerializable {
 
     @Override
     public void read(CRBinDeserializer deserializer) {
-//        permissionList =  deserializer.readObj("permissionList",HashMap.class);
         permissionGroupName = deserializer.readString("name");
         var permissionListStrings = deserializer.readStringArray("permissionListStrings");
         for (var s : permissionListStrings){
-//            assert ServerSingletons.puzzle.getPermission(s) != null;
             permissionList.putIfAbsent(s, ServerSingletons.puzzle.getPermission(s));
         }
     }

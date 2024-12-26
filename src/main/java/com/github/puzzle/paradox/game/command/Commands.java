@@ -3,6 +3,7 @@ package com.github.puzzle.paradox.game.command;
 import com.github.puzzle.game.commands.CommandManager;
 import com.github.puzzle.game.commands.CommandSource;
 import com.github.puzzle.game.commands.PuzzleConsoleCommandSource;
+import com.github.puzzle.paradox.core.permissions.GlobalPermissions;
 import com.github.puzzle.paradox.game.command.chat.*;
 import com.github.puzzle.paradox.game.command.console.*;
 import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
@@ -45,8 +46,17 @@ public class Commands {
 
         com.mojang.brigadier.Command<CommandSource> command2 = (commandContext -> {
             final Account account = commandContext.getSource().getAccount();
-
             final IChat chat = commandContext.getSource().getChat();
+            if(account != null) {
+                if (!GlobalPermissions.getPlayerPermissions(account.getUniqueId()).hasPermission("default.command." + commandName) && !account.isOperator()) {
+                    var packet = new MessagePacket("You do not have permission to use this command");
+                    packet.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
+                    packet.setupAndSend(
+                            ServerSingletons
+                                    .getIdentityByAccount(account));
+                    return 0;
+                }
+            }
             final World world = commandContext.getSource().getWorld();
 
             String[] args = commandContext.getInput().substring(1).split(" ");
@@ -103,11 +113,10 @@ public class Commands {
         registerCommand(CommandKick::new, "kick");
         registerCommand(CommandUnban::new, "unban");
         registerCommand(CommandUnbanIp::new, "unban-ip", "unbanip");
+        //registerCommand(CommandSay::new, "say"); // ours is better :)
+
     }
     public static void registerConsoleCommands(){
-
-
-
 
         CommandManager.consoledispatcher.register(CommandManager.literal("setrenderdistance").then(
                 CommandManager.argument("size", IntegerArgumentType.integer(3,32)).executes(
@@ -170,6 +179,9 @@ public class Commands {
         stop.executes(new StopServer.stop());
 
         CommandManager.consoledispatcher.register(stop);
+
+        LiteralArgumentBuilder<CommandSource> perms = CommandManager.literal("perms");
+        CommandManager.consoledispatcher.register(perms);
         vanillaCommands();
     }
     public static void registerClientCommands(){
@@ -187,6 +199,7 @@ public class Commands {
 
         LiteralArgumentBuilder<CommandSource> playerlist = CommandManager.literal("playerlist");
         playerlist.executes(context -> {
+            //move to file for perms;
             StringBuilder builder = new StringBuilder();
             builder.append("There are " + ServerSingletons.SERVER.authenticatedConnections.size + " player(s) online\n");
             builder.append("players:\n");
@@ -209,6 +222,7 @@ public class Commands {
 
         clientDispatcher.register(playerlist);
         clientDispatcher.register(CommandManager.literal("help").executes(context ->{
+            //move to file for perms;
             Map<CommandNode<CommandSource>, String> map = clientDispatcher.getSmartUsage(clientDispatcher.getRoot(), context.getSource());
             StringBuilder builder = new StringBuilder();
             builder.append("Server Commands:\n");

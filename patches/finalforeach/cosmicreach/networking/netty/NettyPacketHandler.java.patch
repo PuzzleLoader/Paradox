@@ -32,19 +32,19 @@
 -					throw new UnauthenticatedPacketRecieveException((Class<? extends GamePacket>)gamepacket1.getClass());
 -				}
 -			}
++			if(gamepacket1 == null)
++				return;
 +			if (GameSingletons.isHost) {
-+                assert gamepacket1 != null;
 +                if (gamepacket1.shouldRejectUnauthenticated()) {
 +                    AttributeKey<Boolean> attributekey = ServerSingletons.AUTHENTICATED_ATTRIBUTE;
 +                    Channel channel = ctx.channel();
 +                    if (!channel.hasAttr(attributekey)) {
-+                        throw new UnauthenticatedPacketRecieveException((Class<? extends GamePacket>) gamepacket1.getClass());
++                        throw new UnauthenticatedPacketRecieveException(gamepacket1.getClass());
 +                    }
 +                }
 +            }
++
  
-+			if(gamepacket1 == null)
-+				return;
  			gamepacket1.receive(bytebuf);
  			NetworkIdentity networkidentity = this.getIdentity(ctx);
 +//			System.out.println("Packet: " + short1);

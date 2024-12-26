@@ -50,7 +50,7 @@ public class PuzzlePL {
 
     public Thread consoleThread;
     public PuzzlePL(){
-        SERVER_ACCOUNT =  new AccountOffline();
+        SERVER_ACCOUNT = new AccountOffline();
         SERVER_ACCOUNT.setUsername("Server");
         SERVER_ACCOUNT.setUniqueId("Server");
         LOGGER.info("Loading Paradox");
@@ -115,7 +115,7 @@ public class PuzzlePL {
             }
         }
         if(!new File(getSaveFolderLocation() + "/permissions/" + "permissiongroups.crbin").exists()) {
-            GlobalPermissions.DEFAULT_GROUP = new PermissionGroup("default", "default.command.msg", "default.command.setname", "default.command.tpr", "default.command.tpa");
+            GlobalPermissions.DEFAULT_GROUP = new PermissionGroup("default", "default.command.msg", "default.command.setname", "default.command.tpr", "default.command.tpa","default.command.help");
             GlobalPermissions.addPermissionGroup(GlobalPermissions.DEFAULT_GROUP.getName(),GlobalPermissions.DEFAULT_GROUP);
             GlobalPermissions.savePermissionGroups();
         }else{
@@ -135,6 +135,8 @@ public class PuzzlePL {
 
     public void exit() {
         ParadoxServerSettings.writeSetting();
+        GlobalPermissions.savePermissionGroups();
+        GlobalPermissions.savePlayerPermissions();
     }
 
     public void initConsoleListener(){

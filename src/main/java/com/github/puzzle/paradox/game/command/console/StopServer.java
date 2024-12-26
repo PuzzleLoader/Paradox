@@ -32,8 +32,6 @@ public class StopServer {
 
 
                 }
-
-                ServerSingletons.puzzle.exit();
                 TerminalConsoleAppender.print("stopping"+ "\n");
                 ServerLauncher.isRunning = false;
             }

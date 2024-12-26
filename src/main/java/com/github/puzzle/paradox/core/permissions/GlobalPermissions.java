@@ -28,10 +28,10 @@ public class GlobalPermissions {
 
     ////
     //Here for API if internal changes occur
-    public static PlayerPermissions getPlayerPermissions(String playerID){
+    public static PlayerPermissions getPlayerPermissions(@NotNull String playerID){
         return loadedPerms.get(playerID);
     }
-    public static void setPlayerPermissions(String playerID,PlayerPermissions permissions){
+    public static void setPlayerPermissions(@NotNull String playerID,@NotNull PlayerPermissions permissions){
         loadedPerms.put(playerID,permissions);
     }
 
