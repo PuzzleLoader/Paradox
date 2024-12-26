@@ -11,7 +11,7 @@ public class Permission {
         return permissionVarString;
     }
 
-    String permissionVarString;
+    String permissionVarString = "";
 
     int value;
 }

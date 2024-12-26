@@ -2,7 +2,7 @@ package com.github.puzzle.paradox.game.command;
 
 import com.github.puzzle.game.commands.CommandManager;
 import com.github.puzzle.game.commands.CommandSource;
-import com.github.puzzle.game.commands.ParadoxClientCommandSource;
+import com.github.puzzle.game.commands.ParadoxCommandSource;
 import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import finalforeach.cosmicreach.networking.GamePacket;
@@ -20,7 +20,7 @@ public class CommandParsing {
     public static void parse(GamePacket packet, String message, NetworkIdentity identity, ChannelHandlerContext ctx){
         try {
 
-            ParseResults<CommandSource> results = clientDispatcher.parse(message.substring(1),new ParadoxClientCommandSource(ServerSingletons.getAccount(identity),ServerSingletons.SERVER.systemChat,world,ServerSingletons.getPlayer(identity)));
+            ParseResults<CommandSource> results = clientDispatcher.parse(message.substring(1),new ParadoxCommandSource(ServerSingletons.getAccount(identity),ServerSingletons.SERVER.systemChat,world,ServerSingletons.getPlayer(identity)));
             CommandSyntaxException e;
             if(results.getReader().canRead()) {
                 if(results.getExceptions().size() == 1)
@@ -30,7 +30,7 @@ public class CommandParsing {
 
                 throw e;
             }
-           clientDispatcher.execute(message.substring(1), new ParadoxClientCommandSource(ServerSingletons.getAccount(identity), ServerSingletons.SERVER.systemChat, world, ServerSingletons.getPlayer(identity)));
+           clientDispatcher.execute(message.substring(1), new ParadoxCommandSource(ServerSingletons.getAccount(identity), ServerSingletons.SERVER.systemChat, world, ServerSingletons.getPlayer(identity)));
         } catch (CommandSyntaxException e) {
             if(OP_LIST.hasAccount(ServerSingletons.SERVER.contextToIdentity.get(ctx).getAccount())){
                 parseOperatorCommand(packet,message,identity,ctx);
@@ -50,7 +50,7 @@ public class CommandParsing {
     }
     public static void parseOperatorCommand(GamePacket packet, String message, NetworkIdentity identity, ChannelHandlerContext ctx){
         try {
-            ParseResults<CommandSource> results = CommandManager.consoledispatcher.parse(message.substring(1),new ParadoxClientCommandSource(ServerSingletons.getAccount(identity),ServerSingletons.SERVER.systemChat, world,null));
+            ParseResults<CommandSource> results = CommandManager.CONSOLE_DISPATCHER.parse(message.substring(1),new ParadoxCommandSource(ServerSingletons.getAccount(identity),ServerSingletons.SERVER.systemChat, world,null));
             CommandSyntaxException e;
             if(results.getReader().canRead()) {
                 if(results.getExceptions().size() == 1)
@@ -60,7 +60,7 @@ public class CommandParsing {
 
                 throw e;
             }
-            CommandManager.consoledispatcher.execute(message.substring(1), new ParadoxClientCommandSource(ServerSingletons.getAccount(identity), ServerSingletons.SERVER.systemChat, world, null));
+            CommandManager.CONSOLE_DISPATCHER.execute(message.substring(1), new ParadoxCommandSource(ServerSingletons.getAccount(identity), ServerSingletons.SERVER.systemChat, world, null));
         } catch (CommandSyntaxException e) {
             ServerSingletons.SERVER.broadcastAsServerExcept(packet,identity);
             var pack = new MessagePacket("[Server] "+ e.getRawMessage().getString() + ": " + message.substring(1));

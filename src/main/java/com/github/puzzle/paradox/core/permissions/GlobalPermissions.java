@@ -12,10 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static finalforeach.cosmicreach.io.SaveLocation.getSaveFolderLocation;
 
@@ -23,16 +20,29 @@ import static finalforeach.cosmicreach.io.SaveLocation.getSaveFolderLocation;
 public class GlobalPermissions {
     public static PermissionGroup DEFAULT_GROUP;
     private static final Map<String,PermissionGroup> loadedGroups = new HashMap<>();
+    static public Permission getPermission(String permissionName){
+        return allPermissions.get(permissionName);
+    }
+    static public Set<String> getPermissionGroupStringSet(){
+        return loadedGroups.keySet();
+    }
 
-    private static final Map<String,PlayerPermissions> loadedPerms = new HashMap<>();
+    public static Map<String,Permission> allPermissions = new HashMap<>();
+
+    static public void addPermission(Permission permission){
+        assert(permission != null);
+        allPermissions.putIfAbsent(permission.getPermissionVarString(), permission);
+    }
+
+    private static final Map<String,PlayerPermissions> loadedPlayerPerms = new HashMap<>();
 
     ////
     //Here for API if internal changes occur
     public static PlayerPermissions getPlayerPermissions(@NotNull String playerID){
-        return loadedPerms.get(playerID);
+        return loadedPlayerPerms.get(playerID);
     }
     public static void setPlayerPermissions(@NotNull String playerID,@NotNull PlayerPermissions permissions){
-        loadedPerms.put(playerID,permissions);
+        loadedPlayerPerms.put(playerID,permissions);
     }
 
     public static void addPermissionGroup(@NotNull String name, @NotNull String... perms){
@@ -41,7 +51,9 @@ public class GlobalPermissions {
     public static void addPermissionGroup(@NotNull String name, @NotNull PermissionGroup p){
         loadedGroups.put(name,p);
     }
-
+    public static void removePermissionGroup(@NotNull String name){
+        loadedGroups.remove(name);
+    }
     public static PermissionGroup getPermissionGroup(@NotNull String name){
        return loadedGroups.get(name);
     }
@@ -57,13 +69,13 @@ public class GlobalPermissions {
         }
         var perms = crBinDeserializer.readObjArray("playerperms",PlayerPermissions.class);
         for (var p : perms){
-            loadedPerms.put(p.playerID,p);
+            loadedPlayerPerms.put(p.playerID,p);
         }
     }
     public static void savePlayerPermissions(){
-        PlayerPermissions[] array = new PlayerPermissions[loadedPerms.size()];
-        ArrayList<PlayerPermissions> arrayList = new ArrayList<>(loadedPerms.size());
-        arrayList.addAll(loadedPerms.values());
+        PlayerPermissions[] array = new PlayerPermissions[loadedPlayerPerms.size()];
+        ArrayList<PlayerPermissions> arrayList = new ArrayList<>(loadedPlayerPerms.size());
+        arrayList.addAll(loadedPlayerPerms.values());
         arrayList.toArray(array);
         CRBinSerializer crbinserializer = CRBinSerializer.getNew();
         crbinserializer.writeObjArray("playerperms",array,0,arrayList.size());

@@ -2,7 +2,6 @@ package com.github.puzzle.paradox.game.command;
 
 import com.github.puzzle.game.commands.CommandManager;
 import com.github.puzzle.game.commands.CommandSource;
-import com.github.puzzle.game.commands.PuzzleConsoleCommandSource;
 import com.github.puzzle.paradox.core.permissions.GlobalPermissions;
 import com.github.puzzle.paradox.game.command.chat.*;
 import com.github.puzzle.paradox.game.command.console.*;
@@ -13,11 +12,9 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.CommandNode;
 import finalforeach.cosmicreach.accounts.Account;
-import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.chat.IChat;
 import finalforeach.cosmicreach.chat.commands.*;
 import finalforeach.cosmicreach.chat.commands.moderation.*;
-import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.networking.packets.MessagePacket;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import finalforeach.cosmicreach.networking.server.ServerZoneLoader;
@@ -27,8 +24,6 @@ import net.minecrell.terminalconsole.TerminalConsoleAppender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -85,9 +80,9 @@ public class Commands {
         builder.executes(command2);
         builder.then(CommandManager.argument("vanillaCommandArgument", StringArgumentType.greedyString()).executes(command2));
         if(commandSupplier.get().doesRequireOP()){
-            var node = CommandManager.consoledispatcher.register(builder);
+            var node = CommandManager.CONSOLE_DISPATCHER.register(builder);
             for (var alias : aliases){
-                CommandManager.consoledispatcher.register(CommandManager.literal(alias).redirect(node));
+                CommandManager.CONSOLE_DISPATCHER.register(CommandManager.literal(alias).redirect(node));
             }
         }else {
             var node = com.github.puzzle.paradox.core.PuzzlePL.clientDispatcher.register(builder);
@@ -118,7 +113,7 @@ public class Commands {
     }
     public static void registerConsoleCommands(){
 
-        CommandManager.consoledispatcher.register(CommandManager.literal("setrenderdistance").then(
+        CommandManager.CONSOLE_DISPATCHER.register(CommandManager.literal("setrenderdistance").then(
                 CommandManager.argument("size", IntegerArgumentType.integer(3,32)).executes(
                         context ->{
                             ServerZoneLoader.INSTANCE.serverLoadDistance = IntegerArgumentType.getInteger(context, "size");
@@ -133,25 +128,25 @@ public class Commands {
                         new Say()
                 ));
 
-        CommandManager.consoledispatcher.register(say);
+        CommandManager.CONSOLE_DISPATCHER.register(say);
 
         LiteralArgumentBuilder<CommandSource> save = CommandManager.literal("save");
         save.executes(new Save.save());
 
-        CommandManager.consoledispatcher.register(save);
+        CommandManager.CONSOLE_DISPATCHER.register(save);
 
-        CommandManager.consoledispatcher.register(CommandManager.literal("c4grief").executes(context ->{
+        CommandManager.CONSOLE_DISPATCHER.register(CommandManager.literal("c4grief").executes(context ->{
             ParadoxServerSettings.doesC4Explode  = !ParadoxServerSettings.doesC4Explode;
             System.out.println("Set doesC4Explode to: " + ParadoxServerSettings.doesC4Explode);
             return 0;
         }));
 
-        CommandManager.consoledispatcher.register(CommandManager.literal("help").executes(context ->{
+        CommandManager.CONSOLE_DISPATCHER.register(CommandManager.literal("help").executes(context ->{
             if(context.getSource().getAccount() == null)
             {
                 StringBuilder builder = new StringBuilder();
                 builder.append("Operator Commands:\n");
-                Map<CommandNode<CommandSource>, String> mapconsole = CommandManager.consoledispatcher.getSmartUsage(CommandManager.consoledispatcher.getRoot(), context.getSource());
+                Map<CommandNode<CommandSource>, String> mapconsole = CommandManager.CONSOLE_DISPATCHER.getSmartUsage(CommandManager.CONSOLE_DISPATCHER.getRoot(), context.getSource());
                 for(String s : mapconsole.values()) {
                     builder.append("\t" + s + "\n");
                 }
@@ -168,20 +163,21 @@ public class Commands {
                         .then(CommandManager.argument("z", FloatArgumentType.floatArg())
                                 .executes(new Spawn.SetSpawn()))));
 
-        CommandManager.consoledispatcher.register(setSpawn);
+        CommandManager.CONSOLE_DISPATCHER.register(setSpawn);
 
         LiteralArgumentBuilder<CommandSource> getspawn = CommandManager.literal("getspawn");
         getspawn.executes(new Spawn.GetSpawn());
 
-        CommandManager.consoledispatcher.register(getspawn);
+        CommandManager.CONSOLE_DISPATCHER.register(getspawn);
 
         LiteralArgumentBuilder<CommandSource> stop = CommandManager.literal("stop");
         stop.executes(new StopServer.stop());
 
-        CommandManager.consoledispatcher.register(stop);
+        CommandManager.CONSOLE_DISPATCHER.register(stop);
 
         LiteralArgumentBuilder<CommandSource> perms = CommandManager.literal("perms");
-        CommandManager.consoledispatcher.register(perms);
+        perms.then(CommandManager.argument("args",StringArgumentType.greedyString()).executes(new Perms()));
+        CommandManager.CONSOLE_DISPATCHER.register(perms);
         vanillaCommands();
     }
     public static void registerClientCommands(){
@@ -232,7 +228,7 @@ public class Commands {
             if(OP_LIST.hasAccount(context.getSource().getAccount()))
             {
                 builder.append("Operator Commands:\n");
-                Map<CommandNode<CommandSource>, String> mapconsole = CommandManager.consoledispatcher.getSmartUsage(CommandManager.consoledispatcher.getRoot(), context.getSource());
+                Map<CommandNode<CommandSource>, String> mapconsole = CommandManager.CONSOLE_DISPATCHER.getSmartUsage(CommandManager.CONSOLE_DISPATCHER.getRoot(), context.getSource());
                 for(String s : mapconsole.values()) {
                     if(!s.startsWith("help"))
                         builder.append("\t" + s + "\n");

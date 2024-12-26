@@ -9,6 +9,7 @@ public abstract class ParadoxAccount {
     public String username;
     public String uniqueId;
     public String displayname;
+
     public boolean isValid = true;
     public boolean tpRequst = false;
     private Player tprPlayer;
@@ -27,5 +28,5 @@ public abstract class ParadoxAccount {
     public Player getTprToPlayer() {
         return tprToPlayer;
     }
-    public abstract String getPrefix();
+//    public abstract String getPrefix();
 }

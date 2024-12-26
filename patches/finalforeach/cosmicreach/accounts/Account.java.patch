@@ -8,12 +8,12 @@
 -	private String username;
 -	private String uniqueId;
 +public abstract class Account extends com.github.puzzle.paradox.game.player.ParadoxAccount implements Serializable {
-+	// String username;
-+	// String uniqueId;
++	 String username;
++	 String uniqueId;
  
  	public final String getUsername() {
  		return this.username;
-@@ -19,15 +_,16 @@
+@@ -19,11 +_,12 @@
  		return this.uniqueId;
  	}
  
@@ -27,11 +27,6 @@
 +	public final void setUniqueId(Object uniqueId) {
  		this.uniqueId = this.getPrefix() + "_id:" + uniqueId.toString();
  	}
- 
--	public abstract String getPrefix();
-+	//public abstract String getPrefix();
- 
- 	public abstract String getDisplayName();
  
 @@ -42,6 +_,7 @@
  		json.readField(this, "username", jsonData);

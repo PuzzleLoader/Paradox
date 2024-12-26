@@ -4,6 +4,7 @@ import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.chat.IChat;
 import finalforeach.cosmicreach.entities.player.Player;
+import finalforeach.cosmicreach.networking.NetworkIdentity;
 import finalforeach.cosmicreach.world.World;
 
 public class PuzzleConsoleCommandSource implements CommandSource {
@@ -29,6 +30,16 @@ public class PuzzleConsoleCommandSource implements CommandSource {
 
     @Override
     public World getWorld() {
+        return null;
+    }
+
+    @Override
+    public NetworkIdentity getIdentity() {
+        return null;
+    }
+
+    @Override
+    public Player getPlayer() {
         return null;
     }
 

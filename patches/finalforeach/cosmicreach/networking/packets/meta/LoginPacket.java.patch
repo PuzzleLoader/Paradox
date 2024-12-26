@@ -91,7 +91,7 @@
  				}
  			}
 +			if(GlobalPermissions.getPlayerPermissions(account.getUniqueId()) == null){
-+				var perms = new PlayerPermissions(null,GlobalPermissions.DEFAULT_GROUP.getName());
++				var perms = new PlayerPermissions(null,GlobalPermissions.DEFAULT_GROUP.getName(), account.getUniqueId());
 +				GlobalPermissions.setPlayerPermissions(account.getUniqueId(),perms);
 +			}
 +			LOGGER.info("Player uid '{}' joined | {}:{}", this.account.getUniqueId(), addy.getAddress().getHostAddress(), addy.getPort());

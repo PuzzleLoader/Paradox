@@ -12,6 +12,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import finalforeach.cosmicreach.TickRunner;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.accounts.AccountOffline;
+import finalforeach.cosmicreach.networking.packets.MessagePacket;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
@@ -36,7 +37,6 @@ import static finalforeach.cosmicreach.io.SaveLocation.getSaveFolderLocation;
 
 public class PuzzlePL {
 
-    Map<String,Permission> allPermissions;
 
     private static final Logger LOGGER = LoggerFactory.getLogger("Puzzle Paradox");
     public static final Version VERSION = new Version(1,2,0, Version.VersionType.ALPHA);
@@ -54,7 +54,6 @@ public class PuzzlePL {
         SERVER_ACCOUNT.setUsername("Server");
         SERVER_ACCOUNT.setUniqueId("Server");
         LOGGER.info("Loading Paradox");
-        allPermissions = new HashMap<>();
         try {
             boolean propExists = true;
             Path path = Path.of("server.properties");
@@ -78,13 +77,7 @@ public class PuzzlePL {
         }
 
     }
-    public Permission getPermission(String permissionName){
-        return allPermissions.get(permissionName);
-    }
-    public void addPermission(Permission permission){
-        assert(permission != null);
-        allPermissions.putIfAbsent(permission.getPermissionVarString(), permission);
-    }
+
 
     private void writeToNewConfig(){
         serverConfig.addProperty("server.port",47137);
@@ -132,7 +125,13 @@ public class PuzzlePL {
             GlobalPermissions.loadPlayerPermissions();
         }
     }
-
+    public static void sendbackChat(String msg,Account account){
+        var packet = new MessagePacket(msg);
+        packet.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
+        packet.setupAndSend(
+                ServerSingletons
+                        .getIdentityByAccount(account));
+    }
     public void exit() {
         ParadoxServerSettings.writeSetting();
         GlobalPermissions.savePermissionGroups();

@@ -5,20 +5,16 @@ import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import finalforeach.cosmicreach.savelib.crbin.CRBinDeserializer;
 import finalforeach.cosmicreach.savelib.crbin.CRBinSerializer;
 import finalforeach.cosmicreach.savelib.crbin.ICRBinSerializable;
-import finalforeach.cosmicreach.savelib.crbin.SchemaType;
-import finalforeach.cosmicreach.savelib.utils.IDynamicArray;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class PermissionGroup implements ICRBinSerializable {
     public PermissionGroup(String name, String... perms){
         this.permissionGroupName = name;
         for(String permString : perms){
             assert(permString == null || permString.isBlank() || permString.isEmpty());
-            if(ServerSingletons.puzzle.getPermission(permString) != null)
-                permissionList.putIfAbsent(permString,ServerSingletons.puzzle.getPermission(permString));
+            if(GlobalPermissions.getPermission(permString) != null)
+                permissionList.putIfAbsent(permString,GlobalPermissions.getPermission(permString));
         }
     }
     // DO NOT USE, ONLY FOR ICRBinSerializable TO WORK
@@ -54,7 +50,7 @@ public class PermissionGroup implements ICRBinSerializable {
         permissionGroupName = deserializer.readString("name");
         var permissionListStrings = deserializer.readStringArray("permissionListStrings");
         for (var s : permissionListStrings){
-            permissionList.putIfAbsent(s, ServerSingletons.puzzle.getPermission(s));
+            permissionList.putIfAbsent(s, GlobalPermissions.getPermission(s));
         }
     }
 

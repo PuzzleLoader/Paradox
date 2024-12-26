@@ -40,7 +40,7 @@ public abstract class ParadoxBrigaderCommand implements Command<CommandSource> {
     }
     public void registerPermission(String basePermissionsName, int permissionValue, boolean isConsoleCommand){
         permission = new Permission(basePermissionsName + "." + getName(),permissionValue);
-        ServerSingletons.puzzle.addPermission(permission);
+        GlobalPermissions.addPermission(permission);
     }
 
     public Permission getPermission() {

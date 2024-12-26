@@ -7,7 +7,6 @@ import com.github.puzzle.paradox.util.AnsiColours;
 import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import finalforeach.cosmicreach.chat.Chat;
 import finalforeach.cosmicreach.networking.netty.NettyServer;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 import finalforeach.cosmicreach.server.ServerLauncher;
@@ -18,7 +17,6 @@ import org.jline.reader.LineReaderBuilder;
 
 import static finalforeach.cosmicreach.GameSingletons.world;
 
-//Could probably be shared with puzzle
 public class PPLTerminalConsole  extends SimpleTerminalConsole {
 
     NettyServer server;
@@ -39,7 +37,7 @@ public class PPLTerminalConsole  extends SimpleTerminalConsole {
     @Override
     protected void runCommand(String command) {
         try {
-            ParseResults<CommandSource> results = CommandManager.consoledispatcher.parse(command,new PuzzleConsoleCommandSource(ServerSingletons.SERVER.systemChat,world));
+            ParseResults<CommandSource> results = CommandManager.CONSOLE_DISPATCHER.parse(command,new PuzzleConsoleCommandSource(ServerSingletons.SERVER.systemChat,world));
             CommandSyntaxException e;
             if(results.getReader().canRead()) {
                 if(results.getExceptions().size() == 1)
@@ -48,13 +46,11 @@ public class PPLTerminalConsole  extends SimpleTerminalConsole {
                     e = results.getContext().getRange().isEmpty() ? CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownCommand().createWithContext(results.getReader()) : CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownArgument().createWithContext(results.getReader());
                 throw e;
             }
-            CommandManager.consoledispatcher.execute(new StringReader(command), new PuzzleConsoleCommandSource(null, world));
+            CommandManager.CONSOLE_DISPATCHER.execute(new StringReader(command), new PuzzleConsoleCommandSource(null, world));
         } catch (CommandSyntaxException e) {
             TerminalConsoleAppender.print(e.getRawMessage().getString() + ": "+ AnsiColours.RED + command + AnsiColours.RESET + "\n");
-//            e.printStackTrace();
         } catch (IllegalArgumentException e) {
             TerminalConsoleAppender.print(e.getMessage() + "\n");
-//            e.printStackTrace();
         }
     }
 

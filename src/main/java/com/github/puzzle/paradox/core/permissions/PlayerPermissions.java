@@ -9,28 +9,45 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class PlayerPermissions implements ICRBinSerializable {
     String playerID;
-    List<String> groupNames = new ArrayList<>();
+    Set<String> groupNames = new HashSet<>();
 
     //should these be prioritised over group perms?
-    List<String> individualPerms = new ArrayList<>();
+    Set<String> individualPerms = new HashSet<>();
     public PlayerPermissions(){
 
     }
-    public PlayerPermissions(@NotNull List<String> individualPerms, @NotNull List<String> groupPerms){
+    public PlayerPermissions(@NotNull Set<String> individualPerms, @NotNull   Set<String> groupPerms, @NotNull String plrID){
+        playerID = plrID;
         groupNames = groupPerms;
         this.individualPerms  = individualPerms;
     }
-    public PlayerPermissions(@Nullable String iPerm,@Nullable String gPerm){
+    public PlayerPermissions(@Nullable String iPerm,@Nullable String gPerm,@NotNull String plrID){
+        playerID = plrID;
         if(iPerm != null && !iPerm.isBlank()){
             individualPerms.add(iPerm);
         }
         if(gPerm != null && !gPerm.isBlank()){
             groupNames.add(gPerm);
         }
+    }
+
+    public void addIndividualPermission(Permission permission){
+        individualPerms.add(permission.getPermissionVarString());
+    }
+    public void addGroup(PermissionGroup group){
+        groupNames.add(group.getName());
+    }
+    public void removeIndividualPermission(Permission permission){
+        individualPerms.remove(permission.getPermissionVarString());
+    }
+    public void removeGroup(PermissionGroup group){
+        groupNames.remove(group.getName());
     }
     public boolean hasPermission(@NotNull String name){
         for (var p : individualPerms){
