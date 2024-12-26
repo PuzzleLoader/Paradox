@@ -24,6 +24,18 @@ public class Perms extends DefaultPuzzleCommand {
 
     @Override
     public int execute(CommandContext<CommandSource> context) throws CommandSyntaxException {
+        /*TODO:
+            this command layout example
+
+            perm group add <perm>
+            perm group create <group>
+            perm group remove <perm>
+            perm group delete <group>
+            perm player <player> add perm <perm>
+            perm player <player> add group <group>
+
+            dont allow deleting of 'default' group
+         */
         return 0;
     }
 }
