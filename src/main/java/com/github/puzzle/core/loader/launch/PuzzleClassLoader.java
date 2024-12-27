@@ -1,4 +1,4 @@
-package com.github.puzzle.paradox.loader.launch;
+package com.github.puzzle.core.loader.launch;
 
 import net.minecraft.launchwrapper.IClassNameTransformer;
 import net.minecraft.launchwrapper.IClassTransformer;
@@ -20,15 +20,16 @@ import java.security.CodeSource;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.jar.Attributes;
+import java.util.jar.Attributes.Name;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 public class PuzzleClassLoader extends URLClassLoader {
-    public static Logger LOGGER = LogManager.getLogger("Paradox | Classloader");
+    public static Logger LOGGER = LogManager.getLogger("Puzzle | Classloader");
 
     public static final int BUFFER_SIZE = 1 << 12;
-    private final List<URL> sources;
+    protected final List<URL> sources;
     private final ClassLoader parent = getClass().getClassLoader();
 
     private final List<IClassTransformer> transformers = new ArrayList<>(2);
@@ -62,7 +63,6 @@ public class PuzzleClassLoader extends URLClassLoader {
         addClassLoaderExclusion("sun.");
         addClassLoaderExclusion("org.lwjgl.");
         addClassLoaderExclusion("org.apache.logging.");
-        addClassLoaderExclusion("com.github.puzzle.paradox.loader.launch.");
         addClassLoaderExclusion("org.slf4j");
         addClassLoaderExclusion("com.google.");
         addClassLoaderExclusion("org.hjson");
@@ -70,12 +70,13 @@ public class PuzzleClassLoader extends URLClassLoader {
         // transformer exclusions
         addTransformerExclusion("javax.");
         addTransformerExclusion("argo.");
-//        addTransformerExclusion("org.objectweb.asm.");
-//        addTransformerExclusion("com.google.common.");
+        addTransformerExclusion("org.objectweb.asm.");
+        addTransformerExclusion("com.google.common.");
         addTransformerExclusion("org.bouncycastle.");
         addTransformerExclusion("org.bouncycastle.");
-        addClassLoaderExclusion("com.github.puzzle.loader.launch.internal.transformers.");
-//        addClassLoaderExclusion("com.github.puzzle.access_manipulator.");
+        addClassLoaderExclusion("com.github.puzzle.access_manipulator.");
+        addClassLoaderExclusion("com.github.puzzle.paradox.loader.");
+        addClassLoaderExclusion("com.github.puzzle.loader.");
     }
 
     public void registerTransformer(IClassTransformer transformer) {
@@ -222,13 +223,13 @@ public class PuzzleClassLoader extends URLClassLoader {
         Attributes attributes = manifest.getAttributes(path);
         String sealed = null;
         if (attributes != null) {
-            sealed = attributes.getValue(Attributes.Name.SEALED);
+            sealed = attributes.getValue(Name.SEALED);
         }
 
         if (sealed == null) {
             attributes = manifest.getMainAttributes();
             if (attributes != null) {
-                sealed = attributes.getValue(Attributes.Name.SEALED);
+                sealed = attributes.getValue(Name.SEALED);
             }
         }
         return "true".equalsIgnoreCase(sealed);

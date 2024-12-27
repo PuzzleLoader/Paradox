@@ -1,8 +1,9 @@
 package com.github.puzzle.paradox.loader.providers.api;
 
 
+import com.github.puzzle.core.loader.launch.PuzzleClassLoader;
 import com.github.puzzle.paradox.loader.Version;
-import com.github.puzzle.paradox.loader.launch.PuzzleClassLoader;
+import com.github.puzzle.paradox.loader.launch.ParadoxClassLoader;
 
 public interface IGameProvider {
     // Game Names

@@ -1,9 +1,10 @@
 package com.github.puzzle.paradox.game.provider;
 
 
+import com.github.puzzle.core.loader.launch.PuzzleClassLoader;
 import com.github.puzzle.paradox.core.PuzzlePL;
 import com.github.puzzle.paradox.loader.Version;
-import com.github.puzzle.paradox.loader.launch.PuzzleClassLoader;
+import com.github.puzzle.paradox.loader.launch.ParadoxClassLoader;
 import com.github.puzzle.paradox.loader.launch.TransformerInitializer;
 import com.github.puzzle.paradox.loader.plugin.PluginLocator;
 import com.github.puzzle.paradox.loader.plugin.info.PluginInfo;

@@ -2,52 +2,41 @@ package com.github.puzzle.paradox.loader.launch;
 
 import com.github.puzzle.core.loader.launch.PuzzleClassLoader;
 import com.github.puzzle.paradox.core.util.Reflection;
-import com.github.puzzle.paradox.game.provider.CosmicReachProvider;
 import com.github.puzzle.paradox.loader.plugin.PluginLocator;
 import com.github.puzzle.paradox.loader.providers.api.IGameProvider;
 import com.github.puzzle.paradox.util.MethodUtil;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @SuppressWarnings("deprecation")
-public class Piece {
-    public String DEFAULT_PROVIDER = CosmicReachProvider.class.getName();
-    public static IGameProvider provider;
+public class PuzzlePiece extends Piece {
 
-    public static Map<String, Object> blackboard;
-    public static PuzzleClassLoader classLoader;
 
-    public static final Logger LOGGER = LogManager.getLogger("Paradox | Loader");
 
     public static void main(String[] args) {
-        new Piece().launch(args);
+        new PuzzlePiece().launch(args);
     }
-    Piece(){
-        this(true);
-    }
-    Piece(boolean doNormalInit) {
 
-        if(doNormalInit) {
-            List<URL> classPath = new ArrayList<>();
-            classPath.addAll(PluginLocator.getUrlsOnClasspath());
-            PluginLocator.crawlPluginFolder(classPath);
+    private PuzzlePiece() {
+        super(false);
 
-            classLoader = new ParadoxClassLoader(classPath);
-            blackboard = new HashMap<>();
-
-            Thread.currentThread().setContextClassLoader(classLoader);
+        List<URL> classPath = new ArrayList<>();
+        classPath.addAll(PluginLocator.getUrlsOnClasspath());
+        PluginLocator.crawlPluginFolder(classPath);
+        try {
+            classLoader = (PuzzleClassLoader) Class.forName("com.github.puzzle.core.loader.launch.Piece").getDeclaredField("classLoader").get(null);
+        } catch (NoSuchFieldException | ClassNotFoundException | IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
-
+        blackboard = new HashMap<>();
+        classPath.forEach(classLoader::addURL);
     }
 
     private void launch(String[] args) {

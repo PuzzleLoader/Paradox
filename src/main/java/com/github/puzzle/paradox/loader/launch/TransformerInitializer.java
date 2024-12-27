@@ -1,5 +1,6 @@
 package com.github.puzzle.paradox.loader.launch;
 
+import com.github.puzzle.core.loader.launch.PuzzleClassLoader;
 import com.github.puzzle.paradox.util.PuzzleEntrypointUtil;
 
 public interface TransformerInitializer {
