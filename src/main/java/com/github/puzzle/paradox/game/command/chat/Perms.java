@@ -203,6 +203,8 @@ public class Perms extends DefaultPuzzleCommand {
             perm player <player> add group <group>
             perm player <player> remove perm <perm>
             perm player <player> remove group <group>
+            perm list group
+            perm list perms
 
             dont allow deleting of 'default' group
          */

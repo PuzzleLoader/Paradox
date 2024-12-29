@@ -109,7 +109,8 @@ public class Commands {
         registerCommand(CommandUnban::new, "unban");
         registerCommand(CommandUnbanIp::new, "unban-ip", "unbanip");
         //registerCommand(CommandSay::new, "say"); // ours is better :)
-
+        //registerCommand(CommandWho::new, "who");
+        //registerCommand(CommandPlayerCount::new, "playercount", "pc");
     }
     public static void registerConsoleCommands(){
 
@@ -197,8 +198,8 @@ public class Commands {
         playerlist.executes(context -> {
             //move to file for perms;
             StringBuilder builder = new StringBuilder();
-            builder.append("There are " + ServerSingletons.SERVER.authenticatedConnections.size + " player(s) online\n");
-            builder.append("players:\n");
+            builder.append(ServerSingletons.SERVER.authenticatedConnections.size + " player(s) online\n");
+            builder.append("player(s):\n");
             for (var id : ServerSingletons.SERVER.authenticatedConnections) {
                 var acc = ServerSingletons.SERVER.getAccount(id.ctx);
                 if(acc == context.getSource().getAccount()){
@@ -217,6 +218,19 @@ public class Commands {
         });
 
         clientDispatcher.register(playerlist);
+        LiteralArgumentBuilder<CommandSource> playercount = CommandManager.literal("playercount");
+        playercount.executes(context -> {
+            //move to file for perms;
+
+            var packet = new MessagePacket(ServerSingletons.SERVER.authenticatedConnections.size + " player(s) online\n");
+            packet.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
+            packet.setupAndSend(    
+                    ServerSingletons
+                            .getIdentityByAccount(context.getSource().getAccount()));
+            return 0;
+        });
+
+        clientDispatcher.register(playercount);
         clientDispatcher.register(CommandManager.literal("help").executes(context ->{
             //move to file for perms;
             Map<CommandNode<CommandSource>, String> map = clientDispatcher.getSmartUsage(clientDispatcher.getRoot(), context.getSource());
