@@ -3,8 +3,10 @@ package com.github.puzzle.paradox.core;
 import com.github.puzzle.paradox.api.ParadoxNetworkIdentity;
 import com.github.puzzle.paradox.api.block.blockentity.ParadoxBlockEntity;
 import com.github.puzzle.paradox.api.entity.*;
-import com.github.puzzle.paradox.api.ParadoxPlayer;
+import com.github.puzzle.paradox.api.player.ParadoxAccount;
+import com.github.puzzle.paradox.api.player.ParadoxPlayer;
 import com.github.puzzle.paradox.api.item.ParadoxItemStack;
+import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.entities.DroneEntity;
 import finalforeach.cosmicreach.entities.DroneTrapEntity;
 import finalforeach.cosmicreach.entities.ItemEntity;
@@ -87,6 +89,7 @@ public class ClassConverter {
 
         registerClassConverter(new ClassInfo<>(NetworkIdentity.class.getName(), ParadoxNetworkIdentity.class, ParadoxNetworkIdentity::new));
         registerClassConverter(new ClassInfo<>(ItemStack.class.getName(), ParadoxItemStack.class, ParadoxItemStack::new));
+        registerClassConverter(new ClassInfo<>(Account.class.getName(), ParadoxAccount.class, ParadoxAccount::new));
         registerClassConverter(new ClassInfo<>(Player.class.getName(), ParadoxPlayer.class, ParadoxPlayer::new));
     }
 

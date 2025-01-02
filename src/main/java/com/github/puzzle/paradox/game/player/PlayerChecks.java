@@ -1,11 +1,9 @@
 package com.github.puzzle.paradox.game.player;
 
-import com.github.puzzle.paradox.api.ParadoxPlayer;
-import com.github.puzzle.paradox.core.ClassConverter;
+import com.github.puzzle.paradox.api.player.ParadoxPlayer;
 import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.networking.NetworkIdentity;
-import org.slf4j.LoggerFactory;
 
 public class PlayerChecks {
 

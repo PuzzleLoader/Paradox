@@ -68,7 +68,7 @@
 -						ServerSingletons.SERVER.addAuthenticatedIdentity((ServerIdentity)identity);
 -						Logger.info("Is it really " + this.account.getUsername() + "? I have no choice to believe so (Offline mode)!");
 +			}
-+			else if (account.isAllowed() && ServerSettings.OFFLINE_MODE.isTrue()) {
++			else if (account.isAllowed() && !com.github.puzzle.paradox.game.server.ParadoxServerSettings.isOffline) {
 +//				Logger.info("Is it really " + this.account.getUsername() + "? I have no choice to believe so (Offline mode)!");
  					} else {
 -						Logger.info("Unable to authenticate " + this.account.getUsername());

@@ -30,3 +30,29 @@
  		DynamicArrays.instantiator = new IDynamicArrayInstantiator() {
  			@Override
  			public <E> IDynamicArray<E> create(Class<E> clazz) {
+@@ -223,6 +_,7 @@
+ 			uniqueIdsToPlayers.put(account.getUniqueId(), player);
+ 			playersToUniqueIds.put(player, account.getUniqueId());
+ 			playersToAccounts.put(player, account);
++			com.github.puzzle.paradox.api.Paradox.getInstance().addPlayer(player);
+ 		}
+ 	}
+ 
+@@ -239,7 +_,7 @@
+ 					zone.getPlayers().clear();
+ 				}
+ 			}
+-
++			com.github.puzzle.paradox.api.Paradox.getInstance().removeAllPlayers();
+ 			NUMBER_OF_PLAYERS = 0;
+ 		}
+ 	}
+@@ -258,7 +_,7 @@
+ 					zone.removePlayer(player);
+ 				}
+ 			}
+-
++			com.github.puzzle.paradox.api.Paradox.getInstance().removePlayer(player);
+ 			NUMBER_OF_PLAYERS--;
+ 		}
+ 	}

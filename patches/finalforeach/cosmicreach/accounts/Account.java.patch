@@ -1,13 +1,18 @@
 --- a/finalforeach/cosmicreach/accounts/Account.java
 +++ b/finalforeach/cosmicreach/accounts/Account.java
-@@ -7,9 +_,9 @@
+@@ -3,13 +_,14 @@
+ import com.badlogic.gdx.utils.Json;
+ import com.badlogic.gdx.utils.JsonValue;
+ import com.badlogic.gdx.utils.Json.Serializable;
++import com.github.puzzle.paradox.game.player.InternalParadoxAccount;
+ import finalforeach.cosmicreach.GameSingletons;
  import finalforeach.cosmicreach.entities.player.Player;
  import finalforeach.cosmicreach.networking.server.ServerSingletons;
  
 -public abstract class Account implements Serializable {
 -	private String username;
 -	private String uniqueId;
-+public abstract class Account extends com.github.puzzle.paradox.game.player.ParadoxAccount implements Serializable {
++public abstract class Account extends InternalParadoxAccount implements Serializable {
 +	 String username;
 +	 String uniqueId;
  

@@ -1,6 +1,7 @@
 package com.github.puzzle.paradox.api.block.blockentity;
 
 import finalforeach.cosmicreach.blockentities.BlockEntity;
+import finalforeach.cosmicreach.items.Item;
 
 public abstract class ParadoxBlockEntity {
 
@@ -9,6 +10,13 @@ public abstract class ParadoxBlockEntity {
         this.blockEntity = blockEntity;
     }
 
+
+    /**
+     * Avoid using this. Returns Cosmic Reach's internal block entity class
+     * @author repletsin5
+     * @since API 1.0.0-Alpha
+     * @see BlockEntity
+     */
     public BlockEntity getInternalBlockEntity() {
         return blockEntity;
     }

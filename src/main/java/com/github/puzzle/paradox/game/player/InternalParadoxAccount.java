@@ -1,14 +1,19 @@
 package com.github.puzzle.paradox.game.player;
 
+import com.github.puzzle.paradox.api.player.ParadoxAccount;
+import com.github.puzzle.paradox.api.player.ParadoxPlayer;
+import com.github.puzzle.paradox.core.ClassConverter;
+import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.networking.server.ServerIdentity;
 import finalforeach.cosmicreach.networking.server.ServerSingletons;
 
 
-public abstract class ParadoxAccount {
+public abstract class InternalParadoxAccount {
     public String username;
     public String uniqueId;
     public String displayname;
+    public ParadoxAccount paradoxAccount;
 
     public boolean isValid = true;
     public boolean tpRequst = false;
@@ -19,6 +24,13 @@ public abstract class ParadoxAccount {
         this.tpRequst = true;
         this.tprPlayer = ServerSingletons.getPlayer(id);
         this.tprToPlayer = playerToTp;
+    }
+
+    public ParadoxAccount getParadoxAccount(){
+        if(paradoxAccount == null){
+            paradoxAccount = ClassConverter.convertClass((Account)(Object)this);
+        }
+        return paradoxAccount;
     }
 
     public Player getTprPlayer() {

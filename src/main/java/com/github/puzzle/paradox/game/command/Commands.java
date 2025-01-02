@@ -2,6 +2,7 @@ package com.github.puzzle.paradox.game.command;
 
 import com.github.puzzle.game.commands.CommandManager;
 import com.github.puzzle.game.commands.CommandSource;
+import com.github.puzzle.paradox.api.Paradox;
 import com.github.puzzle.paradox.core.permissions.GlobalPermissions;
 import com.github.puzzle.paradox.game.command.chat.*;
 import com.github.puzzle.paradox.game.command.console.*;
@@ -11,6 +12,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.CommandNode;
+import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.chat.IChat;
 import finalforeach.cosmicreach.chat.commands.*;
@@ -198,14 +200,14 @@ public class Commands {
         playerlist.executes(context -> {
             //move to file for perms;
             StringBuilder builder = new StringBuilder();
-            builder.append(ServerSingletons.SERVER.authenticatedConnections.size + " player(s) online\n");
+            builder.append(Paradox.getInstance().getPlayers().size() + " player(s) online\n");
             builder.append("player(s):\n");
-            for (var id : ServerSingletons.SERVER.authenticatedConnections) {
-                var acc = ServerSingletons.SERVER.getAccount(id.ctx);
-                if(acc == context.getSource().getAccount()){
-                    builder.append("\t" + acc.displayname + " <- you\n");
+            for (var plr : Paradox.getInstance().getPlayers()) {
+                var acc = plr.getAccount();
+                if(acc == context.getSource().getAccount().getParadoxAccount()){
+                    builder.append("\t" + acc.getDisplayName() + " <- you\n");
                 }else {
-                    builder.append("\t" + acc.displayname + "\n");
+                    builder.append("\t" + acc.getDisplayName() + "\n");
                 }
             }
 
@@ -222,7 +224,7 @@ public class Commands {
         playercount.executes(context -> {
             //move to file for perms;
 
-            var packet = new MessagePacket(ServerSingletons.SERVER.authenticatedConnections.size + " player(s) online\n");
+            var packet = new MessagePacket(Paradox.getInstance().getPlayers().size() + " player(s) online\n");
             packet.playerUniqueId = SERVER_ACCOUNT.getUniqueId();
             packet.setupAndSend(    
                     ServerSingletons

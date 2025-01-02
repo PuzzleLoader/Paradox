@@ -13,7 +13,7 @@ buildscript {
 plugins {
     id "com.gradleup.shadow" version "8.3.3"
 }
-group = 'org.example'
+    group = 'org.example'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -61,6 +61,10 @@ dependencies {
     implementation('org.jetbrains:annotations:24.0.0')
     implementation("net.sf.jopt-simple:jopt-simple:$joptSimpleVersion")
 }
+
+javadoc {
+}
+
 tasks.register('copyToLib', Copy) {
     into "$buildDir/output/lib"
     from configurations.runtimeClasspath

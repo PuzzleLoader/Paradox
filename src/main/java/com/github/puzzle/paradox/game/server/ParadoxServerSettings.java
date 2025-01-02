@@ -22,8 +22,7 @@ public class ParadoxServerSettings {
     public static boolean RCONenabled = false;
     public static String RCONpassword = "";
     public static boolean anticheat = true;
-//    public static boolean isOffline = false;
-    public static String itAPIkey = "";
+    public static boolean isOffline = false;
 
     public static boolean getBool(String name){
       return getBool(name,true);

@@ -24,3 +24,11 @@
  	}
  
  	@Override
+@@ -26,6 +_,6 @@
+ 
+ 	@Override
+ 	public boolean isAllowed() {
+-		return ServerSettings.OFFLINE_MODE.getValue();
++		return com.github.puzzle.paradox.game.server.ParadoxServerSettings.isOffline;
+ 	}
+ }

@@ -1,6 +1,6 @@
 package com.github.puzzle.paradox.game.player;
 
-import com.github.puzzle.paradox.api.ParadoxPlayer;
+import com.github.puzzle.paradox.api.player.ParadoxPlayer;
 import com.github.puzzle.paradox.core.ClassConverter;
 import finalforeach.cosmicreach.entities.player.Player;
 
