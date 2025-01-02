@@ -5,7 +5,7 @@
  					blockeventargs.blockPos = this.blockPos;
  					blockeventargs.srcIdentity = identity;
 -
-+					if(!com.github.puzzle.paradox.game.player.PlayerChecks.BlockRangeCheck(identity,blockPos))
++					if(!com.github.puzzle.paradox.game.player.PlayerChecks.blockChecks(identity,blockPos))
 +						return;
  					for (int i = 0; i < ablockeventtrigger.length; i++) {
  						ablockeventtrigger[i].act(blockeventargs);

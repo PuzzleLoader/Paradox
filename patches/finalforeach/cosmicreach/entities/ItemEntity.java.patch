@@ -8,6 +8,15 @@
  import finalforeach.cosmicreach.items.ItemStack;
  import finalforeach.cosmicreach.networking.packets.ContainerSyncPacket;
  import finalforeach.cosmicreach.networking.packets.sounds.PlaySound3DPacket;
+@@ -27,7 +_,7 @@
+ 	public static SoundBuffer pickupSound;
+ 	public static SoundBuffer flickSound;
+ 	@CRBSerialized
+-	ItemStack itemStack;
++	public ItemStack itemStack;
+ 	@CRBSerialized
+ 	float maxAge = 300.0F;
+ 	@CRBSerialized
 @@ -39,7 +_,7 @@
  	boolean isFollowed;
  

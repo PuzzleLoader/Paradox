@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/networking/packets/meta/LoginPacket.java
 +++ b/finalforeach/cosmicreach/networking/packets/meta/LoginPacket.java
-@@ -1,5 +_,7 @@
+@@ -1,12 +_,13 @@
  package finalforeach.cosmicreach.networking.packets.meta;
  
 +import com.github.puzzle.paradox.core.permissions.GlobalPermissions;
@@ -8,26 +8,13 @@
  import finalforeach.cosmicreach.accounts.Account;
  import finalforeach.cosmicreach.accounts.AccountItch;
  import finalforeach.cosmicreach.accounts.AccountOffline;
-@@ -7,6 +_,7 @@
+ import finalforeach.cosmicreach.accounts.IAuthenticatedAccount;
  import finalforeach.cosmicreach.networking.GamePacket;
  import finalforeach.cosmicreach.networking.NetworkIdentity;
- import finalforeach.cosmicreach.networking.server.ServerIdentity;
-+import finalforeach.cosmicreach.networking.packets.MessagePacket;
+-import finalforeach.cosmicreach.networking.server.ServerIdentity;
  import finalforeach.cosmicreach.networking.server.ServerSingletons;
  import finalforeach.cosmicreach.settings.ServerSettings;
  import finalforeach.cosmicreach.util.logging.Logger;
-@@ -15,6 +_,11 @@
- import io.netty.util.AttributeKey;
- import java.net.InetSocketAddress;
- 
-+import java.net.InetSocketAddress;
-+import java.util.Objects;
-+
-+import static com.github.puzzle.paradox.core.PuzzlePL.SERVER_ACCOUNT;
-+
- public class LoginPacket extends GamePacket {
- 	private static final AttributeKey<Boolean> LOGIN_SET_ATTRIB = AttributeKey.valueOf("LOGIN_SET");
- 	public Account account;
 @@ -22,6 +_,8 @@
  	public LoginPacket() {
  	}
@@ -45,7 +32,7 @@
  	}
  
  	@Override
-@@ -52,36 +_,46 @@
+@@ -52,36 +_,48 @@
  	@Override
  	public void handle(NetworkIdentity identity, ChannelHandlerContext ctx) {
  		if (!identity.isClient()) {
@@ -93,7 +80,9 @@
 +			if(GlobalPermissions.getPlayerPermissions(account.getUniqueId()) == null){
 +				var perms = new PlayerPermissions(null,GlobalPermissions.DEFAULT_GROUP.getName(), account.getUniqueId());
 +				GlobalPermissions.setPlayerPermissions(account.getUniqueId(),perms);
++
 +			}
++
 +			LOGGER.info("Player uid '{}' joined | {}:{}", this.account.getUniqueId(), addy.getAddress().getHostAddress(), addy.getPort());
  		}
 +

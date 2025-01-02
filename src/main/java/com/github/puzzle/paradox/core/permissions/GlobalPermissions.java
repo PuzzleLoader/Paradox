@@ -16,7 +16,6 @@ import java.util.*;
 
 import static finalforeach.cosmicreach.io.SaveLocation.getSaveFolderLocation;
 
-//INFO: Not tested, very WIP.
 public class GlobalPermissions {
     public static PermissionGroup DEFAULT_GROUP;
     private static final Map<String,PermissionGroup> loadedGroups = new HashMap<>();

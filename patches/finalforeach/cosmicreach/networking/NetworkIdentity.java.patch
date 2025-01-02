@@ -5,7 +5,7 @@
  import finalforeach.cosmicreach.world.Zone;
  
 -public abstract class NetworkIdentity {
-+public abstract class NetworkIdentity extends com.github.puzzle.paradox.game.server.ParadoxNetworkIdentity {
++public abstract class NetworkIdentity extends com.github.puzzle.paradox.game.server.InternalParadoxNetworkIdentity {
  	final NetworkSide side;
  	final NetworkSettings settings;
  

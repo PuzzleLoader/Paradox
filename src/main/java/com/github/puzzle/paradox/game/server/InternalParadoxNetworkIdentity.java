@@ -1,6 +1,6 @@
 package com.github.puzzle.paradox.game.server;
 
-public abstract class ParadoxNetworkIdentity {
+public abstract class InternalParadoxNetworkIdentity {
 
     public boolean waskicked = false;
     public boolean shouldIgnore = false;
