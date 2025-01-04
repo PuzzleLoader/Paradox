@@ -21,6 +21,15 @@
  import java.util.HashMap;
  import java.util.WeakHashMap;
  import java.util.function.Consumer;
+@@ -51,7 +_,7 @@
+ public class GameSingletons {
+ 	public static World world;
+ 	private static ObjectMap<String, Player> uniqueIdsToPlayers = new ObjectMap<>();
+-	private static WeakHashMap<Player, String> playersToUniqueIds = new WeakHashMap<>();
++	public static WeakHashMap<Player, String> playersToUniqueIds = new WeakHashMap<>();
+ 	private static WeakHashMap<Player, Account> playersToAccounts = new WeakHashMap<>();
+ 	private static int NUMBER_OF_PLAYERS = 0;
+ 	public static boolean isAllFlaggedForRemeshing;
 @@ -70,7 +_,7 @@
  	public static IClientSingletons clientSingletons;
  
@@ -47,12 +56,19 @@
  			NUMBER_OF_PLAYERS = 0;
  		}
  	}
-@@ -258,7 +_,7 @@
+@@ -247,6 +_,7 @@
+ 	public static void unregisterPlayer(Player player) {
+ 		synchronized (getPlayerLock()) {
+ 			String s = playersToUniqueIds.get(player);
++			com.github.puzzle.paradox.api.Paradox.getInstance().removePlayer(player);
+ 			playersToUniqueIds.remove(player);
+ 			uniqueIdsToPlayers.remove(s);
+ 			playersToAccounts.remove(player);
+@@ -258,7 +_,6 @@
  					zone.removePlayer(player);
  				}
  			}
 -
-+			com.github.puzzle.paradox.api.Paradox.getInstance().removePlayer(player);
  			NUMBER_OF_PLAYERS--;
  		}
  	}

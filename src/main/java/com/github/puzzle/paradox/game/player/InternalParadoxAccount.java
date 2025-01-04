@@ -13,7 +13,7 @@ public abstract class InternalParadoxAccount {
     public String username;
     public String uniqueId;
     public String displayname;
-    public ParadoxAccount paradoxAccount;
+    transient public ParadoxAccount paradoxAccount;
 
     public boolean isValid = true;
     public boolean tpRequst = false;

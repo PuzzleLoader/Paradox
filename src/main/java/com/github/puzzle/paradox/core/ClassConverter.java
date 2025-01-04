@@ -7,6 +7,8 @@ import com.github.puzzle.paradox.api.player.ParadoxAccount;
 import com.github.puzzle.paradox.api.player.ParadoxPlayer;
 import com.github.puzzle.paradox.api.item.ParadoxItemStack;
 import finalforeach.cosmicreach.accounts.Account;
+import finalforeach.cosmicreach.accounts.AccountItch;
+import finalforeach.cosmicreach.accounts.AccountOffline;
 import finalforeach.cosmicreach.entities.DroneEntity;
 import finalforeach.cosmicreach.entities.DroneTrapEntity;
 import finalforeach.cosmicreach.entities.ItemEntity;
@@ -17,6 +19,7 @@ import finalforeach.cosmicreach.networking.NetworkIdentity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 @SuppressWarnings("unchecked")
 
@@ -27,6 +30,12 @@ public class ClassConverter {
     {
 
     }
+    public record PlayerInfo<E extends ParadoxPlayer, C,P extends PlayerEntity>
+            (Class<E> pEntity, BiFunction<C,P,E> converter)
+    {
+
+    }
+
     public record ClassInfo<E, C>(String className, Class<E> clazz, Function<C,E> converter)
     {
 
@@ -65,10 +74,10 @@ public class ClassConverter {
     }
 
     public static ParadoxPlayer convertPlayer(Player toConvert){
-        ClassInfo<ParadoxPlayer,Player> c = (ClassInfo<ParadoxPlayer,Player>) OTHER_CLASS_CONVERTERS.get(Player.class.getName());
+        PlayerInfo<ParadoxPlayer,Player,PlayerEntity> c =  new PlayerInfo<>(ParadoxPlayer.class,ParadoxPlayer::new);
         if(c == null)
             throw new RuntimeException("Can not convert player");
-        return c.converter().apply(toConvert);
+        return c.converter().apply(toConvert,(PlayerEntity)toConvert.getEntity());
     }
 
     public static <E, R> R convertClass(E toConvert) {
@@ -90,7 +99,9 @@ public class ClassConverter {
         registerClassConverter(new ClassInfo<>(NetworkIdentity.class.getName(), ParadoxNetworkIdentity.class, ParadoxNetworkIdentity::new));
         registerClassConverter(new ClassInfo<>(ItemStack.class.getName(), ParadoxItemStack.class, ParadoxItemStack::new));
         registerClassConverter(new ClassInfo<>(Account.class.getName(), ParadoxAccount.class, ParadoxAccount::new));
-        registerClassConverter(new ClassInfo<>(Player.class.getName(), ParadoxPlayer.class, ParadoxPlayer::new));
+        registerClassConverter(new ClassInfo<>(AccountItch.class.getName(), ParadoxAccount.class, ParadoxAccount::new));
+        registerClassConverter(new ClassInfo<>(AccountOffline.class.getName(), ParadoxAccount.class, ParadoxAccount::new));
+//        registerClassConverter(new ClassInfo<>(Player.class.getName(), ParadoxPlayer.class, ParadoxPlayer::new));
     }
 
 }

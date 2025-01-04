@@ -5,7 +5,7 @@ import com.github.puzzle.paradox.core.ClassConverter;
 import finalforeach.cosmicreach.entities.player.Player;
 
 public abstract class InternalParadoxPlayer {
-    ParadoxPlayer paradoxPlayer = null;
+    transient ParadoxPlayer paradoxPlayer = null;
 
     public ParadoxPlayer getParadoxPlayer(){
         if(paradoxPlayer == null){

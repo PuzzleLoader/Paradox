@@ -4,14 +4,20 @@ import com.github.puzzle.paradox.api.player.ParadoxPlayer;
 import com.github.puzzle.paradox.core.PuzzlePL;
 import com.github.puzzle.paradox.loader.Version;
 import finalforeach.cosmicreach.entities.player.Player;
+import net.neoforged.bus.EventBus;
+import net.neoforged.bus.api.BusBuilder;
+import net.neoforged.bus.api.IEventBus;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static finalforeach.cosmicreach.GameSingletons.playersToUniqueIds;
+
 public class Paradox  {
 
+    IEventBus eventBus;
     private Paradox(){
-
+        eventBus = BusBuilder.builder().build();
     }
     public static Paradox INSTANCE = null;
     public static Paradox getInstance(){
@@ -20,6 +26,9 @@ public class Paradox  {
         return INSTANCE;
     }
 
+    public IEventBus getEventBus(){
+        return eventBus;
+    }
     private final Map<String, ParadoxPlayer> cachedPlr = new HashMap<>();
 
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +42,7 @@ public class Paradox  {
      * @see Player
      */
     public void removePlayer(Player player){
-        cachedPlr.remove(player.getAccount().getUniqueId());
+        cachedPlr.remove(playersToUniqueIds.get(player));
     }
 
     /**

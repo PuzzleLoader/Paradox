@@ -5,7 +5,9 @@ import com.github.puzzle.paradox.api.entity.ParadoxPlayerEntity;
 import com.github.puzzle.paradox.core.ClassConverter;
 import com.github.puzzle.paradox.game.player.InternalParadoxAccount;
 import finalforeach.cosmicreach.accounts.Account;
+import finalforeach.cosmicreach.entities.Entity;
 import finalforeach.cosmicreach.entities.player.Player;
+import finalforeach.cosmicreach.entities.player.PlayerEntity;
 import finalforeach.cosmicreach.networking.server.ServerIdentity;
 import finalforeach.cosmicreach.world.Zone;
 
@@ -17,9 +19,9 @@ public class ParadoxPlayer {
 
     ParadoxPlayerEntity entity;
     ParadoxAccount account;
-    public ParadoxPlayer(Player player){
+    public ParadoxPlayer(Player player, PlayerEntity playerEntity){
         this.player = player;
-        this.entity = (ParadoxPlayerEntity) ClassConverter.convertEntity(player.getEntity());
+        this.entity = (ParadoxPlayerEntity) playerEntity.getParadoxEntity();
         this.account = ClassConverter.convertClass(player.getAccount());
     }
 //TODO create ParadoxZone

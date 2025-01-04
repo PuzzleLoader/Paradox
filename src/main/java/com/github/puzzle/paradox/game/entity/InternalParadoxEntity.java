@@ -5,7 +5,7 @@ import com.github.puzzle.paradox.core.ClassConverter;
 import finalforeach.cosmicreach.entities.Entity;
 
 public class InternalParadoxEntity {
-    ParadoxEntity entity = null;
+    transient ParadoxEntity entity = null;
 
     public ParadoxEntity getParadoxEntity(){
         if(entity == null){

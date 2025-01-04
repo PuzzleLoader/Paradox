@@ -8,6 +8,7 @@ import com.github.puzzle.paradox.core.terminal.PPLTerminalConsole;
 import com.github.puzzle.paradox.game.command.Commands;
 import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
 import com.github.puzzle.paradox.loader.Version;
+import com.github.puzzle.paradox.test.Test;
 import com.mojang.brigadier.CommandDispatcher;
 import finalforeach.cosmicreach.TickRunner;
 import finalforeach.cosmicreach.accounts.Account;
@@ -76,7 +77,7 @@ public class PuzzlePL {
         } catch (ConfigurationException | IOException e) {
             throw new RuntimeException(e);
         }
-
+//        Test.enableTests();
     }
 
 
