@@ -23,12 +23,19 @@ public class ParadoxServerSettings {
     public static String RCONpassword = "";
     public static boolean anticheat = true;
     public static boolean isOffline = false;
+    public static float creativeBreakDelayMin = 64;
 
     public static boolean getBool(String name){
       return getBool(name,true);
     }
     public static boolean getBool(String name,boolean def){
         return ServerSingletons.puzzle.serverConfig.get(Boolean.class,name,def);
+    }
+    public static float getFloat(String name){
+        return getFloat(name,0);
+    }
+    public static float getFloat(String name,float def){
+        return ServerSingletons.puzzle.serverConfig.get(Float.class,name,def);
     }
     public static int getInt(String name){
         return ServerSingletons.puzzle.serverConfig.get(Integer.class,name,0);
@@ -39,6 +46,7 @@ public class ParadoxServerSettings {
         config.setProperty("iteraction.canbreakblock",canBreakBlock);
         config.setProperty("iteraction.canplaceblock",canPlaceBlock);
         config.setProperty("server.canchat",canChat);
+        config.setProperty("anticheat.creativebreakdelaymin",creativeBreakDelayMin);
         config.setProperty("commands.enabled",executeChatCommands);
         var rd = ServerZoneLoader.INSTANCE.serverLoadDistance;
         config.setProperty("server.renderdistance",rd < 3 || rd > 32 ? 10 : rd);
@@ -61,6 +69,7 @@ public class ParadoxServerSettings {
         anticheat = getBool("server.anticheat");
         executeChatCommands =  getBool("commands.enabled");
         joinMessage = Objects.requireNonNullElse(config.getString("server.joinmessage"),"");
+        creativeBreakDelayMin = config.getFloat("anticheat.creativebreakdelaymin",64.f);
         var rd = getInt("server.renderdistance");
         ServerZoneLoader.INSTANCE.serverLoadDistance = rd < 3 || rd > 32 ? 10 : rd;
     }

@@ -17,12 +17,24 @@ public class ParadoxPlayer {
 
     Player player;
 
+
     ParadoxPlayerEntity entity;
+
+    long lastBreakTime = 0;
     ParadoxAccount account;
     public ParadoxPlayer(Player player, PlayerEntity playerEntity){
         this.player = player;
         this.entity = (ParadoxPlayerEntity) playerEntity.getParadoxEntity();
         this.account = ClassConverter.convertClass(player.getAccount());
+    }
+    public long getLastBreakTime() {
+        return lastBreakTime;
+    }
+    public String getGamemode() {
+        return player.gamemode.gamemodeId;
+    }
+    public void setLastBreakTime(long time) {
+        lastBreakTime = time;
     }
 //TODO create ParadoxZone
 //    public Zone getZone(){
