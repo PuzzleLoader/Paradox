@@ -15,5 +15,5 @@
 -public class Player implements Serializable, ISlotContainerParent {
 +public class Player extends InternalParadoxPlayer implements Serializable, ISlotContainerParent {
  	public Gamemode gamemode = Gamemode.SURVIVAL;
- 	public String username = "localPlayer";
  	public String zoneId;
+ 	private Entity entity;

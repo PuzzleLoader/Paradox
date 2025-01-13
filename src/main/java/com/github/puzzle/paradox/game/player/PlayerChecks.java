@@ -1,9 +1,13 @@
 package com.github.puzzle.paradox.game.player;
 
+import com.github.puzzle.paradox.api.packet.PacketEvents;
 import com.github.puzzle.paradox.api.player.ParadoxPlayer;
+import com.github.puzzle.paradox.game.event.BlockEventEvents;
 import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
 import finalforeach.cosmicreach.blocks.BlockPosition;
 import finalforeach.cosmicreach.networking.NetworkIdentity;
+import net.neoforged.bus.api.SubscribeEvent;
+import org.slf4j.LoggerFactory;
 
 public class PlayerChecks {
 
@@ -22,5 +26,14 @@ public class PlayerChecks {
         var plrPos = player.getPosition();
         var plrLookDir = player.getEntity().getViewDirection();
         return false;
+    }
+
+    public static class PositionChecks {
+        @SubscribeEvent
+        public void OnPlayerPosition(PacketEvents.OnPlayerPositionPacket event){
+            //TODO
+            event.setCanceled(false);
+        }
+
     }
 }

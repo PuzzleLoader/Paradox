@@ -109,6 +109,7 @@ public class Commands {
         registerCommand(CommandDeop::new, "deop", "de-op");
         registerCommand(CommandKick::new, "kick");
         registerCommand(CommandUnban::new, "unban");
+        registerCommand(CommandClear::new, "clear");
         registerCommand(CommandUnbanIp::new, "unban-ip", "unbanip");
         //registerCommand(CommandSay::new, "say"); // ours is better :)
         //registerCommand(CommandWho::new, "who");

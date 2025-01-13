@@ -1,11 +1,13 @@
 package com.github.puzzle.paradox.core;
 
 import com.github.puzzle.game.commands.CommandSource;
+import com.github.puzzle.paradox.api.Paradox;
 import com.github.puzzle.paradox.core.permissions.GlobalPermissions;
 import com.github.puzzle.paradox.core.permissions.Permission;
 import com.github.puzzle.paradox.core.permissions.PermissionGroup;
 import com.github.puzzle.paradox.core.terminal.PPLTerminalConsole;
 import com.github.puzzle.paradox.game.command.Commands;
+import com.github.puzzle.paradox.game.player.PlayerChecks;
 import com.github.puzzle.paradox.game.server.ParadoxServerSettings;
 import com.github.puzzle.paradox.loader.Version;
 import com.github.puzzle.paradox.test.Test;
@@ -40,7 +42,7 @@ public class PuzzlePL {
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger("Puzzle Paradox");
-    public static final Version VERSION = new Version(1,2,1, Version.VersionType.ALPHA);
+    public static final Version VERSION = new Version(1,2,4, Version.VersionType.ALPHA);
     public static final Version API_VERSION = new Version(1,0,0, Version.VersionType.ALPHA);
 
     public final PropertiesConfiguration serverConfig;
@@ -126,6 +128,7 @@ public class PuzzlePL {
         if(new File(getSaveFolderLocation() + "/permissions/" + "playerperms.crbin").exists()) {
             GlobalPermissions.loadPlayerPermissions();
         }
+        Paradox.getInstance().getEventBus().register(new PlayerChecks.PositionChecks());
     }
     public static void sendbackChat(String msg,Account account){
         var packet = new MessagePacket(msg);

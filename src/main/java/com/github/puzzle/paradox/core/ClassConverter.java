@@ -16,6 +16,7 @@ import finalforeach.cosmicreach.entities.player.Player;
 import finalforeach.cosmicreach.entities.player.PlayerEntity;
 import finalforeach.cosmicreach.items.ItemStack;
 import finalforeach.cosmicreach.networking.NetworkIdentity;
+import finalforeach.cosmicreach.networking.server.ServerIdentity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -97,6 +98,7 @@ public class ClassConverter {
 //        registerBlockEntityConverter(); TODO
 
         registerClassConverter(new ClassInfo<>(NetworkIdentity.class.getName(), ParadoxNetworkIdentity.class, ParadoxNetworkIdentity::new));
+        registerClassConverter(new ClassInfo<>(ServerIdentity.class.getName(), ParadoxNetworkIdentity.class, ParadoxNetworkIdentity::new));
         registerClassConverter(new ClassInfo<>(ItemStack.class.getName(), ParadoxItemStack.class, ParadoxItemStack::new));
         registerClassConverter(new ClassInfo<>(Account.class.getName(), ParadoxAccount.class, ParadoxAccount::new));
         registerClassConverter(new ClassInfo<>(AccountItch.class.getName(), ParadoxAccount.class, ParadoxAccount::new));

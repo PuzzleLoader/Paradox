@@ -9,9 +9,9 @@
  public class MessagePacket extends GamePacket {
  	public static final int MAX_MESSAGE_LENGTH = 256;
  	public String playerUniqueId;
-@@ -45,20 +_,25 @@
+@@ -50,22 +_,25 @@
  
- 			Chat.MAIN_CLIENT_CHAT.addMessage(account, this.message.replaceAll("\n", ""));
+ 			Chat.MAIN_CLIENT_CHAT.addMessage(account, s);
  		} else {
 -			if (this.message.length() > 256) {
 -				ctx.disconnect();
@@ -19,12 +19,14 @@
 -			}
 -
 -			Account account1 = ServerSingletons.getAccount(identity);
--			Logger.info("Chat from " + account1.getUniqueId() + " | " + account1.getDisplayName() + ": " + this.message);
+-			String s1 = "Chat from " + account1.getUniqueId() + " | " + account1.getDisplayName() + ": " + this.message;
 -			if (this.message.contains("\n")) {
 -				Logger.warn("Dropping message from " + account1.getUniqueId() + " | " + account1.getDisplayName() + " which contained new lines.");
+-				Logger.warn("Dropped " + s1.replaceAll("\n", "\n|-->"));
 -				return;
 -			}
 -
+-			Logger.info(s1);
 -			this.playerUniqueId = account1.getUniqueId();
 -			ServerSingletons.SERVER.broadcastAsServerExcept(this, identity);
 +			if(!com.github.puzzle.paradox.game.server.ParadoxServerSettings.canChat){

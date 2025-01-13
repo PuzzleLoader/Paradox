@@ -7,9 +7,9 @@
 -public class Entity implements ICRBinSerializable {
 +public class Entity extends com.github.puzzle.paradox.game.entity.InternalParadoxEntity implements ICRBinSerializable {
  	public static Vector3 gravity = new Vector3(0.0F, -29.400002F, 0.0F);
- 	public boolean shouldSaveInChunks = true;
- 	@CRBSerialized
-@@ -41,7 +_,7 @@
+ 	protected static final transient Matrix4 tmpModelMatrix = new Matrix4();
+ 	protected static final transient Vector3 tmpRenderPos = new Vector3();
+@@ -46,7 +_,7 @@
  	@CRBSerialized
  	public String entityTypeId;
  	@CRBSerialized

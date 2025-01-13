@@ -28,7 +28,7 @@
  	}
 @@ -84,9 +_,11 @@
  	@Override
- 	public void update(Zone zone, double deltaTime) {
+ 	public void update(Zone zone, float deltaTime) {
  		super.update(zone, deltaTime);
 +
  		if (this.age > this.minPickupAge) {

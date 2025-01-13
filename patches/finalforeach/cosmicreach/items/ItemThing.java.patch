@@ -7,10 +7,10 @@
  import com.badlogic.gdx.math.MathUtils;
  import com.badlogic.gdx.utils.JsonValue;
  import com.badlogic.gdx.utils.ObjectFloatMap;
-@@ -11,6 +_,7 @@
- import finalforeach.cosmicreach.entities.Entity;
- import finalforeach.cosmicreach.entities.player.Player;
- import finalforeach.cosmicreach.lang.Lang;
+@@ -16,6 +_,7 @@
+ import finalforeach.cosmicreach.networking.packets.entities.MaxHPEntityPacket;
+ import finalforeach.cosmicreach.networking.server.ServerSingletons;
+ import finalforeach.cosmicreach.world.BlockSetter;
 +
  import java.util.HashMap;
  import java.util.function.Supplier;

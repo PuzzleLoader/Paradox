@@ -1,9 +1,9 @@
 --- a/finalforeach/cosmicreach/accounts/AccountOffline.java
 +++ b/finalforeach/cosmicreach/accounts/AccountOffline.java
-@@ -4,9 +_,13 @@
- import finalforeach.cosmicreach.settings.ServerSettings;
- 
+@@ -7,14 +_,18 @@
  public class AccountOffline extends Account {
+ 	private String displayName = "Player";
+ 
 +
 +	public static int accountIndex = 0;
  	public AccountOffline() {
@@ -15,20 +15,18 @@
  	}
  
  	@Override
-@@ -16,7 +_,7 @@
- 
- 	@Override
- 	public String getDisplayName() {
--		return "Player";
+ 	public String getPrefix() {
+-		return "offline";
 +		return this.displayname;
  	}
  
  	@Override
-@@ -26,6 +_,6 @@
+@@ -29,7 +_,7 @@
  
  	@Override
  	public boolean isAllowed() {
 -		return ServerSettings.OFFLINE_MODE.getValue();
 +		return com.github.puzzle.paradox.game.server.ParadoxServerSettings.isOffline;
  	}
- }
+ 
+ 	public void setDisplayName(String offlineName) {

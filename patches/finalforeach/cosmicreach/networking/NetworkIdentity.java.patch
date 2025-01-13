@@ -9,3 +9,11 @@
  	final NetworkSide side;
  	final NetworkSettings settings;
  
+@@ -14,6 +_,7 @@
+ 		this.side = side;
+ 		this.settings = new NetworkSettings(this);
+ 	}
++
+ 
+ 	public NetworkSide getSide() {
+ 		return this.side;

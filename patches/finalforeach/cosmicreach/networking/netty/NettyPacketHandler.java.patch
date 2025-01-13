@@ -53,7 +53,7 @@
  			} else {
 -				gamepacket1.handle(networkidentity, ctx);
 +				PacketEvents.ON_PACKET_HANDLE_EVENT.invoker().onPacketHandle(gamepacket1,networkidentity,ctx);
-+				if(!gamepacket1.shouldGameIgnore)
++				if(com.github.puzzle.paradox.game.server.packets.InternalPacketEventHelper.fireAssociatedPacketEvent(gamepacket1, networkidentity, ctx))
 +					gamepacket1.handle(networkidentity, ctx);
  			}
  
@@ -62,7 +62,7 @@
 +
  				for (GamePacket gamepacket : this.bundledPackets) {
 -					gamepacket.handle(networkidentity, ctx);
-+					if(!gamepacket.shouldGameIgnore)
++					if(com.github.puzzle.paradox.game.server.packets.InternalPacketEventHelper.fireAssociatedPacketEvent(gamepacket, networkidentity, ctx))
 +						gamepacket.handle(networkidentity, ctx);
  				}
  

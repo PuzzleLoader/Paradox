@@ -8,6 +8,7 @@ import finalforeach.cosmicreach.networking.GamePacket;
 import finalforeach.cosmicreach.networking.NetworkIdentity;
 import io.netty.channel.ChannelHandlerContext;
 
+@Deprecated
 public class PacketEvents {
     public static final Event<OnPlayerJoinTrigger> ON_PLAYER_JOIN_EVENT = EventFactory.createArrayBacked(OnPlayerJoinTrigger.class, callbacks -> (account, identity, ctx) -> {
         for (OnPlayerJoinTrigger callback : callbacks) {
