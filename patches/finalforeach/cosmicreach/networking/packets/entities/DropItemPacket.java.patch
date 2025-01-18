@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/networking/packets/entities/DropItemPacket.java
 +++ b/finalforeach/cosmicreach/networking/packets/entities/DropItemPacket.java
-@@ -40,11 +_,11 @@
+@@ -50,11 +_,11 @@
  		if (!identity.isClient()) {
  			Player player = identity.getPlayer();
  			if (!player.isDead()) {

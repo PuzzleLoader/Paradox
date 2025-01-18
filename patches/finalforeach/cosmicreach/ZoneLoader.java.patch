@@ -16,7 +16,7 @@
  		}
  
  		if (player.isLoading()) {
-@@ -473,11 +_,12 @@
+@@ -470,11 +_,12 @@
  		}
  
  		long k = System.currentTimeMillis();
