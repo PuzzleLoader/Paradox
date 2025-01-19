@@ -1,6 +1,7 @@
 package com.github.puzzle.paradox.api.packet;
 
 import com.github.puzzle.paradox.api.ParadoxNetworkIdentity;
+import finalforeach.cosmicreach.blockentities.BlockEntity;
 import finalforeach.cosmicreach.networking.GamePacket;
 import finalforeach.cosmicreach.networking.packets.entities.PlayerPositionPacket;
 import io.netty.channel.Channel;
@@ -20,13 +21,31 @@ public abstract class PacketEvents extends Event {
         this.identity = identity;
     }
 
-    public GamePacket getGamePacket() {
+    /**
+     * Avoid using this. Returns Cosmic Reach's internal game packet class
+     * @author repletsin5
+     * @since API 1.0.0-Alpha
+     * @see GamePacket
+     */
+    public GamePacket getInternalGamePacket() {
         return gamePacket;
     }
-    public ChannelHandlerContext getCtx(){
+    /**
+     * Avoid using this. Returns Cosmic Reach's internal channel handler context class
+     * @author repletsin5
+     * @since API 1.0.0-Alpha
+     * @see ChannelHandlerContext
+     */
+    public ChannelHandlerContext getInternalCtx(){
         return channel;
     }
 
+    /**
+     * Returns associated ParadoxNetworkIdentity with this event
+     * @author repletsin5
+     * @since API 1.0.0-Alpha
+     * @see ParadoxNetworkIdentity
+     */
     public ParadoxNetworkIdentity getIdentity(){
         return identity;
     }

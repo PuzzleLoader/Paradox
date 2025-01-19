@@ -1,8 +1,7 @@
 package com.github.puzzle.paradox.test;
 
-import com.github.puzzle.paradox.game.event.BlockEventEvents;
+import com.github.puzzle.paradox.api.events.BlockEventEvents;
 import net.neoforged.bus.api.SubscribeEvent;
-import org.slf4j.LoggerFactory;
 
 public class BlockEventTest {
 

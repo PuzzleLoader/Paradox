@@ -2,7 +2,9 @@ package com.github.puzzle.paradox.api.entity;
 
 
 import com.badlogic.gdx.math.Vector3;
+import com.github.puzzle.paradox.api.Paradox;
 import com.github.puzzle.paradox.api.ParadoxZone;
+import com.github.puzzle.paradox.api.events.EntityEvents;
 import finalforeach.cosmicreach.GameSingletons;
 import finalforeach.cosmicreach.accounts.Account;
 import finalforeach.cosmicreach.entities.*;
@@ -18,6 +20,14 @@ public abstract class ParadoxEntity {
 
     private static Map<Class<? extends ParadoxEntity>,String> classtoidentity = new HashMap<>();
 
+    /**
+     * Returns a string id associated with the provided entity
+     * @author repletsin5
+     * @since API 1.0.0-Alpha
+     * @param e
+     * @see Entity
+     * @see ParadoxEntity
+     */
     public static String getEntityIDByClass(@NotNull Class<? extends ParadoxEntity> e){
         return classtoidentity.get(e);
     }
@@ -89,11 +99,14 @@ public abstract class ParadoxEntity {
      * @see ParadoxEntity
      */
     public static<E extends ParadoxEntity> E spawnEntity(@NotNull Class<E> eClass,@NotNull Vector3 position,@NotNull ParadoxZone zone){
+
         if(classtoidentity.get(eClass) == null)
             return null;
-        var spawned =  EntityCreator.get(classtoidentity.get(eClass));
+        var spawned = EntityCreator.get(classtoidentity.get(eClass));
         spawned.setPosition(position);
         var pe = spawned.getParadoxEntity();
+        if(Paradox.getInstance().getEventBus().post(new EntityEvents.OnEntitySpawn(pe)).isCanceled())
+            return null;
         zone.addEntity(pe);
         zone.getInternalZone().mobSpawner.countMobs(zone.getInternalZone());
         return (E) pe;

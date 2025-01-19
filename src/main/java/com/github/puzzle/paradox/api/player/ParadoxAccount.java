@@ -17,7 +17,6 @@ public class ParadoxAccount {
      * @since API 1.0.0-Alpha
      * @see String
      */
-
     public String getDisplayName(){
         return this.account.displayname;
     }

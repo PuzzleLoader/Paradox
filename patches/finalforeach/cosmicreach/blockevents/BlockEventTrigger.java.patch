@@ -18,7 +18,7 @@
 +
  		try {
 -			this.action.act(args);
-+			if(!com.github.puzzle.paradox.api.Paradox.getInstance().getEventBus().post(new com.github.puzzle.paradox.game.event.BlockEventEvents.OnEventAct(args)).isCanceled())
++			if(!com.github.puzzle.paradox.api.Paradox.getInstance().getEventBus().post(new com.github.puzzle.paradox.api.events.BlockEventEvents.OnEventAct(args)).isCanceled())
 +				this.action.act(args);
  		} catch (Exception exception) {
  			if (this.action != null) {

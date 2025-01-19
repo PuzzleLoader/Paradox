@@ -27,9 +27,23 @@ public class ParadoxPlayer {
         this.entity = (ParadoxPlayerEntity) playerEntity.getParadoxEntity();
         this.account = ClassConverter.convertClass(player.getAccount());
     }
+
+    /**
+     * Returns the associated epox time this Player last broke a block
+     * @author repletsin5
+     * @since API 1.0.0-Alpha
+     * @see Long
+     */
     public long getLastBreakTime() {
         return lastBreakTime;
     }
+
+    /**
+     * Returns the associated gamemode id of this Player
+     * @author repletsin5
+     * @since API 1.0.0-Alpha
+     * @see String
+     */
     public String getGamemode() {
         return player.gamemode.gamemodeId;
     }

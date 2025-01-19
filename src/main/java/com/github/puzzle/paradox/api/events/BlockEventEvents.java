@@ -1,11 +1,8 @@
-package com.github.puzzle.paradox.game.event;
+package com.github.puzzle.paradox.api.events;
 
-import com.github.puzzle.paradox.core.event.EventFactory;
 import finalforeach.cosmicreach.blockevents.BlockEventArgs;
 import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.ICancellableEvent;
-
-import java.util.Map;
 
 public abstract class BlockEventEvents extends Event {
 
