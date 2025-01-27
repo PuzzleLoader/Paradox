@@ -19,7 +19,6 @@ public abstract class EntityEvents extends Event {
 
     public static class OnEntitySpawn extends EntityEvents implements ICancellableEvent {
 
-
         public OnEntitySpawn(ParadoxEntity entity) {
             super(entity);
         }

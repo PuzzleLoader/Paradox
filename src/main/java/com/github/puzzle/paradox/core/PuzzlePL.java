@@ -2,6 +2,7 @@ package com.github.puzzle.paradox.core;
 
 import com.github.puzzle.game.commands.CommandSource;
 import com.github.puzzle.paradox.api.Paradox;
+import com.github.puzzle.paradox.api.entity.ParadoxEntity;
 import com.github.puzzle.paradox.core.permissions.GlobalPermissions;
 import com.github.puzzle.paradox.core.permissions.Permission;
 import com.github.puzzle.paradox.core.permissions.PermissionGroup;
@@ -42,7 +43,7 @@ public class PuzzlePL {
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger("Puzzle Paradox");
-    public static final Version VERSION = new Version(1,2,6, Version.VersionType.ALPHA);
+    public static final Version VERSION = new Version(1,2,7, Version.VersionType.ALPHA);
     public static final Version API_VERSION = new Version(1,0,0, Version.VersionType.ALPHA);
 
     public final PropertiesConfiguration serverConfig;

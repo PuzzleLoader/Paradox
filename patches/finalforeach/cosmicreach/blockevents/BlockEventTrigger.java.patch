@@ -1,25 +1,31 @@
 --- a/finalforeach/cosmicreach/blockevents/BlockEventTrigger.java
 +++ b/finalforeach/cosmicreach/blockevents/BlockEventTrigger.java
-@@ -5,8 +_,10 @@
- import com.badlogic.gdx.utils.Json.Serializable;
- import finalforeach.cosmicreach.blockevents.actions.IBlockAction;
+@@ -7,9 +_,11 @@
+ import finalforeach.cosmicreach.util.predicates.PredicateBlockEventArgs;
+ import java.util.function.Predicate;
  
 +
  public class BlockEventTrigger implements Serializable {
  	private IBlockAction action;
+ 	private Predicate<BlockEventArgs> condition;
 +	public boolean shouldAct = true;
  
  	@Override
  	public void write(Json json) {
-@@ -29,8 +_,10 @@
+@@ -33,10 +_,14 @@
  	}
  
  	public void act(BlockEventArgs args) {
 +
  		try {
--			this.action.act(args);
-+			if(!com.github.puzzle.paradox.api.Paradox.getInstance().getEventBus().post(new com.github.puzzle.paradox.api.events.BlockEventEvents.OnEventAct(args)).isCanceled())
-+				this.action.act(args);
+-			if (this.condition == null || this.condition.test(args)) {
+-				this.action.act(args);
++			if(!com.github.puzzle.paradox.api.Paradox.getInstance().getEventBus().post(new com.github.puzzle.paradox.api.events.BlockEventEvents.OnEventAct(args)).isCanceled()) {
++				if (this.condition == null || this.condition.test(args)) {
++					this.action.act(args);
++				}
+ 			}
++
  		} catch (Exception exception) {
  			if (this.action != null) {
  				throw new RuntimeException("Error while triggering block event action " + this.action.getActionId() + " for block: " + args.srcBlockState, exception);

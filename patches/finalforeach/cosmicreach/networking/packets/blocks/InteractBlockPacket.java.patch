@@ -3,7 +3,7 @@
 @@ -86,7 +_,8 @@
  					blockeventargs.zone = zone;
  					blockeventargs.blockPos = this.blockPos;
- 					blockeventargs.srcIdentity = identity;
+ 					blockeventargs.setSrcIdentity(identity);
 -
 +					if(!com.github.puzzle.paradox.game.player.PlayerChecks.blockChecks(identity,blockPos))
 +						return;

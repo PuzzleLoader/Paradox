@@ -33,7 +33,7 @@
  		registerBlockEntityOpeners();
  		GameSingletons.postCreate();
  	}
-@@ -167,15 +_,17 @@
+@@ -167,22 +_,22 @@
  			serveridentity.send(new BlockEntityScreenPacket(blockentity));
  		});
  	}
@@ -45,11 +45,19 @@
  	public static Player getPlayer(NetworkIdentity identity) {
  		Account account = getAccount(identity);
  		return account == null ? null : GameSingletons.getPlayerFromUniqueId(account.getUniqueId());
+-	}
+-
 +    }
-+    public static ServerIdentity getIdentityByAccount(Account account) {
-+      return (ServerIdentity)accountsToNetIds.get(account);
- 	}
-+
- 
  	public static ServerIdentity getConnection(Player player) {
  		Account account = GameSingletons.getAccountFromPlayer(player);
+ 		return account == null ? null : (ServerIdentity)accountsToNetIds.get(account);
+ 	}
+-
+ 	public static Account getAccountByUniqueId(String playerUniqueId) {
+ 		return uniqueIdsToAccounts.get(playerUniqueId);
+ 	}
++	public static ServerIdentity getIdentityByAccount(Account account) {
++		return (ServerIdentity)accountsToNetIds.get(account);
++	}
++
+ }

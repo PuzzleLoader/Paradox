@@ -1,6 +1,6 @@
 --- a/finalforeach/cosmicreach/io/ChunkSaver.java
 +++ b/finalforeach/cosmicreach/io/ChunkSaver.java
-@@ -13,11 +_,13 @@
+@@ -13,11 +_,11 @@
  import finalforeach.cosmicreach.savelib.crbin.CRBinSerializer;
  import finalforeach.cosmicreach.savelib.lightdata.blocklight.IBlockLightData;
  import finalforeach.cosmicreach.savelib.lightdata.skylight.ISkylightData;
@@ -9,23 +9,21 @@
  import finalforeach.cosmicreach.world.Region;
  import finalforeach.cosmicreach.world.World;
  import finalforeach.cosmicreach.world.Zone;
-+import org.slf4j.Logger;
-+import org.slf4j.LoggerFactory;
 +
  import java.io.File;
  import java.io.FileOutputStream;
  import java.io.IOException;
-@@ -25,6 +_,9 @@
- import java.nio.charset.StandardCharsets;
- 
+@@ -29,6 +_,9 @@
  public class ChunkSaver {
+ 	private static final LZ4Factory LZ4_FACTORY = LZ4Factory.fastestInstance();
+ 	private static final LZ4Compressor LZ4_COMPRESSOR = LZ4_FACTORY.fastCompressor();
 +
-+   private static final Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | Chunk Saver");
++   private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger("Cosmic Reach | Chunk Saver");
 +
  	public static volatile boolean isSaving;
  
- 	public static void writeFloat(ByteArray byteArr, float f) {
-@@ -74,7 +_,7 @@
+ 	private static void writeInt(ByteArray byteArr, int i) {
+@@ -62,7 +_,7 @@
  	public static void saveWorld(World world) {
  		try {
  			isSaving = true;
@@ -34,7 +32,7 @@
  			saveWorldInfo(world, false);
  			PlayerSaver.savePlayers(world);
  
-@@ -82,7 +_,7 @@
+@@ -70,7 +_,7 @@
  				saveZone(zone);
  			}
  
@@ -42,4 +40,13 @@
 +         LOGGER.info("Finished saving");
  		} finally {
  			isSaving = false;
+ 		}
+@@ -169,7 +_,7 @@
+ 					}
+ 				}
+ 			} catch (Exception exception1) {
+-				Logger.error("Error loading bytes from region file: " + s2);
++				LOGGER.error("Error loading bytes from region file: " + s2);
+ 				exception1.printStackTrace();
+ 			}
  		}

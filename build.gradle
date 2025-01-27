@@ -44,6 +44,7 @@ dependencies {
 //    }
     implementation("com.google.code.gson:gson:$gsonVersion")
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+    implementation "org.lz4:lz4-java:1.8.0"
     implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
 
 

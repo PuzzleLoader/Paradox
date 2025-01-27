@@ -29,7 +29,7 @@ public class ParadoxPlayer {
     }
 
     /**
-     * Returns the associated epox time this Player last broke a block
+     * Returns the associated epox time this ParadoxPlayer last broke a block
      * @author repletsin5
      * @since API 1.0.0-Alpha
      * @see Long
@@ -47,6 +47,14 @@ public class ParadoxPlayer {
     public String getGamemode() {
         return player.gamemode.gamemodeId;
     }
+
+
+    /**
+     * Returns the associated epox time of this ParadoxPlayer
+     * @author repletsin5
+     * @since API 1.0.0-Alpha
+     * @see Long
+     */
     public void setLastBreakTime(long time) {
         lastBreakTime = time;
     }

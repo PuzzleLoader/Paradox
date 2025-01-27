@@ -1,9 +1,9 @@
 --- a/finalforeach/cosmicreach/RuntimeInfo.java
 +++ b/finalforeach/cosmicreach/RuntimeInfo.java
-@@ -10,7 +_,7 @@
- 	public static final boolean isMac = osName.contains("mac");
+@@ -11,7 +_,7 @@
  	public static final boolean isWindows = osName.contains("windows");
  	public static final String version = Gdx.files.internal("build_assets/version.txt").readString();
+ 	public static boolean GL30Supported = true;
 -	public static String gameVariant = "Vanilla";
 +	public static String gameVariant = "Paradox";
  	private static DecimalFormat decimalFormat = new DecimalFormat("#.###");
