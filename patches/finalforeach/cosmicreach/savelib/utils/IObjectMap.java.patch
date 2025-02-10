@@ -1,0 +1,31 @@
+--- a/finalforeach/cosmicreach/savelib/utils/IObjectMap.java
++++ b/finalforeach/cosmicreach/savelib/utils/IObjectMap.java
+@@ -2,16 +_,19 @@
+ 
+ import java.util.function.BiConsumer;
+ 
+-public interface IObjectMap<K, V> {
+-	boolean containsKey(K var1);
+-
+-	V put(K var1, V var2);
+-
+-	<T extends K> V get(T var1);
+-
+-	void putAll(IObjectMap<K, V> var1);
++public interface IObjectMap<K, V> 
++{
++
++	boolean containsKey(K key);
++
++	V put(K key, V value);
++
++	<T extends K> V get(T key);
++	
++	void putAll(IObjectMap<K, V> srcMap); 
+ 
+ 	int size();
++	
++	void forEachEntry(BiConsumer<K, V> entryConsumer);
+ 
+-	void forEachEntry(BiConsumer<K, V> var1);
+ }

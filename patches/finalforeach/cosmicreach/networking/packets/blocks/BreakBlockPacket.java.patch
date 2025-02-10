@@ -7,9 +7,9 @@
 -		if (identity.getSide() != NetworkSide.CLIENT) {
 +		if (identity.getSide() != NetworkSide.CLIENT && com.github.puzzle.paradox.game.server.ParadoxServerSettings.canBreakBlock) {
  			if (this.blockPos.getBlockState() == this.brokenBlockState) {
- 				BlockEventTrigger[] ablockeventtrigger = this.brokenBlockState.getTrigger("onBreak");
- 				if (ablockeventtrigger != null) {
-@@ -52,7 +_,10 @@
+ 				if (this.brokenBlockState.hardness > 0.0F) {
+ 				}
+@@ -55,7 +_,10 @@
  					blockeventargs.zone = this.zone;
  					blockeventargs.blockPos = this.blockPos;
  					blockeventargs.setSrcIdentity(identity);

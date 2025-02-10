@@ -1,0 +1,108 @@
+--- a/finalforeach/cosmicreach/savelib/blockdata/BlockDataCompactor.java
++++ b/finalforeach/cosmicreach/savelib/blockdata/BlockDataCompactor.java
+@@ -1,51 +_,66 @@
+ package finalforeach.cosmicreach.savelib.blockdata;
+ 
+-import finalforeach.cosmicreach.savelib.blockdata.layers.IBlockLayer;
++import finalforeach.cosmicreach.savelib.ISavedChunk;
+ import finalforeach.cosmicreach.savelib.blockdata.layers.IBlockSingleLayer;
+ import finalforeach.cosmicreach.savelib.blockdata.layers.SharedBlockSingleLayer;
+ 
+-public class BlockDataCompactor {
+-	public static final int CHUNK_WIDTH = 16;
+-
+-	public static <T> IBlockData<T> compact(IBlockData<T> blockData) {
+-		if (blockData instanceof LayeredBlockData<T> layeredblockdata) {
+-			IBlockLayer<T>[] iblocklayer = layeredblockdata.getLayers();
+-
+-			for (int i = 0; i < iblocklayer.length; i++) {
+-				IBlockLayer<T> iblocklayer1 = iblocklayer[i];
+-				if (!(iblocklayer1 instanceof IBlockSingleLayer)) {
+-					T t = null;
+-
+-					label47:
+-					for (int j = 0; j < 16; j++) {
+-						for (int k = 0; k < 16; k++) {
+-							T t1 = iblocklayer1.getBlockValue(layeredblockdata, j, k);
+-							if (t == null) {
+-								t = t1;
+-							} else if (t != t1) {
+-								t = null;
+-								break label47;
+-							}
++public class BlockDataCompactor 
++{
++	public static final int CHUNK_WIDTH = ISavedChunk.CHUNK_WIDTH;
++	
++	public static <T> IBlockData<T> compact(IBlockData<T> blockData) 
++	{
++		if(blockData instanceof LayeredBlockData<T> layered) 
++		{
++			var allLayers = layered.getLayers();
++			for(int yLevel = 0; yLevel < allLayers.length; yLevel++) 
++			{
++				var layer = allLayers[yLevel];
++				if(layer instanceof IBlockSingleLayer) 
++				{
++					continue; // Do nothing, already compact!
++				}
++				
++				T layerBlockState = null;
++				singleBlockCheck:
++				for(int i = 0; i < CHUNK_WIDTH; i++) 
++				{
++					for(int k = 0; k < CHUNK_WIDTH; k++) 
++					{
++						T curBlockState = layer.getBlockValue(layered, i, k);
++						if(layerBlockState == null) 
++						{
++							layerBlockState = curBlockState;
++							continue;
++						}else if(layerBlockState != curBlockState) 
++						{
++							layerBlockState = null;
++							// Cannot compact it, blocks are different in layer
++							break singleBlockCheck;
+ 						}
+ 					}
+-
+-					if (t != null) {
+-						SharedBlockSingleLayer<T> sharedblocksinglelayer = SharedBlockSingleLayer.get(layeredblockdata, t);
+-						layeredblockdata.setLayer(i, sharedblocksinglelayer);
+-					}
+-				}
+-			}
+-
+-			if (layeredblockdata.getPaletteSize() != 1) {
+-				layeredblockdata.cleanPalette();
+-			}
+-
+-			if (layeredblockdata.getPaletteSize() == 1) {
+-				SingleBlockData<T> singleblockdata = new SingleBlockData<>();
+-				blockData = singleblockdata.fill(layeredblockdata.getBlockValueFromPaletteId(0));
++				}
++				
++				if(layerBlockState != null) 
++				{
++					// Replace the layer with the compact equivalent!
++					var newLayer = SharedBlockSingleLayer.get(layered, layerBlockState);
++					layered.setLayer(yLevel, newLayer);
++				}
++			}
++			
++			if(layered.getPaletteSize() != 1) 
++			{
++				layered.cleanPalette();
++			}
++
++			// If only one block in palette, no need for layers
++			if(layered.getPaletteSize() == 1) 
++			{
++				var newChunkData = new SingleBlockData<T>();
++				blockData = newChunkData.fill(layered.getBlockValueFromPaletteId(0));
+ 			}
+ 		}
+-
+ 		return blockData;
+ 	}
+ }

@@ -1,0 +1,14 @@
+--- a/finalforeach/cosmicreach/savelib/utils/IObjectLongMap.java
++++ b/finalforeach/cosmicreach/savelib/utils/IObjectLongMap.java
+@@ -1,7 +_,8 @@
+ package finalforeach.cosmicreach.savelib.utils;
+ 
+-public interface IObjectLongMap<K> {
+-	long get(K var1, long var2);
++public interface IObjectLongMap<K> 
++{
++	long get(K key, long defaultValue);
+ 
+-	void put(K var1, long var2);
++	void put(K key, long value);
+ }

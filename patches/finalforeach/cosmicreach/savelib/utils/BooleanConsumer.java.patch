@@ -1,0 +1,9 @@
+--- a/finalforeach/cosmicreach/savelib/utils/BooleanConsumer.java
++++ b/finalforeach/cosmicreach/savelib/utils/BooleanConsumer.java
+@@ -2,5 +_,5 @@
+ 
+ @FunctionalInterface
+ public interface BooleanConsumer {
+-	void accept(boolean var1);
++	void accept(boolean f);
+ }

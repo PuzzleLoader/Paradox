@@ -25,8 +25,8 @@
 +      	super(ENTITY_TYPE_ID);
  		this.setSize(0.3F);
  		this.randomHoverOffsetTime = MathUtils.random() * (float) (Math.PI * 2);
- 	}
-@@ -84,9 +_,11 @@
+ 		this.addTag("projectile_immune");
+@@ -85,9 +_,11 @@
  	@Override
  	public void update(Zone zone, float deltaTime) {
  		super.update(zone, deltaTime);
@@ -38,7 +38,7 @@
  				Entity entity = p.getEntity();
  				Vector3 vector3 = entity.position;
  				float f1 = this.position.dst(vector3.x, vector3.y + 1.0F, vector3.z);
-@@ -111,6 +_,7 @@
+@@ -112,6 +_,7 @@
  							}
  
  							if (ServerSingletons.SERVER != null) {

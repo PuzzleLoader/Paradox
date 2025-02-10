@@ -1,0 +1,28 @@
+--- a/finalforeach/cosmicreach/savelib/lightdata/skylight/layers/ISkylightDataLayer.java
++++ b/finalforeach/cosmicreach/savelib/lightdata/skylight/layers/ISkylightDataLayer.java
+@@ -2,14 +_,17 @@
+ 
+ import finalforeach.cosmicreach.savelib.IChunkByteWriter;
+ import finalforeach.cosmicreach.savelib.ISaveFileConstant;
++import finalforeach.cosmicreach.savelib.ISavedChunk;
+ import finalforeach.cosmicreach.savelib.lightdata.skylight.SkylightLayeredData;
+ 
+-public interface ISkylightDataLayer extends ISaveFileConstant {
+-	int CHUNK_WIDTH = 16;
+-
+-	void setSkyLight(SkylightLayeredData var1, int var2, int var3, int var4, int var5);
+-
+-	int getSkyLight(int var1, int var2);
+-
+-	void writeTo(IChunkByteWriter var1);
++public interface ISkylightDataLayer extends ISaveFileConstant
++{
++	static final int CHUNK_WIDTH = ISavedChunk.CHUNK_WIDTH;
++
++	void setSkyLight(SkylightLayeredData skylightData, int lightLevel, int localX, int localY, int localZ);
++
++	int getSkyLight(int localX, int localZ);
++
++	void writeTo(IChunkByteWriter allChunksWriter);
++
+ }

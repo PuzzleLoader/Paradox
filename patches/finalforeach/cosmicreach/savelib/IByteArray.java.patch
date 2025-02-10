@@ -1,0 +1,31 @@
+--- a/finalforeach/cosmicreach/savelib/IByteArray.java
++++ b/finalforeach/cosmicreach/savelib/IByteArray.java
+@@ -1,17 +_,20 @@
+ package finalforeach.cosmicreach.savelib;
+ 
+-public interface IByteArray {
++public interface IByteArray 
++{
++
+ 	byte[] toArray();
+ 
+-	void addAll(byte... var1);
+-
+-	void set(int var1, byte var2);
+-
+-	void add(byte var1);
+-
+-	void addAll(IByteArray var1);
++	void addAll(byte... bytes);
++
++	void set(int index, byte b);
++
++	void add(byte b);
++
++	void addAll(IByteArray bytes);
+ 
+ 	int size();
+ 
+ 	byte[] items();
++
+ }

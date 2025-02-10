@@ -16,13 +16,12 @@
  		}
  
  		if (player.isLoading()) {
-@@ -470,11 +_,12 @@
+@@ -470,10 +_,11 @@
  		}
  
  		long k = System.currentTimeMillis();
 -		if (this.isSaveRequested()) {
 +		if (this.isSaveRequested() || Save.isSaveRequested()) {
- 			this.zone.forEachEntityRegion(r -> r.save(this.zone));
  			ChunkSaver.saveWorld(world);
  			this.lastSaveMillis = k;
  			this.requestSave = false;

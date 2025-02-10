@@ -1,0 +1,105 @@
+--- a/finalforeach/cosmicreach/savelib/lightdata/skylight/layers/SkylightDataNibbleLayer.java
++++ b/finalforeach/cosmicreach/savelib/lightdata/skylight/layers/SkylightDataNibbleLayer.java
+@@ -1,49 +_,66 @@
+ package finalforeach.cosmicreach.savelib.lightdata.skylight.layers;
+ 
+ import finalforeach.cosmicreach.savelib.IChunkByteWriter;
++import finalforeach.cosmicreach.savelib.SaveFileConstants;
+ import finalforeach.cosmicreach.savelib.lightdata.skylight.SkylightLayeredData;
+ 
+-public class SkylightDataNibbleLayer implements ISkylightDataLayer {
+-	private byte[] lightLevels = new byte[128];
+-
+-	public SkylightDataNibbleLayer(byte lightLevel) {
+-		for (int i = 0; i < this.lightLevels.length; i++) {
+-			this.lightLevels[i] = lightLevel;
++public class SkylightDataNibbleLayer implements ISkylightDataLayer 
++{
++	private byte[] lightLevels = new byte[CHUNK_WIDTH * CHUNK_WIDTH / 2];
++	
++	public SkylightDataNibbleLayer(byte lightLevel) 
++	{
++		for(int i = 0; i < lightLevels.length; i++) 
++		{
++			lightLevels[i] = lightLevel;
+ 		}
+ 	}
+ 
+ 	public SkylightDataNibbleLayer(byte[] bytes) {
+-		this.lightLevels = bytes;
+-	}
+-
+-	@Override
+-	public void setSkyLight(SkylightLayeredData skylightData, int lightLevel, int localX, int localY, int localZ) {
+-		int i = (localX + localZ * 16) / 2;
+-		int j = this.lightLevels[i];
+-		if (localX % 2 == 0) {
+-			this.lightLevels[i] = (byte)(j & 240 | lightLevel);
+-		} else {
+-			this.lightLevels[i] = (byte)(j & 15 | lightLevel << 4);
+-		}
+-	}
+-
+-	@Override
+-	public int getSkyLight(int localX, int localZ) {
+-		int i = (localX + localZ * 16) / 2;
+-		return localX % 2 == 0 ? this.lightLevels[i] & 15 : (this.lightLevels[i] & 240) >> 4;
++		lightLevels = bytes;
++	}
++
++	@Override
++	public void setSkyLight(SkylightLayeredData skylightData, int lightLevel, int localX, int localY, int localZ)
++	{
++		final int idx = (localX + (localZ * CHUNK_WIDTH)) / 2;
++		final int b = lightLevels[idx];
++		if(localX % 2 == 0) 
++		{
++			lightLevels[idx] = (byte)((b & 0xF0) | lightLevel);
++		}else 
++		{
++			lightLevels[idx] = (byte)((b & 0x0F) | (lightLevel << 4));
++		}
++	}
++
++	@Override
++	public int getSkyLight(int localX, int localZ)
++	{
++		final int idx = (localX + (localZ * CHUNK_WIDTH)) / 2;
++		if(localX % 2 == 0) 
++		{
++			return (lightLevels[idx] & 0x0F);	
++		}else 
++		{
++			return ((lightLevels[idx] & 0xF0) >> 4);
++		}
++		
+ 	}
+ 
+ 	public byte[] getBytes() {
+-		return this.lightLevels;
+-	}
+-
+-	@Override
+-	public int getSaveFileConstant() {
+-		return 2;
+-	}
+-
+-	@Override
+-	public void writeTo(IChunkByteWriter allChunksWriter) {
+-		allChunksWriter.writeBytes(this.getBytes());
+-	}
++		return lightLevels;
++	}
++
++	@Override
++	public int getSaveFileConstant() 
++	{
++		return SaveFileConstants.SKYLIGHTDATA_LAYER_NIBBLE;
++	}
++
++	public void writeTo(IChunkByteWriter allChunksWriter) 
++	{
++		allChunksWriter.writeBytes(getBytes());
++	}
++
+ }

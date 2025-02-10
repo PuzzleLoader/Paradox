@@ -1,0 +1,86 @@
+--- a/finalforeach/cosmicreach/savelib/lightdata/skylight/layers/SkylightDataSingleLayer.java
++++ b/finalforeach/cosmicreach/savelib/lightdata/skylight/layers/SkylightDataSingleLayer.java
+@@ -1,51 +_,60 @@
+ package finalforeach.cosmicreach.savelib.lightdata.skylight.layers;
+ 
+ import finalforeach.cosmicreach.savelib.IChunkByteWriter;
++import finalforeach.cosmicreach.savelib.SaveFileConstants;
+ import finalforeach.cosmicreach.savelib.lightdata.skylight.SkylightLayeredData;
+ 
+-public class SkylightDataSingleLayer implements ISkylightDataLayer {
++public class SkylightDataSingleLayer implements ISkylightDataLayer
++{
+ 	public static SkylightDataSingleLayer[] allSingleLayerValues = new SkylightDataSingleLayer[16];
++	static 
++	{
++		for(byte i = 0; i < allSingleLayerValues.length; i++) 
++		{
++			allSingleLayerValues[i] = new SkylightDataSingleLayer(i);
++		}
++	}
+ 	public byte lightLevel;
+-
+-	private SkylightDataSingleLayer(byte lightLevel) {
++	
++	private SkylightDataSingleLayer(byte lightLevel)
++	{
+ 		this.lightLevel = lightLevel;
+ 	}
+ 
+ 	@Override
+-	public void setSkyLight(SkylightLayeredData skylightData, int lightLevel, int localX, int localY, int localZ) {
+-		if (this.lightLevel != lightLevel) {
+-			SkylightDataNibbleLayer skylightdatanibblelayer = new SkylightDataNibbleLayer(this.lightLevel);
+-			skylightdatanibblelayer.setSkyLight(skylightData, lightLevel, localX, localY, localZ);
+-			skylightData.setLayer(localY, skylightdatanibblelayer);
++	public void setSkyLight(SkylightLayeredData skylightData, int lightLevel, int localX, int localY, int localZ) 
++	{
++		if(this.lightLevel!=lightLevel) 
++		{
++			final var nibbleLayer = new SkylightDataNibbleLayer(this.lightLevel);
++			nibbleLayer.setSkyLight(skylightData, lightLevel, localX, localY, localZ);
++			skylightData.setLayer(localY, nibbleLayer);
+ 		}
+ 	}
+ 
+ 	@Override
+-	public int getSkyLight(int localX, int localZ) {
+-		return this.lightLevel;
++	public int getSkyLight(int localX, int localZ) 
++	{
++		return lightLevel;
+ 	}
+ 
+ 	@Override
+-	public int getSaveFileConstant() {
+-		return 1;
++	public int getSaveFileConstant() 
++	{
++		return SaveFileConstants.SKYLIGHTDATA_LAYER_SINGLE;
+ 	}
+ 
+-	public static ISkylightDataLayer getForLightValue(byte skylightValue) {
+-		if (skylightValue >= 0 && skylightValue <= 15) {
+-			return allSingleLayerValues[skylightValue];
+-		} else {
++	public static ISkylightDataLayer getForLightValue(byte skylightValue) 
++	{
++		if(skylightValue < 0 || skylightValue > 15) 
++		{
+ 			throw new RuntimeException("Sky light values are only valid from 0-15, but got: " + skylightValue);
+ 		}
++		return allSingleLayerValues[skylightValue];
+ 	}
+ 
+-	@Override
+ 	public void writeTo(IChunkByteWriter allChunksWriter) {
+-		allChunksWriter.writeByte(this.lightLevel);
++		allChunksWriter.writeByte(lightLevel);
+ 	}
+ 
+-	static {
+-		for (byte b0 = 0; b0 < allSingleLayerValues.length; b0++) {
+-			allSingleLayerValues[b0] = new SkylightDataSingleLayer(b0);
+-		}
+-	}
+ }

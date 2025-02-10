@@ -1,0 +1,11 @@
+--- a/finalforeach/cosmicreach/savelib/blocks/IBlockDataFactory.java
++++ b/finalforeach/cosmicreach/savelib/blocks/IBlockDataFactory.java
+@@ -2,6 +_,7 @@
+ 
+ import finalforeach.cosmicreach.savelib.blockdata.IBlockData;
+ 
+-public interface IBlockDataFactory<B extends IBlockState> {
++public interface IBlockDataFactory<B extends IBlockState>
++{
+ 	IBlockData<B> createChunkData();
+ }

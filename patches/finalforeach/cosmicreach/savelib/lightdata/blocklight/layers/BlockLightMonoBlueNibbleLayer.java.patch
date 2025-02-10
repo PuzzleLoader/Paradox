@@ -1,0 +1,65 @@
+--- a/finalforeach/cosmicreach/savelib/lightdata/blocklight/layers/BlockLightMonoBlueNibbleLayer.java
++++ b/finalforeach/cosmicreach/savelib/lightdata/blocklight/layers/BlockLightMonoBlueNibbleLayer.java
+@@ -1,11 +_,16 @@
+ package finalforeach.cosmicreach.savelib.lightdata.blocklight.layers;
+ 
++import java.io.IOException;
++
+ import finalforeach.cosmicreach.savelib.IChunkByteReader;
++import finalforeach.cosmicreach.savelib.SaveFileConstants;
+ import finalforeach.cosmicreach.savelib.lightdata.blocklight.BlockLightLayeredData;
+-import java.io.IOException;
+ 
+ public class BlockLightMonoBlueNibbleLayer extends BlockLightMonoNibbleLayer {
+-	public BlockLightMonoBlueNibbleLayer(BlockLightLayeredData lightData, int yLevel, short baseLightLevel, byte[] bytes) {
++
++	public BlockLightMonoBlueNibbleLayer(BlockLightLayeredData lightData, int yLevel, short baseLightLevel,
++			byte[] bytes) 
++	{
+ 		super(lightData, yLevel, baseLightLevel, bytes);
+ 	}
+ 
+@@ -14,15 +_,16 @@
+ 	}
+ 
+ 	@Override
+-	public int getSaveFileConstant() {
+-		return 5;
++	public int getSaveFileConstant()
++	{
++		return SaveFileConstants.BLOCKLIGHTDATA_LAYER_MONO_NIBBLE_BLUE;
+ 	}
+ 
+ 	@Override
+ 	protected int getBlue(int localX, int localZ) {
+ 		return super.getNibbleLight(localX, localZ);
+ 	}
+-
++	
+ 	@Override
+ 	protected boolean isNibbleLightRed() {
+ 		return false;
+@@ -38,13 +_,15 @@
+ 		return true;
+ 	}
+ 
+-	public static BlockLightMonoBlueNibbleLayer readFrom(IChunkByteReader reader, BlockLightLayeredData lightData, int yLevel) throws IOException {
+-		int i = reader.readByte();
+-		int j = reader.readByte();
+-		int k = reader.readByte();
+-		short short1 = (short)((i << 8) + (j << 4) + k);
+-		BlockLightMonoBlueNibbleLayer blocklightmonobluenibblelayer = new BlockLightMonoBlueNibbleLayer(lightData, yLevel, short1);
+-		reader.readFully(blocklightmonobluenibblelayer.bytes);
+-		return blocklightmonobluenibblelayer;
++	public static BlockLightMonoBlueNibbleLayer readFrom(IChunkByteReader reader, BlockLightLayeredData lightData, int yLevel) throws IOException 
++	{
++		int r = reader.readByte();
++		int g = reader.readByte();
++		int b = reader.readByte();
++		short baseLightLevel = (short)((r << 8) + (g << 4) + b);
++		BlockLightMonoBlueNibbleLayer layer = new BlockLightMonoBlueNibbleLayer(lightData, yLevel, baseLightLevel);
++		reader.readFully(layer.bytes);
++		return layer;
+ 	}
++
+ }

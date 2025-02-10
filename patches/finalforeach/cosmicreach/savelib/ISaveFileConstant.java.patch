@@ -1,0 +1,11 @@
+--- a/finalforeach/cosmicreach/savelib/ISaveFileConstant.java
++++ b/finalforeach/cosmicreach/savelib/ISaveFileConstant.java
+@@ -1,5 +_,6 @@
+ package finalforeach.cosmicreach.savelib;
+ 
+-public interface ISaveFileConstant {
+-	int getSaveFileConstant();
++public interface ISaveFileConstant
++{
++	public int getSaveFileConstant();
+ }

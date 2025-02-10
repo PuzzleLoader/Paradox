@@ -1,0 +1,10 @@
+--- a/finalforeach/cosmicreach/savelib/blocks/IBlockState.java
++++ b/finalforeach/cosmicreach/savelib/blocks/IBlockState.java
+@@ -1,5 +_,7 @@
+ package finalforeach.cosmicreach.savelib.blocks;
+ 
+ public interface IBlockState {
++
+ 	String getSaveKey();
++
+ }
