@@ -1,27 +1,24 @@
 --- a/finalforeach/cosmicreach/GameAssetLoader.java
 +++ b/finalforeach/cosmicreach/GameAssetLoader.java
-@@ -10,7 +_,9 @@
+@@ -11,7 +_,6 @@
  import finalforeach.cosmicreach.io.SaveLocation;
  import finalforeach.cosmicreach.util.Identifier;
  import finalforeach.cosmicreach.util.logging.AnsiColours;
 -import finalforeach.cosmicreach.util.logging.Logger;
-+import org.slf4j.Logger;
-+import org.slf4j.LoggerFactory;
-+
  import java.util.HashMap;
  import java.util.WeakHashMap;
  import java.util.function.BiConsumer;
-@@ -20,6 +_,9 @@
+@@ -21,6 +_,9 @@
  
  public class GameAssetLoader {
  	private static WeakHashMap<Identifier, FileHandle> locationCache = new WeakHashMap<>();
 +
-+   private static final Logger LOGGER = LoggerFactory.getLogger("Cosmic Reach | AssetLoader");
++   private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger("Cosmic Reach | AssetLoader");
 +
  	private static final HashMap<FileHandle, SoundBuffer> ALL_SOUNDS = new HashMap<>();
  	private static final HashMap<FileHandle, Texture> ALL_TEXTURES = new HashMap<>();
  	static JsonReader jsonReader = new JsonReader();
-@@ -102,13 +_,13 @@
+@@ -103,13 +_,13 @@
  		} else {
  			FileHandle filehandle1 = Gdx.files.absolute(SaveLocation.getSaveFolderLocation() + "/mods/" + location.toPath());
  			if (filehandle1.exists()) {
@@ -37,7 +34,7 @@
  						"Loading "
  							+ AnsiColours.PURPLE
  							+ "\""
-@@ -127,11 +_,11 @@
+@@ -128,11 +_,11 @@
  				} else {
  					FileHandle filehandle3 = Gdx.files.internal(location.toPath());
  					if (filehandle3.exists()) {

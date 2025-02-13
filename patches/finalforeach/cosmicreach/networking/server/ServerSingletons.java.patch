@@ -25,37 +25,28 @@
  				zone.update(deltaTime);
  			}
  
-@@ -143,6 +_,7 @@
- 				SERVER.broadcastToAll(new EndTickPacket(world.currentWorldTick));
+@@ -144,6 +_,7 @@
  			}
  		});
-+		puzzle = new com.github.puzzle.paradox.core.PuzzlePL();
  		registerBlockEntityOpeners();
++		puzzle = new com.github.puzzle.paradox.core.PuzzlePL();
  		GameSingletons.postCreate();
  	}
-@@ -167,22 +_,22 @@
- 			serveridentity.send(new BlockEntityScreenPacket(blockentity));
- 		});
- 	}
--
- 	public static Account getAccount(NetworkIdentity identity) {
- 		return identity == null ? null : netIdsToAccounts.get(identity);
- 	}
--
+ 
+@@ -175,7 +_,7 @@
  	public static Player getPlayer(NetworkIdentity identity) {
  		Account account = getAccount(identity);
  		return account == null ? null : GameSingletons.getPlayerFromUniqueId(account.getUniqueId());
 -	}
--
 +    }
+ 
  	public static ServerIdentity getConnection(Player player) {
  		Account account = GameSingletons.getAccountFromPlayer(player);
- 		return account == null ? null : (ServerIdentity)accountsToNetIds.get(account);
- 	}
--
+@@ -185,4 +_,9 @@
  	public static Account getAccountByUniqueId(String playerUniqueId) {
  		return uniqueIdsToAccounts.get(playerUniqueId);
  	}
++
 +	public static ServerIdentity getIdentityByAccount(Account account) {
 +		return (ServerIdentity)accountsToNetIds.get(account);
 +	}

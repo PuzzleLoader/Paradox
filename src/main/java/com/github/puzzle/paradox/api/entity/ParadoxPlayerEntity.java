@@ -7,7 +7,6 @@ import finalforeach.cosmicreach.entities.player.PlayerEntity;
 
 public class ParadoxPlayerEntity extends ParadoxEntity {
 
-
     PlayerEntity playerEntity;
     public ParadoxPlayerEntity(PlayerEntity playerEntity) {
         super(playerEntity);

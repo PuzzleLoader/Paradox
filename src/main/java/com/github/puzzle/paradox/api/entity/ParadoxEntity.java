@@ -24,13 +24,13 @@ public abstract class ParadoxEntity {
      * Returns a string id associated with the provided entity
      * @author repletsin5
      * @since API 1.0.0-Alpha
-     * @param e
      * @see Entity
      * @see ParadoxEntity
      */
     public static String getEntityIDByClass(@NotNull Class<? extends ParadoxEntity> e){
         return classtoidentity.get(e);
     }
+
     public ParadoxEntity(Entity entity) {
         this.entity = entity;
         this.uuid = UUID.randomUUID();

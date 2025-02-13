@@ -1,9 +1,11 @@
 package com.github.puzzle.paradox.api.events;
 
+import com.badlogic.gdx.math.Vector3;
 import com.github.puzzle.paradox.api.entity.ParadoxEntity;
-import finalforeach.cosmicreach.blockevents.BlockEventArgs;
 import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.ICancellableEvent;
+import org.apache.commons.lang3.NotImplementedException;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class EntityEvents extends Event {
 
@@ -24,4 +26,48 @@ public abstract class EntityEvents extends Event {
         }
     }
 
+    public enum DamageSource {
+        PLAYER,
+        MOB,
+        ENVIRONMENT
+    }
+
+    //TODO: impl source and entitySource
+    public static class OnTakeDamage extends EntityEvents implements ICancellableEvent {
+
+        public OnTakeDamage(ParadoxEntity entity, @Nullable DamageSource source, float hitPoints, @Nullable ParadoxEntity entitySource) {
+            super(entity);
+            this.damageDealt = hitPoints;
+            this.source = source;
+            this.entitySource = entitySource;
+        }
+        private final float damageDealt;
+        private final DamageSource source;
+        private final ParadoxEntity entitySource;
+
+
+        /**
+         * Returns a float of entity's received damage
+         * @author repletsin5
+         * @since API 1.0.0-Alpha
+         */
+        public float getDamageDealt() {
+            return damageDealt;
+        }
+        /**
+         * Do not use
+         */
+        public @Nullable DamageSource getSource() {
+            throw new NotImplementedException();
+//            return source;
+        }
+
+        /**
+         * Do not use, not implemented
+         */
+        public @Nullable ParadoxEntity getEntitySource() {
+            throw new NotImplementedException();
+            //return entitySource;
+        }
+    }
 }

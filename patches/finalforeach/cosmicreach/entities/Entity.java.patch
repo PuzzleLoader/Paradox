@@ -18,3 +18,20 @@
  	@CRBSerialized
  	public float gravityModifier = 1.0F;
  	@CRBSerialized
+@@ -264,13 +_,15 @@
+ 			if (ServerSingletons.SERVER != null) {
+ 				ServerSingletons.SERVER.broadcast(this.zone, new HitEntityPacket(this, amount));
+ 			}
+-
++			if(com.github.puzzle.paradox.api.Paradox.getInstance().getEventBus().post(new com.github.puzzle.paradox.api.events.EntityEvents.OnTakeDamage(this.getParadoxEntity(),null, amount, null)).isCanceled())
++				return;
+ 			if (amount < 0.0F) {
+ 				this.hitpoints = Math.min(this.hitpoints - amount, this.maxHitpoints);
+ 			} else if (this.getPendingDamage() == 0.0F && this.invulnerabiltyFrames <= 0) {
+ 				this.setPendingDamage(Math.max(this.getPendingDamage(), amount));
+ 				this.invulnerabiltyFrames = 5;
+ 			}
++
+ 		}
+ 	}
+ 
