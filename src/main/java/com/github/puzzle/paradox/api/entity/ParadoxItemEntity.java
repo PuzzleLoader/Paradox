@@ -1,5 +1,7 @@
 package com.github.puzzle.paradox.api.entity;
 
+import com.github.puzzle.paradox.api.item.ParadoxItemStack;
+import com.github.puzzle.paradox.core.ClassConverter;
 import finalforeach.cosmicreach.entities.DroneTrapEntity;
 import finalforeach.cosmicreach.entities.ItemEntity;
 import finalforeach.cosmicreach.items.ItemStack;
@@ -9,8 +11,8 @@ public class ParadoxItemEntity extends ParadoxEntity {
         super(entity);
     }
 
-    public ItemStack getItemStack(){
-        return ((ItemEntity)entity).itemStack;
+    public ParadoxItemStack getItemStack(){
+        return ClassConverter.convertClass(((ItemEntity)entity).itemStack);
     }
 
 

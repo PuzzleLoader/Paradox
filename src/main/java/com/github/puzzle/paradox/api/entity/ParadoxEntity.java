@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @SuppressWarnings("unchecked")
-public abstract class ParadoxEntity {
+public class ParadoxEntity {
 
     private static Map<Class<? extends ParadoxEntity>,String> classtoidentity = new HashMap<>();
 
@@ -57,6 +57,15 @@ public abstract class ParadoxEntity {
         return entity.getPosition();
     }
 
+    /**
+     * Sets the entity's position via a {@link Vector3}
+     * @author repletsin5
+     * @since API 1.0.0-Alpha
+     * @see Vector3
+     */
+    public void setPosition(@NotNull Vector3 position) {
+        entity.setPosition(position);
+    }
 
     /**
      * Returns the UUID of the entity as a String

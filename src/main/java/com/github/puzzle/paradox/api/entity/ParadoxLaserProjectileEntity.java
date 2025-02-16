@@ -3,7 +3,7 @@ package com.github.puzzle.paradox.api.entity;
 import finalforeach.cosmicreach.entities.DroneEntity;
 import finalforeach.cosmicreach.entities.EntityLaserProjectile;
 
-public class ParadoxLaserProjectileEntity extends ParadoxEntity{
+public class ParadoxLaserProjectileEntity extends ParadoxEntity {
 
     EntityLaserProjectile projectile;
     public ParadoxLaserProjectileEntity(EntityLaserProjectile entity) {

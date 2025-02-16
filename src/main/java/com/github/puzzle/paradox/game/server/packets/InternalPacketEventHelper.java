@@ -11,6 +11,7 @@ import io.netty.channel.ChannelHandlerContext;
 public class InternalPacketEventHelper {
 
     public static boolean fireAssociatedPacketEvent(GamePacket packet, NetworkIdentity identity, ChannelHandlerContext ctx){
+        Paradox.getInstance().getEventBus().post(new PacketEvents.OnPacketAct(packet,identity.getParadoxNetworkIdentity(),ctx));
         if(packet instanceof PlayerPositionPacket) {
             return !Paradox.getInstance().getEventBus().post(new PacketEvents.OnPlayerPositionPacket(packet, identity.getParadoxNetworkIdentity(), ctx)).isCanceled();
         }

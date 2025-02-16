@@ -60,4 +60,15 @@ public abstract class PacketEvents extends Event {
             return (PlayerPositionPacket)gamePacket;
         }
     }
+
+    public static class OnPacketAct extends PacketEvents  {
+
+        public OnPacketAct(GamePacket packet,ParadoxNetworkIdentity identity,ChannelHandlerContext channel) {
+            super(packet,identity,channel);
+        }
+
+        public GamePacket getPacket(){
+            return gamePacket;
+        }
+    }
 }

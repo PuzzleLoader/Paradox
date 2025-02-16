@@ -55,7 +55,7 @@ public abstract class EntityEvents extends Event {
             return damageDealt;
         }
         /**
-         * Do not use
+         * Do not use, not implemented
          */
         public @Nullable DamageSource getSource() {
             throw new NotImplementedException();

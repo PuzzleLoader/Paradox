@@ -1,8 +1,7 @@
 package com.github.puzzle.paradox.api.item;
 
-import finalforeach.cosmicreach.accounts.Account;
-import finalforeach.cosmicreach.blockentities.BlockEntity;
 import finalforeach.cosmicreach.items.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 
 public class ParadoxItemStack {
@@ -24,6 +23,15 @@ public class ParadoxItemStack {
      */
     public int getItemCount(){
        return this.stack.amount;
+    }
+
+    /**
+     * Sets this stack's item count via an int
+     * @author repletsin5
+     * @since API 1.0.0-Alpha
+     */
+    public void setItemCount(@NotNull int value){
+        this.stack.amount = value;
     }
 
     /**
